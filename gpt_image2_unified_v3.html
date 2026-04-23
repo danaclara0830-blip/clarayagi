@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GPT Image 2 — 통합 캐릭터 시트 생성기 v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f6f3;color:#111;min-height:100vh}
+.page{max-width:880px;margin:0 auto;padding:2rem 1rem}
+.header h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.header .tag{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:800;background:#EA2E00;color:#fff;vertical-align:middle}
+.header p{font-size:12px;color:#888;margin-top:4px;line-height:1.6;margin-bottom:1.75rem}
+.step{display:flex;align-items:center;gap:10px;margin:1.4rem 0 .85rem}
+.step-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;background:#111;color:#fff}
+.step-label{font-size:14px;font-weight:800}
+.input-panel{background:#fff;border:1px solid #e5e2dc;border-radius:14px;padding:1.15rem 1.3rem;margin-bottom:.75rem}
+.ip-title{font-size:13px;font-weight:800;margin-bottom:.75rem;padding-bottom:.45rem;border-bottom:1px solid #f0ede8;display:flex;align-items:center;justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.5rem}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select,.field textarea{font-family:inherit;font-size:12px;padding:7px 9px;border:1px solid #e0ddd8;border-radius:7px;background:#fafaf8;color:#111;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#111;background:#fff}
+.field textarea{resize:vertical;line-height:1.5}
+.rnd{font-size:10px;padding:2px 7px;border-radius:4px;background:#EEE8FF;color:#5522AA;border:1px solid #C4B0FF;cursor:pointer;font-family:inherit;font-weight:600;flex-shrink:0;white-space:nowrap}
+.rnd:hover{background:#DDD0FF}
+.fr{display:flex;gap:4px;align-items:center}
+.fr input,.fr select{flex:1}
+.fr textarea{flex:1}
+/* 4-way gender toggle */
+.gender{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:1rem}
+.g-btn{padding:.55rem .3rem;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border:1px solid #e0ddd8;background:#fafaf8;color:#888;font-family:inherit;border-radius:10px}
+.g-btn.f.on{background:#FFB7D5;color:#8B0045;border-color:#FFB7D5}
+.g-btn.m.on{background:#B0D4FF;color:#003399;border-color:#B0D4FF}
+.g-btn.uf.on{background:#FFD4A8;color:#8B3D00;border-color:#FFD4A8}
+.g-btn.um.on{background:#B5E8C7;color:#1A5C35;border-color:#B5E8C7}
+.mega{width:100%;padding:.72rem;background:#111;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:.6rem}
+.mega:hover{background:#333}
+.gen-btn{width:100%;padding:1rem;background:#EA2E00;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:-.3px;margin-top:.75rem}
+.gen-btn:hover{background:#c22500}
+
+/* 레퍼런스 이미지 업로드 */
+.ref-box{background:#fff;border:2px dashed #d0cac2;border-radius:12px;padding:1rem;margin-bottom:1rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.ref-box.has-image{padding:1.1rem;border-style:solid;background:#faf9f6}
+.ref-box:hover{border-color:#EA2E00;background:#fffaf6}
+.ref-box-prompt{font-size:13px;font-weight:700;color:#555;margin-bottom:3px}
+.ref-box-sub{font-size:11px;color:#999}
+.ref-preview{display:flex;align-items:center;gap:14px;text-align:left}
+.ref-thumb{width:100px;height:100px;object-fit:cover;border-radius:8px;border:1px solid #ddd;flex-shrink:0}
+.ref-info{flex:1;font-size:12px}
+.ref-info strong{display:block;font-size:13px;font-weight:700;margin-bottom:4px;color:#111}
+.ref-info span{color:#666;font-size:11px;line-height:1.5}
+.ref-remove{background:#EA2E00;color:#fff;border:none;padding:5px 12px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px}
+.ref-remove:hover{background:#c22500}
+
+/* 스타일 프리셋 */
+.preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:.6rem}
+.preset-btn{padding:.5rem .3rem;border-radius:8px;border:1px solid #e0ddd8;background:#fafaf8;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:#555;line-height:1.3;text-align:center}
+.preset-btn:hover{border-color:#EA2E00;background:#fffaf6;color:#EA2E00}
+.preset-btn.on{background:#111;color:#fff;border-color:#111}
+.preset-emoji{display:block;font-size:17px;margin-bottom:3px}
+
+/* 컬러 팔레트 */
+.palette-themes{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:.7rem}
+.pt-btn{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #e0ddd8;background:#fafaf8;color:#666;font-family:inherit}
+.pt-btn:hover{background:#f0ede8}
+.pt-btn.on{background:#111;color:#fff;border-color:#111}
+.swatch-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:.6rem}
+.swatch{aspect-ratio:1;border-radius:8px;border:1px solid #e0ddd8;position:relative;overflow:hidden;cursor:pointer;transition:transform .15s}
+.swatch:hover{transform:scale(1.04)}
+.swatch-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-size:9px;text-align:center;padding:3px 2px;font-weight:600}
+.color-row{display:flex;align-items:center;gap:6px;margin-bottom:.32rem}
+.color-preview{width:28px;height:28px;border-radius:6px;border:1px solid #e0ddd8;flex-shrink:0;cursor:pointer}
+.color-name{flex:1;font-size:11px;padding:5px 8px;border:1px solid #e0ddd8;border-radius:5px;background:#fafaf8;color:#111;font-family:inherit}
+.color-hex{width:82px;font-size:10px;font-family:monospace;padding:5px 7px;border:1px solid #e0ddd8;border-radius:5px;background:#fafaf8;color:#555;text-transform:uppercase}
+.color-input{width:28px;height:28px;border:none;background:none;cursor:pointer;padding:0}
+
+/* 결과 */
+.result-card{background:#fff;border:1.5px solid #e5e2dc;border-radius:14px;margin-top:1.25rem;overflow:hidden;display:none}
+.rc-header{display:flex;align-items:center;background:#111;color:#fff}
+.rc-num{width:52px;min-height:52px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900}
+.rc-info{flex:1;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rc-title{font-size:14px;font-weight:800}
+.rc-sub{font-size:11px;color:#aaa;margin-top:2px}
+.rc-copy{padding:.45rem 1.1rem;background:#EA2E00;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.rc-copy:hover{background:#ff5500}
+.rc-copy.done{background:#2E5E28}
+.prompt-text{padding:1.2rem 1.3rem;font-family:'SF Mono','Fira Code','Courier New',monospace;font-size:10.5px;line-height:1.85;color:#222;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow-y:auto;background:#fff;cursor:text}
+.rc-footer{padding:.5rem 1.3rem;font-size:10px;color:#bbb;border-top:1px solid #f7f6f3;display:flex;justify-content:space-between}
+.preview-note{background:#e8f0ff;border:1px solid #b0d4ff;border-radius:10px;padding:.85rem 1.1rem;font-size:12px;color:#1C336B;line-height:1.6;margin-bottom:1.5rem}
+.preview-note strong{font-weight:800;color:#000}
+.ref-badge{display:inline-block;padding:3px 9px;border-radius:15px;font-size:10px;font-weight:700;background:#EA2E00;color:#fff;margin-left:4px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="header">
+  <h1>통합 캐릭터 시트 프롬프트 <span class="tag">GPT Image 2 / v3</span></h1>
+  <p>레퍼런스 이미지 업로드 + 스타일 프리셋 + 4가지 타입 (여아/남아/여인플/남인플) → 1장 완성 시트</p>
+</div>
+
+<div class="preview-note">
+  <strong>새로운 기능:</strong><br>
+  ① 레퍼런스 이미지 업로드 → 프롬프트가 GPT에게 이미지 분석 후 얼굴·헤어·컨셉 추출해서 반영하도록 지시<br>
+  ② 스타일 프리셋 8종 → 클릭 한 번으로 관련 키워드 자동 세팅<br>
+  ③ 인플루언서 성별 분리 — 여성/남성별 전용 옵션
+</div>
+
+<!-- STEP 0 — 레퍼런스 이미지 -->
+<div class="step"><div class="step-n">0</div><div class="step-label">레퍼런스 이미지 (선택)</div></div>
+<div class="ref-box" id="refBox" onclick="handleRefClick()">
+  <div id="refEmpty">
+    <div class="ref-box-prompt">📸 레퍼런스 이미지 업로드</div>
+    <div class="ref-box-sub">이미지를 올리면 GPT Image 2가 얼굴·헤어·컨셉을 분석해서 프롬프트에 자동 반영합니다</div>
+  </div>
+  <div id="refPreview" style="display:none"></div>
+  <input type="file" id="refFile" accept="image/*" style="display:none" onchange="handleRefUpload(this)">
+</div>
+
+<!-- STEP 1 — 타입 선택 -->
+<div class="step"><div class="step-n">1</div><div class="step-label">아티스트 타입</div></div>
+<div class="gender">
+  <button class="g-btn f on" onclick="setG('f')">여성 아이돌</button>
+  <button class="g-btn m" onclick="setG('m')">남성 아이돌</button>
+  <button class="g-btn uf" onclick="setG('uf')">여성 인플루언서</button>
+  <button class="g-btn um" onclick="setG('um')">남성 인플루언서</button>
+</div>
+
+<!-- STEP 2 — 스타일 프리셋 -->
+<div class="step"><div class="step-n">2</div><div class="step-label">스타일 프리셋 <span style="font-size:11px;color:#888;font-weight:400">— 이미지 보고 클릭하면 관련 키워드 자동 적용</span></div></div>
+<div class="input-panel" style="padding:.7rem .9rem">
+  <div class="preset-grid">
+    <button class="preset-btn" onclick="applyPreset('lovely')"><span class="preset-emoji">🎀</span>러블리 청순</button>
+    <button class="preset-btn" onclick="applyPreset('girlcrush')"><span class="preset-emoji">🔥</span>걸크러쉬 카리스마</button>
+    <button class="preset-btn" onclick="applyPreset('chic')"><span class="preset-emoji">❄️</span>쿨 뷰티 시크</button>
+    <button class="preset-btn" onclick="applyPreset('y2k')"><span class="preset-emoji">💿</span>Y2K 레트로</button>
+    <button class="preset-btn" onclick="applyPreset('dark')"><span class="preset-emoji">🌙</span>다크 판타지</button>
+    <button class="preset-btn" onclick="applyPreset('editorial')"><span class="preset-emoji">👑</span>하이패션</button>
+    <button class="preset-btn" onclick="applyPreset('sporty')"><span class="preset-emoji">💪</span>스포티 건강미</button>
+    <button class="preset-btn" onclick="applyPreset('romantic')"><span class="preset-emoji">🌸</span>로맨틱 소프트</button>
+  </div>
+  <button class="mega" onclick="megaRandom()" style="margin-top:.7rem">✦ 전체 랜덤 — 한 번에 모든 항목 자동 입력</button>
+</div>
+
+<!-- STEP 3 — 아이덴티티 -->
+<div class="step"><div class="step-n">3</div><div class="step-label">아이덴티티</div></div>
+
+<div class="input-panel">
+  <div class="ip-title">기본 정보</div>
+  <div class="grid4">
+    <div class="field"><label>이름 한국어</label><input id="i_name_ko" value="하나리"></div>
+    <div class="field"><label>이름 영문</label><input id="i_name_en" value="HANARI"></div>
+    <div class="field"><label>나이</label><div class="fr"><input id="i_age" value="19세"><button class="rnd" onclick="ri('i_age','ages')">↺</button></div></div>
+    <div class="field"><label>신장</label><div class="fr"><input id="i_height" value="162cm"><button class="rnd" onclick="ri('i_height','heights')">↺</button></div></div>
+  </div>
+  <div class="grid4" style="margin-top:.5rem">
+    <div class="field"><label>카테고리</label><div class="fr"><input id="i_category" value="KAWAII IDOL"><button class="rnd" onclick="ri('i_category','categories')">↺</button></div></div>
+    <div class="field"><label>포지션 / 활동</label><div class="fr"><input id="i_pos" value="서브보컬, 리드댄서"><button class="rnd" onclick="ri('i_pos','positions')">↺</button></div></div>
+    <div class="field"><label>특기</label><div class="fr"><input id="i_skill" value="애교, 표정연기, 고음"><button class="rnd" onclick="ri('i_skill','skills')">↺</button></div></div>
+    <div class="field"><label>취미</label><div class="fr"><input id="i_hobby" value="핑크 아이템 수집, 디저트 만들기"><button class="rnd" onclick="ri('i_hobby','hobbies')">↺</button></div></div>
+  </div>
+  <div class="grid2" style="margin-top:.5rem">
+    <div class="field"><label>소속</label><div class="fr"><input id="i_agency" value="엔벨바트 엔터테인먼트"><button class="rnd" onclick="ri('i_agency','agencies')">↺</button></div></div>
+    <div class="field"><label>컨셉 해시태그</label><div class="fr"><input id="i_concept" value="#핑크빛_요정 #러블리_에너지 #비주얼_센터"><button class="rnd" onclick="ri('i_concept','concepts_kw')">↺</button></div></div>
+  </div>
+  <div class="field" style="margin-top:.5rem"><label>퍼소나 설명 (2-3문장)</label>
+    <div class="fr"><textarea id="i_persona" rows="3">사랑스러운 외모와 밝은 에너지를 지닌 팀의 비주얼 센터. 무대 위에서는 완벽한 퍼포먼스로 관객을 매료시키지만, 무대 밖에서는 수줍음이 많고 소소한 일에도 행복을 느끼는 소녀.</textarea>
+    <button class="rnd" style="align-self:flex-start" onclick="ri('i_persona','personas')">↺</button></div>
+  </div>
+</div>
+
+<div class="input-panel">
+  <div class="ip-title">얼굴 / 피부 / 체형</div>
+  <div class="grid3">
+    <div class="field"><label>얼굴형</label><div class="fr"><input id="i_face" value="계란형, 갸름한 얼굴"><button class="rnd" onclick="ri('i_face','faceShapes')">↺</button></div></div>
+    <div class="field"><label>피부톤</label><div class="fr"><input id="i_skin" value="화이트닝, 밝은 웜베이지"><button class="rnd" onclick="ri('i_skin','skinTones')">↺</button></div></div>
+    <div class="field"><label>눈 / 눈빛</label><div class="fr"><input id="i_eyes" value="아몬드형 큰 눈, 쌍꺼풀, 다크브라운"><button class="rnd" onclick="ri('i_eyes','eyeDetails')">↺</button></div></div>
+    <div class="field"><label>코 / 입술</label><div class="fr"><input id="i_nose" value="오똑한 콧날, 하트립"><button class="rnd" onclick="ri('i_nose','noseLips')">↺</button></div></div>
+    <div class="field"><label>특징 포인트</label><div class="fr"><input id="i_point" value="보조개, 긴 속눈썹, 청순한 인상"><button class="rnd" onclick="ri('i_point','facePoints')">↺</button></div></div>
+    <div class="field"><label>체형</label><div class="fr"><input id="i_body" value="슬림, 여리여리한 아이돌 체형"><button class="rnd" onclick="ri('i_body','bodyTypes')">↺</button></div></div>
+  </div>
+</div>
+
+<div class="input-panel">
+  <div class="ip-title">헤어 & 메이크업</div>
+  <div class="grid2">
+    <div class="field"><label>헤어</label><div class="fr"><input id="i_hair" value="롱헤어 15cm, 다크브라운, 자연스러운 웨이브, 양쪽 트윈 포니테일"><button class="rnd" onclick="ri('i_hair','hairFull')">↺</button></div></div>
+    <div class="field"><label>메이크업 베이스</label><div class="fr"><input id="i_mbase" value="글로위 세라믹, 밀키 하이라이트"><button class="rnd" onclick="ri('i_mbase','makeupBase')">↺</button></div></div>
+    <div class="field"><label>아이 메이크업</label><div class="fr"><input id="i_meye" value="핑크 그라데이션, 부드러운 라이너"><button class="rnd" onclick="ri('i_meye','makeupEye')">↺</button></div></div>
+    <div class="field"><label>립 & 전체 컨셉</label><div class="fr"><input id="i_mlip" value="코럴 핑크 틴트, 청순 내추럴"><button class="rnd" onclick="ri('i_mlip','makeupLip')">↺</button></div></div>
+  </div>
+</div>
+
+<!-- STEP 4 — 스타일링 -->
+<div class="step"><div class="step-n">4</div><div class="step-label">스타일링</div></div>
+
+<div class="input-panel">
+  <div class="ip-title">스타일링 룩 5종</div>
+  <div class="field"><label>룩 1</label><div class="fr"><input id="i_look1" value="러블리 데일리룩 — 핑크 체크 스커트 + 화이트 블라우스 + 카디건"><button class="rnd" onclick="ri('i_look1','looks')">↺</button></div></div>
+  <div class="field" style="margin-top:.3rem"><label>룩 2</label><div class="fr"><input id="i_look2" value="스쿨룩 — 핑크 체크 플레이드 미니스커트 + 화이트 셔츠 + 니하이삭스"><button class="rnd" onclick="ri('i_look2','looks')">↺</button></div></div>
+  <div class="field" style="margin-top:.3rem"><label>룩 3</label><div class="fr"><input id="i_look3" value="무대 의상 A — 핑크 리본 원피스 + 프릴 + 메리제인 슈즈"><button class="rnd" onclick="ri('i_look3','looks')">↺</button></div></div>
+  <div class="field" style="margin-top:.3rem"><label>룩 4</label><div class="fr"><input id="i_look4" value="무대 의상 B — 핑크 체크 투피스 + 리본 장식 + 하이 삭스"><button class="rnd" onclick="ri('i_look4','looks')">↺</button></div></div>
+  <div class="field" style="margin-top:.3rem"><label>룩 5</label><div class="fr"><input id="i_look5" value="팬미팅룩 — 핑크 벨벳 원피스 + 진주 장식 + 플랫 슈즈"><button class="rnd" onclick="ri('i_look5','looks')">↺</button></div></div>
+</div>
+
+<div class="input-panel">
+  <div class="ip-title">스타일링 구성 6종</div>
+  <div class="grid3">
+    <div class="field"><label>아우터</label><div class="fr"><input id="i_outer" value="핑크 가디건, 체크 볼레로"><button class="rnd" onclick="ri('i_outer','outers')">↺</button></div></div>
+    <div class="field"><label>상의</label><div class="fr"><input id="i_top" value="리본 블라우스, 프릴 탑"><button class="rnd" onclick="ri('i_top','tops')">↺</button></div></div>
+    <div class="field"><label>하의</label><div class="fr"><input id="i_bottom" value="체크 미니스커트, 플리츠 스커트"><button class="rnd" onclick="ri('i_bottom','bottoms')">↺</button></div></div>
+    <div class="field"><label>신발</label><div class="fr"><input id="i_shoes" value="메리제인, 니하이 부츠"><button class="rnd" onclick="ri('i_shoes','shoes')">↺</button></div></div>
+    <div class="field"><label>악세서리</label><div class="fr"><input id="i_acc" value="리본 헤어핀, 진주 귀걸이"><button class="rnd" onclick="ri('i_acc','accessories')">↺</button></div></div>
+    <div class="field"><label>헤어 스타일링</label><div class="fr"><input id="i_hairstyle" value="트윈테일, 반묶음, 리본핀"><button class="rnd" onclick="ri('i_hairstyle','hairStyles')">↺</button></div></div>
+  </div>
+</div>
+
+<div class="input-panel">
+  <div class="ip-title">소품 6종</div>
+  <div class="field"><label>소품 리스트 (쉼표 구분)</label>
+    <div class="fr"><input id="i_props" value="무선 마이크, 인어 모티브, 레트 다이얼, 편지 & 편지봉투, 핑크 텀블러, 하트 목걸이">
+    <button class="rnd" onclick="ri('i_props','propsList')">↺</button></div>
+  </div>
+</div>
+
+<!-- STEP 5 — 컬러 팔레트 -->
+<div class="step"><div class="step-n">5</div><div class="step-label">컬러 팔레트 & 톤</div></div>
+
+<div class="input-panel">
+  <div class="ip-title">팔레트 테마 <button class="rnd" onclick="randomPalette()">↺ 랜덤 테마</button></div>
+  <div class="palette-themes" id="paletteThemes"></div>
+  <div class="swatch-row" id="swatchRow"></div>
+  <div id="colorRows"></div>
+  <div class="field" style="margin-top:.6rem"><label>톤 설명</label>
+    <div class="fr"><textarea id="i_tone" rows="2">사랑스럽고 포근한 감성 분위기. 밝고 투명한 파스텔 피치 아이보리 분위기. 보기만 해도 기분이 좋아지는 '핑크빛 설렘'을 표현.</textarea>
+    <button class="rnd" style="align-self:flex-start" onclick="ri('i_tone','tones')">↺</button></div>
+  </div>
+</div>
+
+<!-- STEP 6 — 촬영 스펙 -->
+<div class="step"><div class="step-n">6</div><div class="step-label">촬영 스펙</div></div>
+
+<div class="input-panel">
+  <div class="grid3">
+    <div class="field"><label>일러스트 스타일</label>
+      <select id="i_artstyle">
+        <option value="semi-realistic anime illustration, soft painterly style, kawaii aesthetic" selected>반실사 애니 (카와이)</option>
+        <option value="photorealistic professional photography, 8K ultra high resolution">실사 포토그래피</option>
+        <option value="painterly illustration, digital art, soft brushwork">페인터리 일러스트</option>
+        <option value="webtoon style illustration, clean lines, soft coloring">웹툰 스타일</option>
+        <option value="3D rendered character, high quality CG">3D 렌더</option>
+        <option value="k-pop promotional photography, editorial magazine quality">K-pop 화보 실사</option>
+      </select>
+    </div>
+    <div class="field"><label>색감 / 그레이드</label><div class="fr"><input id="i_grade" value="파스텔 핑크 그라데이션, 소프트 페이드"><button class="rnd" onclick="ri('i_grade','grades')">↺</button></div></div>
+    <div class="field"><label>레이아웃 비율</label>
+      <select id="i_ratio">
+        <option value="portrait 2:3, A4 sheet proportion" selected>2:3 세로 (A4 시트)</option>
+        <option value="landscape 3:2 horizontal sheet">3:2 가로</option>
+        <option value="square 1:1 poster format">1:1 정방형</option>
+        <option value="portrait 3:4">3:4 세로</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7 — 생성 -->
+<div class="step"><div class="step-n">7</div><div class="step-label">통합 프롬프트 생성</div></div>
+<button class="gen-btn" onclick="generate()">1장 캐릭터 시트 프롬프트 생성</button>
+
+<div class="result-card" id="resultCard">
+  <div class="rc-header">
+    <div class="rc-num">✦</div>
+    <div class="rc-info">
+      <div><div class="rc-title" id="rc-title">캐릭터 시트 통합 프롬프트</div><div class="rc-sub">ChatGPT GPT Image 2 Thinking 모드에 붙여넣기</div></div>
+      <button class="rc-copy" id="copyBtn" onclick="copyPrompt(this)">전체 복사</button>
+    </div>
+  </div>
+  <div class="prompt-text" id="promptOutput"></div>
+  <div class="rc-footer"><span id="charCount">0자</span><span id="refNote">한 번의 생성으로 1장 완성</span></div>
+</div>
+
+</div>
+
+<script>
+var G='f';
+var S={palette:[],theme:'',hasRef:false,refName:'',activePreset:null};
+
+/* =========================================
+   옵션 풀 — 4가지 타입 (f / m / uf / um)
+========================================= */
+var D={
+  ages:['16세','17세','18세','19세','20세','21세','22세','23세','24세','25세','26세','27세','28세'],
+  ages_uf:['19세','20세','21세','22세','23세','24세','25세','26세','27세','28세','29세','30세','31세','32세'],
+  ages_um:['20세','21세','22세','23세','24세','25세','26세','27세','28세','29세','30세','31세','32세','33세'],
+  heights_f:['158cm','160cm','162cm','163cm','164cm','165cm','166cm','167cm','168cm','169cm','170cm','172cm','175cm'],
+  heights_m:['172cm','173cm','175cm','177cm','178cm','180cm','181cm','182cm','183cm','184cm','185cm','186cm','188cm'],
+  heights_uf:['158cm','160cm','162cm','165cm','167cm','168cm','170cm','172cm','175cm'],
+  heights_um:['170cm','172cm','175cm','177cm','178cm','180cm','182cm','184cm','186cm'],
+
+  // 카테고리
+  categories_f:['KAWAII IDOL','COOL VISUAL','GIRL CRUSH','CHIC PERFORMER','ELEGANT QUEEN','Y2K STAR','DARK FANTASY','PURE VISUAL CENTER','MAIN VOCAL ARTIST','DANCE MACHINE','RAPPER BADDIE','LOVELY ENERGY','FAIRY PRINCESS','HIGH TEEN','RETRO POP','ETHEREAL GODDESS','SEXY FEMME','CUTE MAKNAE','GLOBAL SENSATION','TREND LEADER'],
+  categories_m:['COOL PRINCE','CHARISMATIC IDOL','VISUAL CENTER','HIP-HOP ARTIST','BOY NEXT DOOR','DARK CHARMER','GLOBAL STAR','MAIN VOCAL ARTIST','MAIN DANCER','MAIN RAPPER','SOFT BOY','BAD BOY','PUPPY BOY','FAIRY PRINCE','EDGY PERFORMER','VINTAGE GENTLEMAN','SPORTY MODEL','LEADER TYPE','MAKNAE ON TOP','BEAST IDOL'],
+  categories_uf:['FEMME FASHION ICON','K-BEAUTY CREATOR','LIFESTYLE DIVA','CAFE HOPPER','TRAVEL BLOGGER','WELLNESS GURU','FOOD BLOGGER','MUKBANG HOST','BOOK CREATOR','MOMSTAGRAM','VLOG QUEEN','FITNESS GODDESS','HAUL INFLUENCER','LUXURY LIFESTYLE','MINIMALIST','VINTAGE CURATOR','HOMEBODY','ART CREATOR','DIY CRAFTER','SUSTAINABLE LIFE'],
+  categories_um:['STYLE MASTER','HYPEBEAST','STREETWEAR KING','FITNESS MODEL','MALE BEAUTY','TECH REVIEWER','GAMING STREAMER','FOOD REVIEWER','TRAVEL CREATOR','DAD CREATOR','VLOG BROTHER','CAR ENTHUSIAST','MUSIC CURATOR','COFFEE CONNOISSEUR','WHISKEY EXPERT','WATCH COLLECTOR','MINIMALIST GENT','SPORTS ANALYST','DIY HANDYMAN','COOKING CREATOR'],
+
+  // 포지션
+  positions_f:['메인 보컬','메인 댄서','메인 래퍼','비주얼 센터','리드 보컬, 서브 댄서','리드 댄서, 서브 래퍼','리드 래퍼, 서브 보컬','리더, 올라운더','센터, 비주얼, 서브 보컬','페이스 담당','외국어 담당, 서브 보컬','막내, 비주얼','퍼포먼스 디렉터','작사, 보컬'],
+  positions_m:['메인 보컬, 리더','메인 댄서, 리드 래퍼','메인 래퍼, 작사','비주얼 센터','리드 보컬, 서브 댄서','리드 댄서, 서브 래퍼','리드 래퍼, 서브 보컬','올라운더','퍼포머, 비주얼','막내 비주얼','작곡, 프로듀싱','페이스 담당, 보컬','퍼포먼스 디렉터'],
+  positions_uf:['패션 인플루언서, 브랜드 앰배서더','뷰티 유튜버, K-뷰티 크리에이터','라이프스타일 크리에이터','피트니스 여신, 홈트 유튜버','여행 에세이 블로거','요리 유튜버, 홈베이커','북튜버, 공부 크리에이터','맘스타그램, 육아 블로거','ASMR 아티스트, 힐링 크리에이터','카페 투어 블로거','플래너 & 문구 크리에이터','반려동물 브이로거','홈인테리어 크리에이터','미니멀 라이프 블로거','지속가능한 라이프 유튜버','와인 & 위스키 큐레이터','아트 크리에이터, 핸드레터링'],
+  positions_um:['스트릿 패션 인플루언서','남성 뷰티 & 그루밍 크리에이터','피트니스 유튜버, PT 트레이너','테크 리뷰어, 언박싱 크리에이터','게이밍 스트리머, e스포츠 해설','푸드 리뷰어, 먹방 유튜버','여행 크리에이터, 브이로거','아빠 유튜버, 육아 콘텐츠','자동차 리뷰어','음악 큐레이터, DJ','커피 큐레이터, 카페 리뷰어','위스키 소믈리에','시계 & 수집품 크리에이터','쿠킹 유튜버, 자취남 레시피','DIY & 홈 임프루브먼트','미니멀 라이프 크리에이터','헬스 트레이너, 보디빌더','스포츠 분석가'],
+
+  // 특기
+  skills_f:['애교, 표정연기, 고음','안무 창작, 리더십, 영어','보컬 테크닉, 피아노, 작곡','래핑, 프리스타일, 춤','비주얼, 패션 센스, 연기','밝은 에너지, 팬 케어, 예능감','고난도 안무, 유연성, 표현력','이모셔널 보컬, 작곡, 기타','외국어 5개국어, MC, 예능','댄스 배틀, 안무가, 디렉팅','라이브 안정성, 무대 장악력','여신 비주얼, 광고 모델, 연기'],
+  skills_m:['메인 보컬, 작곡, 피아노','래핑, 프리스타일, 작사','안무 창작, 리드, 운동','비주얼, 연기, 모델링','파워댄스, 아크로바틱','외국어, MC, 예능','악기 연주, 밴드 세션, 작곡','고음 테크닉, 감성 표현','빠른 랩, 플로우, 가사','스웨그, 스타일링, 프리스타일','매너, 리더십, 팬 케어'],
+  skills_uf:['스타일링 센스, 패션 큐레이션','메이크업 테크닉, 뷰티 지식','요가 & 홈트 루틴, 식단 관리','요리, 베이킹, 플레이팅','여행 기획, 사진 & 영상','책 추천, 글쓰기, 북 큐레이션','인테리어 코디, 홈 데코','아이 키우기, 육아 팁','영상 편집, 스토리텔링','ASMR, 감성 나레이션','아트웍, 드로잉, 핸드레터링','플랜트 가드닝, 식물 관리','미니멀 라이프 코칭','홈카페, 커피 만들기'],
+  skills_um:['스타일 큐레이션, 스니커 컬렉션','그루밍, 남성 뷰티 노하우','웨이트 트레이닝, PT 노하우','테크 분석, 언박싱, 리뷰','게임 실력, 해설, 방송 진행','먹방 리액션, 음식 리뷰','여행 기획, 영상 편집','아빠 스킬, 육아','차량 정비, 리뷰, 운전 기술','DJing, 믹스, 플레이리스트','커피 드립, 로스팅','위스키 테이스팅, 증류 지식','시계 감정, 수집','요리, 자취남 레시피','DIY, 공구 활용','바디빌딩, 식단 설계'],
+
+  // 취미
+  hobbies_f:['핑크 아이템 수집, 디저트 만들기','일러스트 드로잉, 굿즈 제작','독서, 카페 탐방','게임, 애니메이션 감상','요리, 베이킹','댄스 영상 촬영, SNS 콘텐츠','향수 수집, 향기 일기','뜨개질, 핸드메이드 소품','네일아트, 헤어 스타일링','사진 촬영, 필름 카메라','요가, 필라테스','식물 가꾸기, 홈 가드닝'],
+  hobbies_m:['게임, 애니메이션 감상','운동, 헬스, 축구','음악 감상, DJ, 플레이리스트','요리, 자취 밥상','영화 감상, 시네필','독서, 철학 서적','악기 연주, 밴드 세션','스케이트보드, 익스트림 스포츠','사진 촬영, 필름 카메라','여행, 혼자 떠나기','운동화 수집, 스니커헤드','빈티지 아이템 수집'],
+  hobbies_uf:['카페 투어, 디저트 사진','홈 데코, 인테리어 꾸미기','독서, 책 리뷰','요가, 명상, 필라테스','쇼핑, 스타일링','요리, 베이킹, 홈파티','여행, 혼자 여행','플랜테리어, 식물 키우기','필름 카메라, 사진','저널링, 다이어리 꾸미기','빈티지 쇼핑','향수, 티 수집'],
+  hobbies_um:['스니커즈 수집, 패션 쇼핑','웨이트, 크로스핏, 러닝','게임, PC 빌드','자동차, 튜닝, 모터사이클','커피 드립, 로스팅','위스키 테이스팅','시계 수집, 감정','여행, 백패킹','영화, 음악 감상','요리, 자취 레시피','낚시, 캠핑, 등산','보드게임, 테크'],
+
+  // 소속
+  agencies:['HYBE','SM Entertainment','YG Entertainment','JYP Entertainment','CUBE Entertainment','STARSHIP Entertainment','PLEDIS Entertainment','BELIFT LAB','WM Entertainment','Kakao Entertainment','RBW','FNC Entertainment','ADOR','Source Music','엔벨바트 엔터테인먼트','스타라이트 기획사','핑크문 엔터','AURORA 엔터테인먼트','스텔라 엔터'],
+  agencies_uf:['샌드박스네트워크','다이아TV','트레져헌터','콜랩','픽셀네트웍스','MY엔터프라이즈','비츠 미디어','네이버 인플루언서','카카오 크리에이터','자체 채널 운영','브랜드 파트너십'],
+  agencies_um:['샌드박스네트워크','다이아TV','트레져헌터','콜랩','픽셀네트웍스','MCN 공식 소속','자체 채널 운영','아프리카TV','트위치 파트너','유튜브 파트너십','브랜드 앰배서더'],
+
+  // 해시태그 컨셉
+  concepts_kw_f:['#핑크빛_요정 #러블리_에너지 #비주얼_센터','#청순_비주얼 #국민_여동생 #청초한_매력','#걸크러쉬 #파워풀_퍼포먼스 #강렬한_비주얼','#쿨뷰티 #도시적_감성 #시크한_카리스마','#러블리_아이돌 #핑크_에너지 #버블리_매력','#Y2K_감성 #트렌드세터 #뉴페이스','#다크_판타지 #미스터리_아우라 #치명적_매력','#하이틴_감성 #교복_미소 #청춘스타','#글로벌_K팝 #멀티탤런트 #라이징스타','#센터_비주얼 #완벽한_비율 #월클_미모','#에레강스 #우아한_퀸 #시그니처_클래스','#큐트_막내 #애교폭발 #모두의_여동생','#레트로_팝 #빈티지_뮤즈 #80년대_감성','#아이스_퀸 #차가운_매력 #북유럽_비주얼','#파워_보컬 #고음_장인 #라이브_에이스','#댄스_머신 #테크닉_마스터 #안무의_신','#스포티_걸 #건강미_퀸 #애슬레저_아이콘','#로맨틱_드림 #봄날의_뮤즈 #꽃길만_걷자'],
+  concepts_kw_m:['#시크한_비주얼 #냉미남 #심쿵주의','#글로벌_K팝 #월클_비주얼 #센터','#빌런돌 #냉미남 #치명적_카리스마','#귀여운_남자아이돌 #팬바보 #순둥미','#강아지상_비주얼 #소프트_보이 #미소천사','#고양이상_비주얼 #새침한_매력 #쿨미남','#호랑이상_비주얼 #야생미 #짐승미','#곰상_비주얼 #든든한_매력 #상남자','#비주얼_폭격 #얼굴천재 #조각미남','#힙합_아티스트 #플로우_마스터 #래퍼','#소울_보이스 #감성보컬 #라이브_장인','#댄스_머신 #파워댄서 #안무_창작','#다정다감_매력 #따뜻한_카리스마 #리더','#퍼포먼스_신 #무대_장악 #에이스','#스포티_미남 #운동선수형 #탄탄한_몸','#재능_폭발 #다재다능 #엄친아','#반전매력 #무대위와_밖이다른 #이중매력','#막내_온탑 #활력_에너지 #텐션폭발'],
+  concepts_kw_uf:['#OOTD #데일리룩 #K패션','#K뷰티 #뷰티유튜버 #글로벌','#홈카페 #감성카페 #일상의_사치','#여행인플루언서 #감성사진 #혼자여행','#맛집탐방 #푸드블로거 #브이로그','#미니멀라이프 #조용한_럭셔리 #클린라이프','#로맨틱_라이프 #드림웨딩 #감성일상','#홈인테리어 #플랜테리어 #홈데코','#북튜버 #공부_스타그램 #지식인','#맘스타그램 #육아_인플루언서 #가족_공감','#건강_라이프 #요가 #홈트','#빈티지_수집 #레트로_감성 #아날로그','#지속가능_라이프 #제로웨이스트 #친환경','#아트_크리에이터 #드로잉 #핸드메이드','#카페_투어 #디저트 #브런치','#럭셔리_라이프 #하이엔드_쇼핑 #럭셔리_브랜드'],
+  concepts_kw_um:['#스트릿패션 #스니커헤드 #하이프비스트','#남성그루밍 #남자뷰티 #스킨케어','#피트니스_유튜버 #보디프로필 #헬스_루틴','#테크리뷰 #가젯_언박싱 #스마트기기','#게이밍_크리에이터 #e스포츠 #스트리머','#먹방_유튜버 #맛집탐방 #리뷰','#남자혼여행 #백패커 #모험','#아빠_유튜버 #가장_라이프 #육아','#자동차_리뷰어 #드라이빙 #튜닝','#DJ_크리에이터 #플레이리스트 #뮤직_큐레이터','#홈카페_마스터 #커피_드립 #로스팅','#위스키_소믈리에 #술_큐레이터','#시계_수집가 #럭셔리_시계','#자취남_레시피 #혼밥 #쿠킹','#DIY_크리에이터 #공구_활용','#미니멀_젠틀맨 #조용한_럭셔리','#스포츠_분석가 #운동_컨텐츠'],
+
+  // 퍼소나
+  personas_f:[
+    '사랑스러운 외모와 밝은 에너지를 지닌 팀의 비주얼 센터. 무대 위에서는 완벽한 퍼포먼스로 관객을 매료시키지만, 무대 밖에서는 수줍음이 많고 소소한 일에도 행복을 느끼는 소녀.',
+    '강렬한 퍼포먼스와 독보적인 외모로 무대를 장악하는 걸크러쉬 아이돌. 냉정해 보이는 첫인상과 달리 멤버들을 아끼는 따뜻한 언니.',
+    '청순하면서도 세련된 이중적 매력을 가진 비주얼 담당. 패션 센스가 탁월하고 뉴트럴한 매력으로 국내외 브랜드 앰배서더.',
+    '미스터리한 분위기와 독보적인 존재감으로 주목받는 신예 아이돌. 깊이 있는 눈빛이 시그니처.',
+    '유럽 하이패션 브랜드 앰배서더로도 활동하는 글로벌 K-pop 스타. 세련된 분위기와 완벽한 비율의 소유자.',
+    '맑고 투명한 눈빛으로 청순함을 대표하는 비주얼. 노래할 때는 감동적인 목소리로, 일상에서는 엉뚱한 반전 매력.',
+    'Y2K 감성과 현대 아이돌 미학을 완벽하게 소화하는 트렌드세터. 독특한 패션 센스가 시그니처.',
+    '달빛처럼 신비로운 분위기를 가진 미스터리 뷰티. 말 수가 적지만 눈빛 하나로 모든 감정을 표현.',
+    '밝고 유쾌한 에너지로 그룹의 분위기 메이커 역할을 하는 막내. 팬들에게 사랑받는 귀여운 스타.'
+  ],
+  personas_m:[
+    '냉소적인 외모와 달리 따뜻한 내면을 가진 아이돌. 무대 위에서는 카리스마가 폭발한다. 팬들에게는 한없이 다정한 반전 매력.',
+    '완벽한 비율과 남성미로 K-pop 씬을 이끄는 글로벌 스타. 뛰어난 실력과 비주얼, 리더십을 모두 갖춘 만능형.',
+    '시크하고 독보적인 존재감으로 어떤 무대에서도 빛나는 퍼포머. 무대 밖에서는 유쾌한 분위기메이커.',
+    '힙합 감성과 세련된 패션 센스로 차별화된 아이돌. 자신만의 색깔이 분명한 아티스트.',
+    '영화배우 같은 비주얼과 깊이 있는 퍼포먼스로 팬들을 사로잡는다. 진지하고 조용한 성격.',
+    '강아지 같은 밝은 에너지와 천진난만한 미소로 모두를 녹이는 소프트 보이. 팬사랑이 지극한 귀여운 오빠.',
+    '다재다능한 천재형 아이돌. 작사·작곡·프로듀싱까지 가능한 아티스트로 음악적 완성도가 높다.',
+    '파워풀한 래핑과 강렬한 플로우로 힙합 씬을 이끄는 메인 래퍼. 가사에 자신의 철학을 담는 진정성 있는 아티스트.',
+    '든든하고 다정한 리더. 팀을 이끄는 카리스마와 멤버를 챙기는 따뜻함을 모두 갖춘 리더형.'
+  ],
+  personas_uf:[
+    '자연스러운 일상을 공유하는 라이프스타일 인플루언서. 팔로워에게 영감을 주는 진정성 있는 콘텐츠가 시그니처.',
+    '트렌드를 앞서가는 감각적인 패션 큐레이션으로 브랜드들이 먼저 찾는 패션 인플루언서.',
+    'K-뷰티의 매력을 글로벌 팬들에게 전파하는 뷰티 크리에이터. 메이크업 테크닉과 제품 리뷰가 시그니처.',
+    '미니멀하고 세련된 라이프스타일을 추구하는 크리에이터. 조용한 럭셔리를 추구하는 우아한 여성.',
+    '건강하고 활기찬 에너지로 많은 여성들에게 동기부여를 주는 피트니스 인플루언서.',
+    '여행과 자유로운 삶을 주제로 로맨틱한 콘텐츠를 만드는 여행 크리에이터.',
+    '아기자기한 홈카페와 아늑한 인테리어로 감성적인 일상을 공유하는 라이프스타일 블로거.',
+    '책과 글쓰기를 사랑하는 지적인 크리에이터. 북 리뷰와 감성 글귀로 팬들과 교감.',
+    '육아와 가족의 소중함을 공유하는 맘스타그래머. 따뜻한 일상 기록이 매력.'
+  ],
+  personas_um:[
+    '스트릿 패션과 스니커 컬처를 선도하는 트렌드세터. 독특한 스타일링 센스로 남성 패션 씬을 리드.',
+    '건강하고 탄탄한 몸매로 많은 남성들에게 영감을 주는 피트니스 크리에이터. 진정성 있는 운동 콘텐츠.',
+    '테크 트렌드를 누구보다 빠르게 분석하는 신뢰받는 테크 리뷰어. 객관적인 리뷰가 시그니처.',
+    '게임 실력과 유쾌한 방송 진행력으로 사랑받는 게이밍 크리에이터. 팬들과의 소통이 매력.',
+    '맛집 탐방과 화려한 리액션으로 먹방 장르를 이끄는 푸드 크리에이터.',
+    '자동차와 모터 라이프를 사랑하는 카 크리에이터. 정확한 분석과 드라이빙 영상이 매력.',
+    '자취남의 현실적인 레시피로 남성 팬들의 공감을 얻는 쿠킹 크리에이터.',
+    '미니멀하고 젠틀한 라이프스타일을 추구하는 크리에이터. 조용한 자기계발이 시그니처.',
+    '커피와 위스키를 사랑하는 라이프 큐레이터. 깊이 있는 콘텐츠로 차별화된 크리에이터.'
+  ],
+
+  // 얼굴형
+  faceShapes_f:['계란형, 갸름한 얼굴','하트형, 넓은 이마 좁은 턱','V라인, 샤프한 윤곽','둥근 형, 사랑스러운 인상','다이아몬드형, 광대뼈 강조','긴 형, 갸름하고 우아한 실루엣','작은 이목구비 모여있는 아기상','시원시원한 큰 이목구비','인형같은 3D 입체 얼굴','이국적 혼혈미 얼굴'],
+  faceShapes_m:['각진 V라인, 남성미 넘치는 턱선','부드러운 타원형, 세련된 중성미','샤프한 각진 얼굴, 강렬한 인상','하이 체크본, 조각 같은 윤곽','기다란 갸름한 얼굴, 우아한 선','작은 얼굴 또렷한 이목구비','야성미 넘치는 각진 얼굴','부드러운 소년미 얼굴'],
+  faceShapes_uf:['계란형, 균형 잡힌 얼굴','하트형, 사랑스러운 인상','V라인, 샤프한 윤곽','둥근 형, 친근한 매력','세련된 긴 얼굴, 모델형','작고 아담한 얼굴'],
+  faceShapes_um:['각진 V라인, 남성적인 턱선','부드러운 타원형, 친근한 인상','샤프한 각진 얼굴','하이 체크본, 조각 같은 윤곽','건강한 구릿빛 각진 얼굴','야성적인 강렬한 얼굴'],
+
+  // 피부톤
+  skinTones:['화이트닝, 밝은 웜베이지','뽀얀 쿨톤, 도자기 피부','피치 핑크, 생기 있는 피부','황금빛 워밍, 건강한 광채','내추럴 웜, 연갈색 피부','밀크 화이트, 완벽한 무결점','건강한 태닝 피부','살구빛 뉴트럴톤'],
+
+  // 눈
+  eyeDetails_f:['아몬드형 큰 눈, 쌍꺼풀, 다크브라운','단꺼풀 슬림 눈, 헤이즐','쌍꺼풀 또렷한 눈, 블랙, 긴 속눈썹','고양이형 눈꼬리, 섹시한 브라운','인형형 동그란 큰 눈, 청순한 브라운','반달 눈매, 웃을 때 예쁜 눈','도톰한 쌍꺼풀, 사슴같은 눈망울','아련한 슬픈 눈매'],
+  eyeDetails_m:['날카로운 봉황눈, 블랙','깊고 큰 눈, 다크브라운','단꺼풀 슬림 눈, 헤이즐','아몬드형, 균형 잡힌 브라운','무쌍, 매력적인 눈매','강한 짙은 눈썹과 어울리는 눈','야생미 가득한 날카로운 눈'],
+  eyeDetails_uf:['아몬드형 큰 눈, 또렷한 브라운','깊고 인상적인 눈, 블랙','둥글고 생기 있는 눈, 헤이즐','부드러운 눈매, 친근한 인상','쌍꺼풀 큰 눈, 애교 가득'],
+  eyeDetails_um:['날카로운 눈매, 시크한 느낌','깊고 강렬한 눈매, 블랙','부드러운 아몬드형, 다크브라운','남성적이고 또렷한 눈, 쌍꺼풀','야성미 있는 강렬한 눈'],
+
+  // 코 입술
+  noseLips_f:['오똑한 콧날, 하트립','작고 예쁜 코, 풍성한 볼륨 립','날렵한 코끝, 핑크 립','조각 같은 코, 섹시한 오버립','귀여운 들창코, 사랑스러운 미소 립','곧은 콧대, 앵두같은 작은 입술'],
+  noseLips_m:['오똑하고 날렵한 콧날, 남성적 입술','잘 정돈된 매끈한 코, 자연스러운 립','조각 같은 코 라인, 도톰한 남성 립','높은 콧대, 선명한 입술 라인'],
+  noseLips_uf:['균형 잡힌 코, 자연스러운 립','오똑한 콧날, 볼륨감 있는 립','세련된 코, 섹시한 립','귀여운 코, 사랑스러운 립'],
+  noseLips_um:['오똑한 콧날, 남성적 립','잘 정돈된 매끈한 코','조각 같은 코, 도톰한 립','강한 남성미 코와 립'],
+
+  // 특징 포인트
+  facePoints:['보조개, 청순한 인상','긴 속눈썹, 인형같은 눈매','왼쪽 볼 점 포인트, 신비로운 매력','완벽한 이목구비, 황금 비율','투명한 피부, 자연광 맛집','섬세한 콜라본, 우아한 목선','입가 점, 섹시한 포인트','반짝이는 눈동자, 별이 가득한 눈','완벽한 옆모습, 조각같은 프로필'],
+
+  // 체형
+  bodyTypes_f:['슬림, 여리여리한 아이돌 체형','날씬하고 균형 잡힌 모델 체형','건강미 있는 탄탄한 체형','글래머러스한 곡선미 체형','모델 비율의 롱레그'],
+  bodyTypes_m:['탄탄한 근육질 아이돌 체형','슬림하고 긴 모델 체형','운동선수형 탄탄한 근육','역삼각형 완벽한 남성 비율','호리호리한 서구적 체형'],
+  bodyTypes_uf:['슬림하고 균형 잡힌 체형','건강미 넘치는 피트니스 체형','곡선미 있는 여성 체형','모델같은 롱레그 체형','탄탄하고 날씬한 체형'],
+  bodyTypes_um:['탄탄한 남성 체형, 건장한','슬림하고 긴 모델 체형','헬시한 운동선수형 근육질','마른 듯 근육진 체형','듬직한 남자다운 체형'],
+
+  // 헤어
+  hairFull_f:['롱헤어 15cm, 다크브라운, 자연스러운 웨이브, 양쪽 트윈 포니테일','미디엄 보브, 밀크 브라운, 스트레이트','롱 레이어드, 애쉬 그레이, 볼륨 웨이브','숏커트, 플래티넘 블론드','롱헤어, 핑크 브라운, 웨이브, 하프업','단발, 체리 레드, 볼륨 웨이브','허리까지 오는 롱 스트레이트, 블랙','포니테일로 묶은 하이 업두','드릴컬 트윈테일, 딥 블루 블랙','시스루뱅 앞머리, 허니 블론드','땋은 머리 사이드, 스모키 애쉬','올림머리 번헤어, 블랙'],
+  hairFull_m:['투블록, 블랙, 짧은 사이드 + 긴 앞머리','미디엄, 다크브라운, 자연스럽게 내린','올백 스타일, 블리치 블론드','컬리 내추럴, 버건디 다크','버즈컷, 블랙','긴 앞머리 시스루뱅, 애쉬 브라운','포마드 정장 스타일, 블랙','펌 헤어, 밀크 브라운','픽시컷, 파스텔 핑크','모히칸 스타일, 플래티넘'],
+  hairFull_uf:['롱헤어, 내추럴 블랙, 스트레이트','미디엄, 밀크 브라운, 웨이브','숏커트, 애쉬 그레이','롱 레이어드, 페일 블론드','단발, 다크 초콜릿','포니테일, 깔끔한 블랙','파마 웨이브, 로즈 골드','미디엄 C컬, 허니 브라운','앞머리 풀 스트레이트, 블랙'],
+  hairFull_um:['투블록, 블랙, 깔끔한 스타일링','미디엄, 다크 브라운, 자연스러운','올백, 블리치 블론드','버즈컷, 블랙','긴 앞머리 시스루뱅, 브라운','포마드 정장, 블랙','컬리 헤어, 내추럴 브라운','숏컷, 애쉬 그레이'],
+
+  // 메이크업
+  makeupBase:['글로위 세라믹, 밀키 하이라이트','매트 무광, 깨끗한 피부 표현','새틴 피니시, 은은한 광택','완벽한 하이라이팅 스컬프팅','내추럴 스킨, 피부처럼 자연스러운','글라스 스킨 효과, 유리 피부','도자기 피부 효과, 매끈함'],
+  makeupEye_f:['핑크 그라데이션, 부드러운 라이너','누드 베이지, 마스카라','스모키, 강렬한 눈매','로즈 핑크 그라데이션','골드 시머, 반짝이는 눈빛','클래식 아이라이너, 날렵한 눈매','컬러 팝 아이섀도','글리터 아이, 반짝이는 무대 메이크업'],
+  makeupEye_m:['아이브로우 그루밍, 또렷한 눈썹','블랙 아이라이너 포인트','스모키 그라데이션, 강렬한 눈매','내추럴, 부드러운 눈매','컬러 라이너, 개성있는 스테이지'],
+  makeupEye_uf:['내추럴 아이메이크업, 데일리','스모키 아이, 글램 메이크업','핑크 그라데이션, 로맨틱','누드 베이지, 심플하고 세련된','글리터 포인트, 파티 메이크업'],
+  makeupEye_um:['내추럴 그루밍','아이브로우 정리, 또렷한 눈썹','스모키 블랙, 강렬한 눈매','피부 보정만, 자연 그대로'],
+  makeupLip_f:['코럴 핑크 틴트, 청순 내추럴','로즈 핑크, 사랑스러운 글램','레드 클래식, 스테이지','누드 베이지, 내추럴','버건디 딥 레드, 강렬한','글리터 글로스, Y2K 레트로','MLBB 립, 내 입술 같은','플럼 립, 우아한 클래식'],
+  makeupLip_m:['내추럴 핑크 립밤, 남성 그루밍','레드 포인트 립, 스테이지','누드 베이지','로즈우드, 남성적 컬러','클리어 립밤, 윤기만'],
+  makeupLip_uf:['코럴 핑크 틴트, 데일리','누드 베이지, 세련된','로즈 핑크, 로맨틱','레드 클래식, 포인트','글로시 클리어, 촉촉한'],
+  makeupLip_um:['클리어 립밤, 윤기만','내추럴 핑크 립밤','누드 베이지','로즈우드, 남성 그루밍'],
+
+  // 스타일링 룩
+  looks_f:['러블리 데일리룩 — 핑크 체크 스커트 + 화이트 블라우스 + 카디건','스쿨룩 — 핑크 체크 플레이드 미니스커트 + 화이트 셔츠 + 니하이삭스','무대 의상 A — 핑크 리본 원피스 + 프릴 + 메리제인 슈즈','무대 의상 B — 핑크 체크 투피스 + 리본 장식','팬미팅룩 — 벨벳 원피스 + 진주 장식 + 플랫 슈즈','Y2K 룩 — 핫핑크 크롭탑 + 로우웨이스트 진 + 플랫폼 부츠','세련된 파티룩 — 새틴 드레스 + 펌프스','빈티지 룩 — 플로럴 원피스 + 스트로햇','스트리트 — 오버핏 후디 + 카고 팬츠 + 스니커즈','이브닝 글램 — 튤 가운 + 크리스털 주얼리','샤넬풍 트위드 재킷 + 트위드 스커트 + 힐','청순 룩 — 화이트 쉬폰 원피스 + 플랫','걸크러쉬 — 블랙 레더 재킷 + 크롭탑 + 스키니 진','다크 판타지 — 벨벳 드레스 + 다크 주얼리','스포티 — 크롭 스포츠 브라 + 하이웨스트 레깅스','레이어드 쉬크 — 가디건 + 원피스 + 니하이부츠','프릴 드레스 — 풍성한 프릴 미니드레스','웨딩 뮤즈 — 화이트 레이스 가운 + 베일'],
+  looks_m:['포멀룩 — 핑크 니트 + 화이트 셔츠 + 블랙 슬랙스','스트릿 — 오버핏 후디 + 조거 팬츠 + 스니커즈','무대 의상 — 블랙 오버핏 수트 + 메탈 액세서리','캐주얼 — 니트 가디건 + 화이트 티 + 데님 진','아이돌 룩 — 체크 블레이저 + 타이 + 슬랙스','블랙 수트 — 올블랙 수트 + 화이트 셔츠','댄디 룩 — 트위드 재킷 + 니트 + 슬랙스','빈티지 — 데님 재킷 + 빈티지 티 + 찢어진 진','힙합 — 오버핏 그래픽 티 + 배기 카고 + 스니커즈','런웨이 — 디자이너 수트 + 드레스 셔츠','스포티 — 크롭 자켓 + 조거 팬츠 + 러닝화','펑크 록 — 가죽 재킷 + 밴드 티 + 스키니 진','캠퍼스 룩 — 후드 집업 + 청바지 + 스니커즈','로맨틱 — 화이트 니트 + 베이지 슬랙스','스트리트 펑크 — 찢어진 티 + 가죽 팬츠','미니멀 — 모노크롬 니트 + 와이드 슬랙스'],
+  looks_uf:['카페 룩 — 베이지 니트 + 와이드 팬츠 + 로퍼','에디토리얼 믹스매치 — 레이어드 실루엣','미니멀 모노톤 — 화이트 셔츠 + 블랙 슬랙스','OOTD 데일리 — 크롭 니트 + 하이웨스트 진','요가 룩 — 스포츠 브라 + 레깅스 + 러닝화','홈웨어 — 부드러운 라운지 세트','여행 룩 — 데님 셔츠 + 와이드 팬츠','빈티지 룩 — 꽃무늬 원피스 + 스트로햇','럭셔리 — 새틴 드레스 + 디자이너 백','홈파티 — 크롭 니트 + 미니 스커트','출장 룩 — 블레이저 + 블라우스 + 슬랙스','브런치 룩 — 실크 블라우스 + 와이드 팬츠','돌러 스타일 — 프릴 블라우스 + 미디 스커트','펀더멘털 — 심플 티 + 베이지 치노 팬츠','쿨 시크 — 블랙 터틀넥 + 슬림 팬츠','로맨틱 — 파스텔 원피스 + 밀짚 모자','베이비블랙 — 올블랙 셋업'],
+  looks_um:['스트릿 — 오버핏 후디 + 카고 팬츠 + 청키 스니커즈','캐주얼 — 니트 + 데님 + 로퍼','피트니스 — 스포츠 티 + 조거 + 러닝화','테크 크리에이터 — 심플 티 + 치노 팬츠','비즈니스 캐주얼 — 블레이저 + 셔츠 + 슬랙스','포멀 — 올블랙 수트 + 화이트 셔츠','헤리티지 — 트위드 재킷 + 니트 + 슬랙스','야외 — 파카 + 기능성 팬츠 + 부츠','카페 룩 — 터틀넥 + 와이드 팬츠 + 로퍼','디자이너 — 실크 셔츠 + 와이드 팬츠','하이프비스트 — 로고 후디 + 배기 진 + 하이탑','미니멀 — 모노크롬 니트 + 슬림 슬랙스','빈티지 — 데님 재킷 + 빈티지 티','페스티벌 — 베이직 티 + 쇼츠 + 스니커즈','젠틀맨 — 탑코트 + 드레스 셔츠 + 슬랙스'],
+
+  // 구성
+  outers_f:['핑크 가디건, 체크 볼레로','트렌치 코트, 맥시 코트','레더 재킷, 봄버 재킷','오버사이즈 블레이저','크롭 블레이저','후디, 집업 후디','트위드 재킷, 샤넬풍','터틀넥 스웨터, 케이프','데님 재킷','숏 퍼 재킷, 모피','가죽 롱코트','니트 가디건'],
+  outers_m:['블레이저, 테일러드 자켓','오버사이즈 수트','레더 재킷, 바이커','트렌치 코트, 체스터필드','봄버 재킷','후디, 집업 후디','니트 카디건','데님 재킷','파카, 기능성 자켓','롱코트, 탑코트'],
+  outers_uf:['블레이저, 블라우스','트렌치 코트, 핸드백 코트','가디건, 오픈 니트','체스터 코트, 롱 코트','오버사이즈 블레이저','데님 재킷','후디 (캐쥬얼)'],
+  outers_um:['블레이저, 수트 재킷','가죽 재킷, 라이더','트렌치 코트','오버핏 후디 (스트릿)','블루존 자켓, 바이커','체스터필드','하이프 브랜드 재킷'],
+  tops_f:['리본 블라우스, 프릴 탑','크롭 티셔츠, 그래픽 티','새틴 코르셋 탑','오프숄더 탑','레이스 탑, 쉬어 블라우스','홀터넥 탑','브라렛','튜브탑'],
+  tops_m:['셔츠, 드레스 셔츠','티셔츠, 그래픽 티','크롭 니트','터틀넥','후디','폴로 셔츠','셔츠 무단추'],
+  tops_uf:['실크 블라우스, 프릴 탑','크롭 니트, 홀터넥','터틀넥, 소프트 니트','셔츠, 오버핏 셔츠','크롭 티','브라렛','쉬어 블라우스'],
+  tops_um:['그래픽 티, 로고 티','오버핏 티, 숏슬리브','드레스 셔츠, 오피스 셔츠','후디, 집업 후디','크롭 니트, 슬림 니트','폴로 셔츠, 러거'],
+  bottoms_f:['체크 미니스커트, 플리츠 스커트','하이웨스트 진, 배기 팬츠','플레어 스커트, 볼스커트','바이커 쇼츠, 미니쇼츠','와이드 팬츠, 팔라조','미디 스커트','스키니 진','가죽 팬츠'],
+  bottoms_m:['슬랙스, 테일러드 팬츠','스키니 진, 슬림 진','카고 팬츠, 배기','조거 팬츠','데님 진, 스트레이트','와이드 팬츠','쇼츠'],
+  bottoms_uf:['와이드 팬츠, 팔라조','하이웨스트 진, 배기 진','미디 스커트, 맥시','플리츠 스커트','슬랙스, 핀턱','쇼츠, 하이웨스트'],
+  bottoms_um:['슬랙스, 와이드 팬츠','스키니 진, 슬림 핏','카고 팬츠, 유틸리티','조거 팬츠, 트랙팬츠','배기 진, 보이프렌드','숏 팬츠'],
+  shoes_f:['메리제인, 니하이 부츠','플랫폼 부츠, 앵클 부츠','스니커즈, 청키 솔','발레 플랫, 슬링백','로퍼, 메리제인 플랫','뮬, 하이힐 뮬','스틸레토, 하이힐','첼시 부츠'],
+  shoes_m:['첼시 부츠, 앵클 부츠','스니커즈, 러닝화','로퍼, 더비','하이탑, 청키 솔','정장 구두, 옥스포드','콤뱃 부츠, 워커'],
+  shoes_uf:['로퍼, 퍼니스로 플랫','앵클 부츠, 첼시','스니커즈, 러닝화','메리제인 플랫','펌프스, 스틸레토','뮬, 슬링백','운동화, 테니스화'],
+  shoes_um:['스니커즈, 청키 솔','하이탑 농구화','첼시 부츠, 드레스 슈즈','로퍼, 더비','러닝화, 트레이닝화','부츠, 워커'],
+  accessories_f:['리본 헤어핀, 진주 귀걸이','별 모양 귀걸이, 팔찌 세트','크리스털 헤어밴드, 초커','나비 헤어핀, 반지 세트','후프 귀걸이, 레이어드 팔찌','체인 목걸이, 펜던트','진주 레이어드, 클래식','미니 백, 크로스백','선글라스, 캣아이'],
+  accessories_m:['시계, 메탈 스트랩','실버 체인, 펜던트','반지 세트, 이니셜 링','귀걸이 포인트','선글라스, 웨이페어러','볼캡, 버킷햇','스카프, 넥타이','모자 (페도라, 뉴스보이)'],
+  accessories_uf:['실버 레이어드, 미니멀','오피스 진주 귀걸이','시계 (우아한 다이얼)','작은 링, 반지 세트','스카프, 뉴스페이퍼','핸드백, 토트백','선글라스, 캣아이','베레모, 페도라'],
+  accessories_um:['시계, 메탈 / 가죽 스트랩','실버 체인, 펜던트','반지 (인장, 시그넷)','팔찌 (가죽, 비즈)','선글라스, 레트로','모자 (캡, 버킷햇)','백팩, 가죽 백'],
+  hairStyles_f:['트윈테일, 반묶음, 리본핀','포니테일, 하프업','자연스럽게 내린','사이드 파트','드릴컬, 볼륨웨이브','땋은 머리, 브레이드','번 헤어, 우아하게 올린','히피컬, 볼륨감 있는'],
+  hairStyles_m:['투블록 사이드파트','올백 스타일','시스루뱅 긴 앞머리','컬리 내추럴','버즈컷, 짧은 군더더기 없는','포마드 정장 스타일','펌 볼륨'],
+  hairStyles_uf:['자연스럽게 내린','포니테일, 깔끔하게','사이드 파트, 세련된','하프업 리본','파마 웨이브','앞머리 없는 미디엄'],
+  hairStyles_um:['투블록 사이드파트','댄디 정돈 스타일','올백, 이마 드러냄','자연스럽게 내린 미디엄','펌 볼륨, 컬리','버즈컷, 짧고 깔끔'],
+
+  // 소품
+  propsList_f:['무선 마이크, 인어 모티브, 레트 다이얼, 편지 & 편지봉투, 핑크 텀블러, 하트 목걸이','크리스털 왕관, 리본 파우치, 별 스티커, 하트 선글라스, 핑크 다이어리, 인형','꽃다발, 편지봉투, 팩트, 리본 머리핀, 이어폰, 캔디','마이크, 응원봉, 포토카드, 립밤, 하트 귀걸이, 캐릭터 키링','향수병, 목걸이, 레이스 장갑, 미니 백, 리본 헤어밴드, 립스틱','별 키링, 스마트폰 케이스, 이어폰, 볼캡, 스포츠 타월, 기타','꽃, 수채화 팔레트, 붓, 카메라, 필름, 스케치북','우산, 하트 풍선, 선물 상자, 리본 장식, 마카롱, 편지'],
+  propsList_m:['마이크, 이어폰, 헤드셋, 응원봉, 스케치북, 다이어리','기타, 키보드, 헤드폰, 악보, 녹음 장비, 노트북','스케이트보드, 스니커즈, 에너지 드링크, 이어폰, 카메라','화이트보드 마커, 노트북, 이어폰, 카메라, 대본, 콜라','게임 컨트롤러, 헤드셋, 스마트폰, 피규어, 노트북','악기, 악보, 녹음 장비, 카메라, 스타일리시 모자, 선글라스','운동화 컬렉션, 모자, 스피커, 비닐 레코드','시계, 지갑, 선글라스, 가죽 가방, 안경'],
+  propsList_uf:['카메라, 노트북, 라떼잔, 다이어리, 향초, 꽃','메이크업 브러쉬, 립스틱, 팔레트, 미러, 향수, 파우치','요가 매트, 덤벨, 운동복, 스포츠 드링크, 폼롤러','여행 가방, 카메라, 여권, 지도, 모자, 선글라스','요리 도구, 접시, 컵, 식재료, 앞치마, 레시피북','책, 안경, 차, 담요, 다이어리, 조명','식물, 화분, 원예 도구, 플랜트 스탠드, 스프레이','커피 머신, 원두, 그라인더, 저울, 드리퍼, 에코백'],
+  propsList_um:['스니커즈 컬렉션, 모자, 체인, 선글라스, 스케이트보드','헬스 장비, 단백질 쉐이크, 수건, 아령, 운동복','카메라 장비, 렌즈, 삼각대, 노트북, 헤드폰','게임 컨트롤러, 헤드셋, 모니터, 키보드, 마이크','음식, 맥주, 소주잔, 접시, 매운 음식','자동차 키, 선글라스, 시계, 시트 커버, 방향제','커피 장비, 원두, 드리퍼, 저울, 로스터, 카페 앞치마','위스키 디캔터, 글라스, 시가, 가죽 소파, 책','시계 컬렉션, 가죽 지갑, 안경, 스카프','공구 세트, DIY 재료, 작업복, 드릴, 사포'],
+
+  // 그레이드
+  grades:['파스텔 핑크 그라데이션, 소프트 페이드','따뜻한 필름 톤, 밀키 하이라이트','쿨 시네마틱 블루 그레이','하이 콘트라스트, 선명한 원색','모노크롬 흑백 클래식','비비드 팝아트 톤','빈티지 필름 그레인','골든 아워 노을빛','블루 아워 달빛','네온 사이버펑크','다크 무드, 로우키 조명','부드러운 크림 베이지 톤','라일락 퍼플 무드','로즈골드 웜톤','더스티 핑크, 레트로 감성','민트 쿨톤, 상쾌한 분위기','버건디 딥 레드 럭셔리'],
+
+  tones_f:['사랑스럽고 포근한 감성 분위기. 밝고 투명한 파스텔 피치 아이보리. 보기만 해도 기분이 좋아지는 핑크빛 설렘을 표현.','강렬하고 에너지 넘치는 무드. 비비드 컬러 대비로 역동적인 퍼포먼스 아이돌 느낌.','차갑고 신비로운 달빛 무드. 쿨톤 실버와 라벤더로 이세계 요정 같은 분위기.','따뜻하고 고급스러운 감성. 골드와 베이지로 우아하고 클래식한 럭셔리.','청순하고 맑은 분위기. 화이트와 아이보리의 세련된 미니멀.','Y2K 레트로 팝. 비비드 핑크와 크롬으로 21세기 초 유스 무드.','다크 판타지 세계관. 깊은 퍼플과 블랙으로 치명적인 매력.','봄날 감성. 체리블라썸 핑크와 민트의 로맨틱 가든 무드.'],
+  tones_m:['시크하고 차가운 도시적 감성. 모노크롬 쿨톤으로 완성된 비주얼.','강렬한 남성적 카리스마. 블랙과 버건디로 치명적 매력.','부드러운 소년적 감성. 파스텔로 만드는 따뜻한 프린스 이미지.','힙합 스트리트. 어반 네온과 도심 밤 분위기.','럭셔리 글로벌 스타. 블랙과 골드의 하이패션.','빈티지 클래식. 브라운과 베이지의 70-80년대 신사.','야성미 와일드. 다크한 톤과 날카로운 대비.'],
+  tones_uf:['자연스럽고 편안한 일상 감성. 크림과 베이지의 따뜻한 일상.','트렌디하고 세련된 도시 감성. 뉴트럴의 미니멀 스타일.','건강한 활기. 민트와 화이트의 상쾌한 분위기.','로맨틱 여행 감성. 선셋 오렌지와 스카이 블루.','조용한 럭셔리. 뉴트럴 팔레트로 차분한 부유함.','빈티지 레트로. 필름 감성의 따뜻한 아날로그.','홈카페 무드. 라떼 베이지와 모카 브라운.'],
+  tones_um:['쿨하고 시크한 어반 감성. 모노크롬과 네이비.','스트릿 하이프. 네온과 블랙의 대비.','스포티한 건강미. 기능성과 기술의 모던.','테크 감성. 실버와 다크 블루의 차가운 세련됨.','럭셔리 젠틀맨. 브라운 톤의 헤리티지.','미니멀 젠틀. 조용한 뉴트럴 팔레트.','야외 익스트림. 카키와 어스톤의 모험 감성.']
+};
+
+// 팔레트 테마 (HEX 포함 — 시각적 표시)
+var PALETTES={
+  f:{
+    '러블리 핑크':[{n:'크림 핑크',h:'#FFC1D6'},{n:'베이비 핑크',h:'#FFB3C6'},{n:'화이트',h:'#FFFFFF'},{n:'라벤더',h:'#E5C6FF'},{n:'샴페인 골드',h:'#F7E7CE'}],
+    '청순 화이트':[{n:'아이보리',h:'#FEFBF5'},{n:'파우더핑크',h:'#FFD6E0'},{n:'소프트베이지',h:'#F5ECD7'},{n:'라이트그레이',h:'#E8E5E0'},{n:'크림',h:'#FFF8EE'}],
+    '걸크러쉬 다크':[{n:'딥블랙',h:'#1A1A1A'},{n:'차콜',h:'#3D3B38'},{n:'버건디',h:'#8B2252'},{n:'실버',h:'#C0C8D8'},{n:'와인레드',h:'#722F37'}],
+    'Y2K 비비드':[{n:'핫핑크',h:'#FF3E9D'},{n:'일렉트릭블루',h:'#3B82F6'},{n:'네온그린',h:'#39FF14'},{n:'퍼플',h:'#8B5CF6'},{n:'크롬실버',h:'#E8ECEF'}],
+    '미니멀 럭셔리':[{n:'샴페인',h:'#F7E4C0'},{n:'크림화이트',h:'#FDFAF5'},{n:'누드베이지',h:'#E8C9A0'},{n:'로즈골드',h:'#B76E79'},{n:'콜드그레이',h:'#CDD5DF'}],
+    '로맨틱 봄':[{n:'체리블라썸',h:'#FFB7C5'},{n:'민트',h:'#A7F3D0'},{n:'라벤더',h:'#DDD6FE'},{n:'피치',h:'#FECACA'},{n:'버터옐로',h:'#FEF08A'}],
+    '달빛 요정':[{n:'라일락',h:'#C8A8E9'},{n:'문라이트',h:'#E0E5F0'},{n:'파우더 퍼플',h:'#D8BFEF'},{n:'아이스 블루',h:'#BAE6FD'},{n:'크림 화이트',h:'#FAF9F6'}],
+    '다크 판타지':[{n:'미드나이트',h:'#1A1744'},{n:'딥 퍼플',h:'#3F1E6B'},{n:'블러드 레드',h:'#8B0000'},{n:'실버 문',h:'#B8C0CC'},{n:'차콜',h:'#1C1C1C'}]
+  },
+  m:{
+    '쿨 모노크롬':[{n:'퓨어 블랙',h:'#000000'},{n:'차콜',h:'#2C2C2C'},{n:'미드 그레이',h:'#808080'},{n:'라이트 그레이',h:'#D3D3D3'},{n:'오프 화이트',h:'#F5F5F5'}],
+    '힙합 스트리트':[{n:'네온 옐로',h:'#FFFF00'},{n:'딥 블랙',h:'#0A0A0A'},{n:'글로 오렌지',h:'#FF6B35'},{n:'콘크리트',h:'#7A7A7A'},{n:'브릭 레드',h:'#8B4513'}],
+    '빈티지 젠틀맨':[{n:'샌들우드',h:'#795548'},{n:'카멜 브라운',h:'#964B00'},{n:'크림',h:'#F5F5DC'},{n:'다크 브라운',h:'#4A2C2A'},{n:'올리브',h:'#556B2F'}],
+    '런웨이 블랙':[{n:'젯 블랙',h:'#0A0A0A'},{n:'차콜 그레이',h:'#383838'},{n:'실버 메탈',h:'#C0C0C0'},{n:'다크 네이비',h:'#1A1A3E'},{n:'페일 화이트',h:'#EDEAE0'}],
+    '소프트 보이':[{n:'파우더 핑크',h:'#FFD6E0'},{n:'민트',h:'#B8E6D9'},{n:'크림',h:'#FFF8E7'},{n:'페일 블루',h:'#C6D9E8'},{n:'라벤더',h:'#E0D4F7'}],
+    '야성미 와일드':[{n:'다크 브라운',h:'#3E2723'},{n:'번트 오렌지',h:'#C2542F'},{n:'카키',h:'#78866B'},{n:'블랙',h:'#1A1A1A'},{n:'올리브 골드',h:'#9B8B3F'}],
+    '글로벌 럭셔리':[{n:'딥 네이비',h:'#0F1E4A'},{n:'골드',h:'#D4AF37'},{n:'아이보리',h:'#FFFFF0'},{n:'버건디',h:'#722F37'},{n:'플래티넘',h:'#E5E4E2'}]
+  },
+  uf:{
+    '카페 무드':[{n:'라떼 베이지',h:'#D4B896'},{n:'에스프레소',h:'#3E2723'},{n:'크림',h:'#FFF8E7'},{n:'모카 브라운',h:'#6B4423'},{n:'밀크티',h:'#C8A67C'}],
+    '미니멀 뉴트럴':[{n:'오트밀',h:'#E8DCC4'},{n:'그레이지',h:'#B2A89E'},{n:'차콜',h:'#4A4A4A'},{n:'머쉬룸',h:'#A08B7C'},{n:'화이트',h:'#FFFFFF'}],
+    '여행 선셋':[{n:'선셋 오렌지',h:'#F4A460'},{n:'스카이 블루',h:'#87CEEB'},{n:'모래색',h:'#F4E4C1'},{n:'피치',h:'#FFCBA4'},{n:'트로피컬 핑크',h:'#FF91A4'}],
+    '웰니스 그린':[{n:'세이지',h:'#9CAF88'},{n:'민트',h:'#B8E6D9'},{n:'아이보리',h:'#FFFFF0'},{n:'소프트 그레이',h:'#E5E5E5'},{n:'허니 골드',h:'#D4A548'}],
+    '빈티지 필름':[{n:'더스티 로즈',h:'#D4A5A5'},{n:'머스타드',h:'#C5A23A'},{n:'올리브',h:'#808000'},{n:'크림',h:'#FDF5E6'},{n:'테라코타',h:'#E2725B'}],
+    '플로럴 로맨틱':[{n:'로즈',h:'#FF9CAA'},{n:'피오니',h:'#FFC0CB'},{n:'세이지 그린',h:'#B0C4AA'},{n:'크림',h:'#FFF9E6'},{n:'라벤더',h:'#E0D4F7'}]
+  },
+  um:{
+    '쿨 어반':[{n:'네이비',h:'#1A1A3E'},{n:'스틸 그레이',h:'#6B7280'},{n:'화이트',h:'#FFFFFF'},{n:'블랙',h:'#000000'},{n:'번트 오렌지',h:'#C2542F'}],
+    '스트릿 하이프':[{n:'네온 옐로',h:'#FFFF00'},{n:'블랙',h:'#000000'},{n:'오렌지',h:'#FF6B35'},{n:'콘크리트 그레이',h:'#7A7A7A'},{n:'화이트',h:'#F5F5F5'}],
+    '테크 미니멀':[{n:'실버',h:'#C0C0C0'},{n:'딥 블루',h:'#1A2B4A'},{n:'블랙',h:'#0A0A0A'},{n:'라이트 그레이',h:'#D3D3D3'},{n:'사이언',h:'#00BCD4'}],
+    '헤리티지 브라운':[{n:'체스넛',h:'#954535'},{n:'카멜',h:'#C19A6B'},{n:'크림',h:'#FFFDD0'},{n:'다크 브라운',h:'#4A2C2A'},{n:'카키',h:'#78866B'}],
+    '젠틀 쿨':[{n:'네이비',h:'#0F1E4A'},{n:'실버',h:'#C0C0C0'},{n:'화이트',h:'#FFFFFF'},{n:'그레이',h:'#808080'},{n:'다크 그린',h:'#2F4F3F'}],
+    '아웃도어 어스톤':[{n:'숲 그린',h:'#4A5D3A'},{n:'어스 브라운',h:'#7D6544'},{n:'샌드',h:'#C2A77A'},{n:'차콜',h:'#3C3C3C'},{n:'버건디',h:'#722F37'}]
+  }
+};
+
+/* 스타일 프리셋 매핑 */
+var PRESETS={
+  lovely:{
+    f:{i_category:'KAWAII IDOL',i_concept:'#핑크빛_요정 #러블리_에너지 #비주얼_센터',i_hair:'롱헤어 15cm, 다크브라운, 자연스러운 웨이브, 양쪽 트윈 포니테일',i_mlip:'코럴 핑크 틴트, 청순 내추럴',i_mbase:'글로위 세라믹, 밀키 하이라이트',palette:'러블리 핑크'},
+    m:{i_category:'PUPPY BOY',i_concept:'#강아지상_비주얼 #소프트_보이 #미소천사',i_hair:'미디엄, 다크브라운, 자연스럽게 내린',i_mlip:'내추럴 핑크 립밤',palette:'소프트 보이'},
+    uf:{i_category:'LIFESTYLE DIVA',i_concept:'#홈카페 #감성카페 #일상의_사치',i_hair:'롱헤어, 내추럴 블랙, 스트레이트',i_mlip:'코럴 핑크 틴트, 데일리',palette:'카페 무드'},
+    um:{i_category:'COFFEE CONNOISSEUR',i_concept:'#홈카페_마스터 #커피_드립',i_hair:'미디엄, 다크 브라운, 자연스러운',palette:'헤리티지 브라운'}
+  },
+  girlcrush:{
+    f:{i_category:'GIRL CRUSH',i_concept:'#걸크러쉬 #파워풀_퍼포먼스 #강렬한_비주얼',i_hair:'롱헤어, 블루 블랙, 스트레이트',i_mlip:'버건디 딥 레드, 강렬한',i_mbase:'매트 무광, 깨끗한 피부 표현',palette:'걸크러쉬 다크'},
+    m:{i_category:'DARK CHARMER',i_concept:'#빌런돌 #냉미남 #치명적_카리스마',i_hair:'투블록, 블랙, 짧은 사이드',i_mlip:'누드 베이지',palette:'런웨이 블랙'},
+    uf:{i_category:'LUXURY LIFESTYLE',i_concept:'#럭셔리_라이프 #하이엔드_쇼핑',i_hair:'롱헤어, 블랙, 스트레이트',palette:'미니멀 뉴트럴'},
+    um:{i_category:'STREETWEAR KING',i_concept:'#스트릿패션 #스니커헤드',i_hair:'투블록, 블랙',palette:'스트릿 하이프'}
+  },
+  chic:{
+    f:{i_category:'COOL VISUAL',i_concept:'#쿨뷰티 #도시적_감성 #시크한_카리스마',i_hair:'미디엄 보브, 밀크 브라운, 스트레이트',i_mlip:'누드 베이지, 세련된',palette:'미니멀 럭셔리'},
+    m:{i_category:'CHARISMATIC IDOL',i_concept:'#시크한_비주얼 #냉미남 #심쿵주의',i_hair:'올백 스타일, 블랙',palette:'쿨 모노크롬'},
+    uf:{i_category:'STYLE MASTER',i_concept:'#OOTD #미니멀라이프 #조용한_럭셔리',i_hair:'미디엄, 밀크 브라운',palette:'미니멀 뉴트럴'},
+    um:{i_category:'MINIMALIST GENT',i_concept:'#미니멀_젠틀맨 #조용한_럭셔리',i_hair:'댄디 정돈 스타일',palette:'젠틀 쿨'}
+  },
+  y2k:{
+    f:{i_category:'Y2K STAR',i_concept:'#Y2K_감성 #트렌드세터 #뉴페이스',i_hair:'드릴컬 트윈테일, 딥 블루 블랙',i_mlip:'글리터 글로스, Y2K 레트로',palette:'Y2K 비비드'},
+    m:{i_category:'EDGY PERFORMER',i_concept:'#힙합_아티스트 #플로우_마스터',i_hair:'모히칸 스타일, 플래티넘',palette:'힙합 스트리트'},
+    uf:{i_category:'FEMME FASHION ICON',i_concept:'#Y2K_패션 #레트로_감성',i_hair:'파마 웨이브, 로즈 골드',palette:'빈티지 필름'},
+    um:{i_category:'HYPEBEAST',i_concept:'#하이프비스트 #스니커헤드',i_hair:'올백, 블리치 블론드',palette:'스트릿 하이프'}
+  },
+  dark:{
+    f:{i_category:'DARK FANTASY',i_concept:'#다크_판타지 #미스터리_아우라 #치명적_매력',i_hair:'허리까지 오는 롱 스트레이트, 블랙',i_mlip:'버건디 딥 레드, 강렬한',palette:'다크 판타지'},
+    m:{i_category:'DARK CHARMER',i_concept:'#빌런돌 #냉미남 #치명적_카리스마',i_hair:'긴 앞머리 시스루뱅, 애쉬 브라운',palette:'런웨이 블랙'},
+    uf:{i_category:'VINTAGE CURATOR',i_concept:'#빈티지_수집 #레트로_감성',i_hair:'롱 레이어드, 블랙',palette:'빈티지 필름'},
+    um:{i_category:'WHISKEY EXPERT',i_concept:'#위스키_소믈리에',i_hair:'포마드 정장 스타일, 블랙',palette:'헤리티지 브라운'}
+  },
+  editorial:{
+    f:{i_category:'ETHEREAL GODDESS',i_concept:'#글로벌_K팝 #완벽한_비율 #월클_미모',i_hair:'롱 레이어드, 애쉬 그레이, 볼륨 웨이브',i_mlip:'플럼 립, 우아한 클래식',palette:'미니멀 럭셔리'},
+    m:{i_category:'GLOBAL STAR',i_concept:'#글로벌_K팝 #월클_비주얼 #센터',i_hair:'포마드 정장 스타일, 블랙',palette:'글로벌 럭셔리'},
+    uf:{i_category:'LUXURY LIFESTYLE',i_concept:'#하이엔드_쇼핑 #럭셔리_브랜드',i_hair:'롱헤어, 블랙, 스트레이트',palette:'미니멀 뉴트럴'},
+    um:{i_category:'WATCH COLLECTOR',i_concept:'#시계_수집가 #럭셔리_시계',i_hair:'댄디 정돈 스타일',palette:'글로벌 럭셔리'}
+  },
+  sporty:{
+    f:{i_category:'CHIC PERFORMER',i_concept:'#스포티_걸 #건강미_퀸 #애슬레저_아이콘',i_hair:'포니테일, 깔끔하게 묶은',i_mlip:'코럴 핑크 틴트, 청순 내추럴',palette:'웰니스 그린'},
+    m:{i_category:'SPORTY MODEL',i_concept:'#스포티_미남 #운동선수형 #탄탄한_몸',i_hair:'버즈컷, 블랙',palette:'쿨 모노크롬'},
+    uf:{i_category:'FITNESS GODDESS',i_concept:'#건강_라이프 #요가 #홈트',i_hair:'포니테일, 깔끔한 블랙',palette:'웰니스 그린'},
+    um:{i_category:'FITNESS MODEL',i_concept:'#피트니스_유튜버 #보디프로필',i_hair:'버즈컷, 블랙',palette:'쿨 어반'}
+  },
+  romantic:{
+    f:{i_category:'LOVELY ENERGY',i_concept:'#로맨틱_드림 #봄날의_뮤즈 #꽃길만_걷자',i_hair:'롱헤어, 핑크 브라운, 웨이브, 하프업',i_mlip:'로즈 핑크, 사랑스러운 글램',palette:'로맨틱 봄'},
+    m:{i_category:'SOFT BOY',i_concept:'#강아지상_비주얼 #소프트_보이',i_hair:'미디엄, 다크브라운, 자연스럽게 내린',palette:'소프트 보이'},
+    uf:{i_category:'CAFE HOPPER',i_concept:'#카페_투어 #디저트 #브런치',i_hair:'미디엄 C컬, 허니 브라운',palette:'플로럴 로맨틱'},
+    um:{i_category:'COFFEE CONNOISSEUR',i_concept:'#홈카페_마스터 #커피_드립',i_hair:'펌 볼륨, 컬리',palette:'헤리티지 브라운'}
+  }
+};
+
+function gp(k){
+  var perGender=k+'_'+G;
+  if(D[perGender])return D[perGender];
+  if(D[k])return D[k];
+  return [];
+}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function ri(id,pk){
+  var pool=gp(pk);if(!pool.length)return;
+  var el=document.getElementById(id);if(!el)return;
+  var f=pool.filter(function(x){return x!==el.value;});
+  el.value=pick(f.length?f:pool);
+  el.style.transition='background .2s';el.style.background='#EEE8FF';
+  setTimeout(function(){el.style.background='';},250);
+}
+function v(id){var e=document.getElementById(id);return e?(e.tagName==='SELECT'?e.options[e.selectedIndex].value:e.value):'';}
+
+function setG(g){
+  G=g;
+  document.querySelectorAll('.g-btn').forEach(function(b){b.classList.remove('on');});
+  document.querySelector('.g-btn.'+g).classList.add('on');
+  refreshPaletteThemes();
+  megaRandom();
+}
+function getGLabel(){
+  if(G==='f')return 'Korean female K-pop idol';
+  if(G==='m')return 'Korean male K-pop idol';
+  if(G==='uf')return 'Korean female content creator / lifestyle influencer';
+  return 'Korean male content creator / lifestyle influencer';
+}
+
+function megaRandom(){
+  S.activePreset=null;
+  document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('on');});
+  ri('i_age','ages');
+  ri('i_height','heights');
+  ri('i_category','categories');
+  ri('i_pos','positions');
+  ri('i_skill','skills');
+  ri('i_hobby','hobbies');
+  ri('i_agency','agencies');
+  ri('i_concept','concepts_kw');
+  ri('i_persona','personas');
+  ri('i_face','faceShapes');
+  ri('i_skin','skinTones');
+  ri('i_eyes','eyeDetails');
+  ri('i_nose','noseLips');
+  ri('i_point','facePoints');
+  ri('i_body','bodyTypes');
+  ri('i_hair','hairFull');
+  ri('i_mbase','makeupBase');
+  ri('i_meye','makeupEye');
+  ri('i_mlip','makeupLip');
+  ri('i_look1','looks');ri('i_look2','looks');ri('i_look3','looks');ri('i_look4','looks');ri('i_look5','looks');
+  ri('i_outer','outers');ri('i_top','tops');ri('i_bottom','bottoms');ri('i_shoes','shoes');ri('i_acc','accessories');ri('i_hairstyle','hairStyles');
+  ri('i_props','propsList');
+  ri('i_grade','grades');
+  ri('i_tone','tones');
+  randomPalette();
+}
+
+/* 스타일 프리셋 적용 */
+function applyPreset(name){
+  var preset=PRESETS[name]&&PRESETS[name][G];
+  if(!preset){alert('이 프리셋은 현재 타입에 대응되지 않아요');return;}
+  S.activePreset=name;
+  document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('on');});
+  event.target.closest('.preset-btn').classList.add('on');
+  // 필드 적용
+  Object.keys(preset).forEach(function(key){
+    if(key==='palette'){
+      applyPalette(preset.palette);
+    }else{
+      var el=document.getElementById(key);
+      if(el){el.value=preset[key];el.style.background='#FFE3C4';setTimeout(function(){el.style.background='';},400);}
+    }
+  });
+  // 나머지 필드는 관련 풀에서 랜덤 채움
+  var fillFields=['i_age','i_height','i_pos','i_skill','i_hobby','i_agency','i_persona','i_face','i_skin','i_eyes','i_nose','i_point','i_body','i_mbase','i_meye','i_look1','i_look2','i_look3','i_look4','i_look5','i_outer','i_top','i_bottom','i_shoes','i_acc','i_hairstyle','i_props','i_grade','i_tone'];
+  var fieldPoolMap={i_age:'ages',i_height:'heights',i_pos:'positions',i_skill:'skills',i_hobby:'hobbies',i_agency:'agencies',i_persona:'personas',i_face:'faceShapes',i_skin:'skinTones',i_eyes:'eyeDetails',i_nose:'noseLips',i_point:'facePoints',i_body:'bodyTypes',i_mbase:'makeupBase',i_meye:'makeupEye',i_look1:'looks',i_look2:'looks',i_look3:'looks',i_look4:'looks',i_look5:'looks',i_outer:'outers',i_top:'tops',i_bottom:'bottoms',i_shoes:'shoes',i_acc:'accessories',i_hairstyle:'hairStyles',i_props:'propsList',i_grade:'grades',i_tone:'tones'};
+  fillFields.forEach(function(f){
+    if(!preset[f]&&fieldPoolMap[f])ri(f,fieldPoolMap[f]);
+  });
+}
+
+/* ─── 컬러 팔레트 ─── */
+function refreshPaletteThemes(){
+  var themes=PALETTES[G]||{};
+  var wrap=document.getElementById('paletteThemes');
+  wrap.innerHTML='';
+  Object.keys(themes).forEach(function(name){
+    var btn=document.createElement('button');
+    btn.className='pt-btn';
+    btn.textContent=name;
+    btn.onclick=function(){applyPalette(name);};
+    wrap.appendChild(btn);
+  });
+}
+function applyPalette(themeName){
+  var themes=PALETTES[G]||{};
+  var palette=themes[themeName];
+  if(!palette)return;
+  S.theme=themeName;
+  S.palette=palette.map(function(c){return{n:c.n,h:c.h};});
+  document.querySelectorAll('.pt-btn').forEach(function(b){
+    b.className='pt-btn'+(b.textContent===themeName?' on':'');
+  });
+  var sr=document.getElementById('swatchRow');
+  sr.innerHTML='';
+  S.palette.forEach(function(c){
+    var div=document.createElement('div');
+    div.className='swatch';
+    div.style.background=c.h;
+    div.innerHTML='<div class="swatch-label">'+c.n+'</div>';
+    sr.appendChild(div);
+  });
+  var cr=document.getElementById('colorRows');
+  cr.innerHTML='';
+  S.palette.forEach(function(c,i){
+    var row=document.createElement('div');
+    row.className='color-row';
+    row.innerHTML=
+      '<input type="color" class="color-input" value="'+c.h+'" onchange="updateColorH('+i+',this.value)">'+
+      '<div class="color-preview" style="background:'+c.h+'" id="cp_'+i+'"></div>'+
+      '<input type="text" class="color-name" value="'+c.n+'" oninput="S.palette['+i+'].n=this.value">'+
+      '<input type="text" class="color-hex" value="'+c.h.toUpperCase()+'" id="ch_'+i+'" onchange="updateColorHex('+i+',this.value)">';
+    cr.appendChild(row);
+  });
+}
+function updateColorH(i,hex){
+  S.palette[i].h=hex;
+  var cp=document.getElementById('cp_'+i);if(cp)cp.style.background=hex;
+  var ch=document.getElementById('ch_'+i);if(ch)ch.value=hex.toUpperCase();
+  var sr=document.getElementById('swatchRow');
+  if(sr&&sr.children[i])sr.children[i].style.background=hex;
+}
+function updateColorHex(i,hex){
+  if(!/^#[0-9A-Fa-f]{6}$/.test(hex))return;
+  S.palette[i].h=hex;
+  var cp=document.getElementById('cp_'+i);if(cp)cp.style.background=hex;
+  var sr=document.getElementById('swatchRow');
+  if(sr&&sr.children[i])sr.children[i].style.background=hex;
+}
+function randomPalette(){
+  var themes=PALETTES[G]||{};
+  var keys=Object.keys(themes);
+  if(!keys.length)return;
+  applyPalette(keys[Math.floor(Math.random()*keys.length)]);
+}
+
+/* ─── 레퍼런스 이미지 ─── */
+function handleRefClick(){
+  if(!S.hasRef)document.getElementById('refFile').click();
+}
+function handleRefUpload(input){
+  if(!input.files||!input.files[0])return;
+  var f=input.files[0];
+  var reader=new FileReader();
+  reader.onload=function(e){
+    S.hasRef=true;
+    S.refName=f.name;
+    var box=document.getElementById('refBox');
+    box.classList.add('has-image');
+    document.getElementById('refEmpty').style.display='none';
+    var prev=document.getElementById('refPreview');
+    prev.style.display='block';
+    prev.innerHTML=
+      '<div class="ref-preview">'+
+        '<img class="ref-thumb" src="'+e.target.result+'">'+
+        '<div class="ref-info">'+
+          '<strong>📎 '+f.name+'</strong>'+
+          '<span>✓ 프롬프트에 이미지 분석 지시사항이 자동 포함됩니다<br>GPT Image 2가 이미지를 분석해서 얼굴·헤어·컨셉을 추출 후 반영합니다.</span>'+
+          '<button class="ref-remove" onclick="event.stopPropagation();removeRef()">× 이미지 제거</button>'+
+        '</div>'+
+      '</div>';
+  };
+  reader.readAsDataURL(f);
+}
+function removeRef(){
+  S.hasRef=false;
+  S.refName='';
+  document.getElementById('refFile').value='';
+  var box=document.getElementById('refBox');
+  box.classList.remove('has-image');
+  document.getElementById('refEmpty').style.display='block';
+  document.getElementById('refPreview').style.display='none';
+}
+
+/* ─── 프롬프트 생성 ─── */
+function generate(){
+  var nm=v('i_name_ko')+' / '+v('i_name_en');
+  var gLabel=getGLabel();
+  var artStyle=v('i_artstyle');
+  var ratio=v('i_ratio');
+  var colorSwatches=S.palette.map(function(c,i){return '  [Color '+(i+1)+'] '+c.n+' — '+c.h.toUpperCase();}).join('\n');
+  var colorInline=S.palette.map(function(c){return c.n+' '+c.h.toUpperCase();}).join(' | ');
+  var propsArray=v('i_props').split(',').map(function(p,i){return '  [Prop '+(i+1)+'] '+p.trim();}).join('\n');
+
+  var refBlock='';
+  if(S.hasRef){
+    refBlock=
+'═══════════════════════════════════════════\n'+
+'⚡ REFERENCE IMAGE PROTOCOL (HIGHEST PRIORITY)\n'+
+'═══════════════════════════════════════════\n'+
+'A reference photograph is attached to this conversation.\n'+
+'\n'+
+'BEFORE generating anything, you MUST first analyze the attached reference image and extract:\n'+
+'1. Exact face shape, skin tone, eye shape, eye color, nose, lips, distinctive features\n'+
+'2. Exact hair color, length, texture, and styling\n'+
+'3. Overall vibe, mood, and aesthetic\n'+
+'4. Makeup style if visible\n'+
+'5. Fashion / styling context if visible\n'+
+'\n'+
+'The extracted traits from the reference image OVERRIDE all physical description text below.\n'+
+'Use the reference photo as the SINGLE SOURCE OF TRUTH for the character\'s face, hair, and overall look.\n'+
+'The SAME person from the reference must appear identically in every single panel of this character sheet.\n'+
+'\n'+
+'The text-based descriptions below are to be used ONLY for:\n'+
+'• Section structure (expressions, poses, layout)\n'+
+'• Styling variations (outfits, accessories)\n'+
+'• Color palette and visual design\n'+
+'• Concept keywords and persona story\n'+
+'\n'+
+'If there is any conflict between the reference image and the text below, the reference image WINS.\n'+
+'\n';
+  }
+
+  var prompt=
+'[GPT Image 2 — UNIFIED CHARACTER SHEET / 통합 캐릭터 시트 1장]\n'+
+'TASK: Create ONE complete single-page character reference sheet image. This is NOT multiple images — it is ONE poster-style layout with all sections arranged on a single canvas.\n'+
+'\n'+
+refBlock+
+'═══════════════════════════════════════════\n'+
+'CHARACTER IDENTITY\n'+
+'═══════════════════════════════════════════\n'+
+'Name: '+nm+'\n'+
+'Age / Height: '+v('i_age')+' / '+v('i_height')+'\n'+
+'Category: '+v('i_category')+'\n'+
+'Position / Activity: '+v('i_pos')+'\n'+
+'Special skills: '+v('i_skill')+'\n'+
+'Hobbies: '+v('i_hobby')+'\n'+
+'Agency: '+v('i_agency')+'\n'+
+'Concept keywords: '+v('i_concept')+'\n'+
+'Type: '+gLabel+'\n'+
+'\n'+
+'Persona: '+v('i_persona')+'\n'+
+'\n'+
+'═══════════════════════════════════════════\n'+
+'PHYSICAL APPEARANCE'+(S.hasRef?' (REFERENCE IMAGE IS AUTHORITATIVE — text below is secondary context)':' (IDENTICAL ACROSS ALL SECTIONS)')+'\n'+
+'═══════════════════════════════════════════\n'+
+'Face shape: '+v('i_face')+'\n'+
+'Skin tone: '+v('i_skin')+'\n'+
+'Eyes: '+v('i_eyes')+'\n'+
+'Nose / Lips: '+v('i_nose')+'\n'+
+'Distinctive features: '+v('i_point')+'\n'+
+'Body type: '+v('i_body')+'\n'+
+'Hair: '+v('i_hair')+'\n'+
+'Makeup base: '+v('i_mbase')+'\n'+
+'Eye makeup: '+v('i_meye')+'\n'+
+'Lip & concept: '+v('i_mlip')+'\n'+
+'\n'+
+'⚠️ CRITICAL: The SAME face, same features, same hair must appear in every single panel of this sheet. Treat this as a character reference sheet — total consistency is essential.\n'+
+'\n'+
+'═══════════════════════════════════════════\n'+
+'LAYOUT — ONE POSTER-STYLE CHARACTER SHEET\n'+
+'═══════════════════════════════════════════\n'+
+'Layout: Magazine/poster reference sheet. '+ratio+'. Clean modern design with section labels in Korean and English. Sections flow naturally from top-left to bottom-right.\n'+
+'\n'+
+'SECTION 1 — HERO PORTRAIT (Top Left, LARGE)\n'+
+'Large hero portrait of the character, 3/4 body framing. Soft dreamy lighting. The character\'s signature pose and expression. This is the dominant element (about 35-40% of total area).\n'+
+'\n'+
+'SECTION 2 — IDENTITY PANEL (Top Right of Hero)\n'+
+'• Name: '+nm+'\n'+
+'• Age: '+v('i_age')+'\n'+
+'• Height: '+v('i_height')+'\n'+
+'• Position/Activity: '+v('i_pos')+'\n'+
+'• Special skills: '+v('i_skill')+'\n'+
+'• Hobbies: '+v('i_hobby')+'\n'+
+'• Agency: '+v('i_agency')+'\n'+
+'• Persona (2-3 lines): "'+v('i_persona')+'"\n'+
+'\n'+
+'SECTION 3 — 역할 컨셉 / ROLE CONCEPT (Top Right)\n'+
+'Hashtag keywords in pill/tag style: '+v('i_concept')+'\n'+
+'\n'+
+'SECTION 4 — 표정 변화 / EXPRESSION VARIATIONS (Middle Row)\n'+
+'6 face close-up thumbnails, SAME character, each different expression with Korean label:\n'+
+'[1] 기본 미소 / Default Smile\n'+
+'[2] 살짝 윙크 / Playful Wink\n'+
+'[3] 사랑스러운 애교 / Lovely Aegyo\n'+
+'[4] 집중한 무대 / Focused Stage\n'+
+'[5] 수줍은 모습 / Shy\n'+
+'[6] 장난스러운 표정 / Mischievous\n'+
+'\n'+
+'SECTION 5 — 전신 각도 / FULL BODY ANGLES\n'+
+'3 full-body shots with Korean labels:\n'+
+'[Front 정면] / [Profile 측면] / [Back 후면]\n'+
+'\n'+
+'SECTION 6 — 포즈 / POSES (5 poses)\n'+
+'[1] 심플 스탠딩 / [2] 발랄 하트 / [3] 무대 퍼포먼스 / [4] 손 키스 / [5] 밴딩 포즈\n'+
+'\n'+
+'SECTION 7 — 스타일링 / STYLING LOOKBOOK (5 outfits)\n'+
+'[Look 1] '+v('i_look1')+'\n'+
+'[Look 2] '+v('i_look2')+'\n'+
+'[Look 3] '+v('i_look3')+'\n'+
+'[Look 4] '+v('i_look4')+'\n'+
+'[Look 5] '+v('i_look5')+'\n'+
+'\n'+
+'SECTION 8 — 스타일링 구성 / STYLING COMPONENTS (6 flat-lay items)\n'+
+'[아우터 Outer] '+v('i_outer')+'\n'+
+'[상의 Top] '+v('i_top')+'\n'+
+'[하의 Bottom] '+v('i_bottom')+'\n'+
+'[신발 Shoes] '+v('i_shoes')+'\n'+
+'[악세서리 Accessories] '+v('i_acc')+'\n'+
+'[헤어 Hair] '+v('i_hairstyle')+'\n'+
+'\n'+
+'SECTION 9 — 소품 / PROPS (6 flat-lay thumbnails)\n'+
+propsArray+'\n'+
+'\n'+
+'SECTION 10 — 컬러 & 톤 / COLOR PALETTE (5 swatches with HEX)\n'+
+colorSwatches+'\n'+
+'Inline: '+colorInline+'\n'+
+'\n'+
+'SECTION 11 — 톤 설명 / TONE DESCRIPTION\n'+
+'"'+v('i_tone')+'"\n'+
+'\n'+
+'SECTION 12 — 무드 보드 / MOOD BOARD\n'+
+'4-5 mood reference thumbnails matching concept and palette.\n'+
+'\n'+
+'═══════════════════════════════════════════\n'+
+'VISUAL STYLE\n'+
+'═══════════════════════════════════════════\n'+
+'Art style: '+artStyle+'\n'+
+'Color grade: '+v('i_grade')+'\n'+
+'Ratio: '+ratio+'\n'+
+'Layout: Clean modern magazine layout. White or soft-tinted background. Korean + English bilingual labels. Modern sans-serif typography.\n'+
+'\n'+
+'═══════════════════════════════════════════\n'+
+'CRITICAL RULES\n'+
+'═══════════════════════════════════════════\n'+
+'• ONE single image output — NOT multiple images\n'+
+'• SAME character face/features across ALL sections'+(S.hasRef?' (matching the attached reference image)':'')+'\n'+
+'• Korean labels with English subtitles\n'+
+'• Color palette chips MUST visually show the exact HEX colors\n'+
+'• Magazine editorial quality, high resolution\n'+
+'• Professional character sheet aesthetic';
+
+  document.getElementById('promptOutput').textContent=prompt;
+  document.getElementById('charCount').textContent=prompt.length.toLocaleString()+'자';
+  document.getElementById('rc-title').innerHTML=v('i_name_ko')+' 통합 캐릭터 시트'+(S.hasRef?' <span class="ref-badge">+ 레퍼런스 이미지</span>':'');
+  document.getElementById('refNote').textContent=S.hasRef?'⚠️ ChatGPT에 이 프롬프트 + 레퍼런스 이미지를 같이 업로드하세요':'한 번의 생성으로 1장 완성';
+  document.getElementById('resultCard').style.display='block';
+  setTimeout(function(){document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+function copyPrompt(btn){
+  var text=document.getElementById('promptOutput').textContent||'';
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(text).then(function(){showCopied(btn);}).catch(function(){fallbackCopy(btn,text);});
+  }else{fallbackCopy(btn,text);}
+}
+function fallbackCopy(btn,text){
+  var ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.cssText='position:fixed;left:-9999px;top:-9999px;opacity:0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{var ok=document.execCommand('copy');if(ok)showCopied(btn);else showError(btn);}catch(e){showError(btn);}
+  document.body.removeChild(ta);
+}
+function showCopied(btn){
+  btn.textContent='복사됨!';btn.className='rc-copy done';
+  setTimeout(function(){btn.textContent='전체 복사';btn.className='rc-copy';},1800);
+}
+function showError(btn){
+  btn.textContent='직접 선택 후 Ctrl+C';btn.className='rc-copy';
+  setTimeout(function(){btn.textContent='전체 복사';},2500);
+}
+
+refreshPaletteThemes();
+megaRandom();
+</script>
+</body>
+</html>
