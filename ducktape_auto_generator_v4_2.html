@@ -1,0 +1,576 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.app{padding:1.5rem 0;max-width:660px;padding-bottom:5rem}
+.tabs{display:flex;gap:3px;background:var(--color-background-secondary);padding:4px;border-radius:var(--border-radius-lg);margin-bottom:1.25rem}
+.tab{flex:1;padding:7px 4px;text-align:center;font-size:11px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary)}
+.tab.on{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary)}
+.pnl{display:none}.pnl.on{display:block}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem}
+.ct{border-top:2.5px solid #EA2E00}.cb{border-top:2.5px solid #1C336B}.cg{border-top:2.5px solid #2E5E28}
+.lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin:.6rem 0 .3rem}.lbl:first-child{margin-top:0}
+input,textarea,select{width:100%;font-family:inherit;font-size:12px}
+textarea{resize:vertical;line-height:1.55}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.5rem}
+.btn{padding:.55rem 1rem;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.r{background:#EA2E00;color:#fff;border-color:#EA2E00}.btn.r:hover{background:#993C1D}
+.btn.b{background:#1C336B;color:#fff;border-color:#1C336B}
+.btn.g{background:#2E5E28;color:#fff;border-color:#2E5E28}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-full{width:100%;margin-top:.6rem}
+.upload-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:1.25rem;text-align:center;cursor:pointer}
+.upload-zone:hover{border-color:#EA2E00;background:#FAECE7}
+.upload-zone.has-img{border-color:#2E5E28;background:#EAF3DE}
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:.4rem;margin-top:.5rem}
+.thumb{border-radius:var(--border-radius-md);overflow:hidden;aspect-ratio:1;background:var(--color-border-tertiary);position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb button{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:12px;line-height:1;cursor:pointer}
+.bar-wrap{height:4px;background:var(--color-border-tertiary);border-radius:2px;margin:.4rem 0;overflow:hidden}
+.bar-fill{height:100%;background:#EA2E00;border-radius:2px;transition:width .4s}
+.msg{font-size:11px;padding:5px 9px;border-radius:4px;margin:.3rem 0}
+.ok{background:#EAF3DE;color:#27500A}.err{background:#FCEBEB;color:#791F1F}.info{background:#E6F1FB;color:#0C447C}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500}
+.tr{background:#FAECE7;color:#712B13}.tb{background:#E6F1FB;color:#0C447C}.tg{background:#EAF3DE;color:#27500A}
+.out-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.75rem;font-family:var(--font-mono);font-size:10px;line-height:1.65;color:var(--color-text-primary);white-space:pre-wrap;word-break:break-word;max-height:260px;overflow:auto}
+.cut-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:.4rem;overflow:hidden}
+.cut-head{display:flex;align-items:center;gap:8px;padding:.4rem .75rem;background:var(--color-background-secondary)}
+.cut-n{background:#EA2E00;color:#fff;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:500;flex-shrink:0}
+.cut-t{font-size:12px;font-weight:500;flex:1;color:var(--color-text-primary)}
+.cut-time{font-size:10px;color:var(--color-text-tertiary)}
+.cut-body{padding:.55rem .75rem;font-size:11px;display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.f{display:flex;flex-direction:column;gap:1px}
+.f-lbl{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase}
+.f-val{color:var(--color-text-primary);line-height:1.4}
+.f-val.blue{color:#1C336B;font-size:10.5px}
+.f-val.green{color:#2E5E28}
+.full{grid-column:1/-1}
+.intent-bar{grid-column:1/-1;border-left:3px solid #EA2E00;border-radius:0 4px 4px 0;background:var(--color-background-secondary);padding:.35rem .5rem;font-size:10px;color:var(--color-text-secondary);line-height:1.5;margin-top:.2rem}
+.page-div{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin:.75rem 0 .4rem;padding:.3rem .6rem;background:var(--color-background-secondary);border-radius:4px;display:flex;align-items:center;justify-content:space-between}
+.pg-badge{font-size:10px;font-weight:500;padding:1px 7px;border-radius:3px;background:#E6F1FB;color:#0C447C}
+.img-row{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem}
+.ip-box{border-radius:var(--border-radius-md);overflow:hidden}
+.ip-head{display:flex;align-items:center;justify-content:space-between;padding:3px 8px}
+.ip-body{background:var(--color-background-secondary);padding:.5rem;font-family:var(--font-mono);font-size:9.5px;line-height:1.6;color:var(--color-text-secondary);max-height:130px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.sec{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:.6rem;display:flex;align-items:center;gap:6px}
+.config-info{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.5rem .75rem;margin-bottom:.5rem;display:flex;gap:12px;flex-wrap:wrap}
+.ci{display:flex;align-items:center;gap:4px}
+.ci-lbl{color:var(--color-text-tertiary)}
+.ci-val{font-weight:500;color:var(--color-text-primary)}
+/* FAB 전체 복사 버튼 */
+.fab{position:fixed;bottom:1.5rem;right:1.5rem;background:#EA2E00;color:#fff;border:none;border-radius:50px;padding:.6rem 1.25rem;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-sans);box-shadow:0 4px 16px rgba(234,46,0,.35);z-index:999;display:flex;align-items:center;gap:6px;transition:.15s}
+.fab:hover{background:#993C1D;transform:translateY(-1px)}
+.fab.done{background:#2E5E28}
+.fab.hidden{display:none}
+</style>
+
+<div class="app">
+<div class="tabs">
+  <div class="tab on" onclick="sw(0)">캐릭터 시트</div>
+  <div class="tab" onclick="sw(1)">덕테이프 씬</div>
+  <div class="tab" onclick="sw(2)">이미지 프롬프트</div>
+</div>
+
+<!-- ══ TAB 0 ══════════════════════════════════════════════════ -->
+<div class="pnl on" id="p0">
+  <div class="card ct">
+    <div class="sec">레퍼런스 이미지 <span class="tag tr">업로드 시 프롬프트에 자동 반영</span></div>
+    <div class="upload-zone" id="cZone" onclick="document.getElementById('cFile').click()"
+         ondragover="ev(event,'cZone')" ondragleave="lv('cZone')" ondrop="drop(event,'cImgs','cGrid','cZone')">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary)">클릭 또는 드래그로 업로드</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px">캐릭터 사진 · 레퍼런스 이미지 — ChatGPT에 프롬프트와 함께 첨부하세요</div>
+      <input type="file" id="cFile" accept="image/*" multiple style="display:none" onchange="addImgs(this,'cImgs','cGrid','cZone')">
+    </div>
+    <div class="thumb-grid" id="cGrid"></div>
+  </div>
+
+  <div class="card ct">
+    <div class="sec">캐릭터 정보</div>
+    <div class="g2">
+      <div><div class="lbl">이름</div><input id="cName" value="CLARA"></div>
+      <div><div class="lbl">프로젝트</div><input id="cProj" value="Brand Campaign 2026"></div>
+    </div>
+    <div class="lbl">외모 설명</div>
+    <textarea id="cPhys" rows="2">Korean female, early 20s. Oval face, single eyelid eyes, fair skin, light makeup. Long straight black hair, slender 168cm.</textarea>
+    <div class="lbl">기본 의상</div>
+    <input id="cOutfit" value="Fitted black tank top, slim black trousers, black pointed heels">
+    <div class="lbl">생성 항목</div>
+    <div class="g4" style="margin-top:.3rem">
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri1" checked style="width:auto"> 정면</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri2" checked style="width:auto"> 45도</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri3" style="width:auto"> 프로필</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri4" checked style="width:auto"> 전신</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri5" checked style="width:auto"> 얼굴접사</label>
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" id="ri6" checked style="width:auto"> 표정6종</label>
+    </div>
+    <button class="btn r btn-full" id="cGenBtn" onclick="genChar()">GPT Image 2 캐릭터 시트 프롬프트 생성</button>
+    <div class="bar-wrap" id="cBar" style="display:none"><div class="bar-fill" id="cBarF" style="width:0%"></div></div>
+    <div id="cMsg"></div>
+  </div>
+
+  <div id="cResult" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+        <span class="sec" style="margin:0">GPT Image 2 프롬프트 <span class="tag tr" style="margin-left:4px">복사 → ChatGPT</span></span>
+        <button class="btn" style="padding:2px 10px;font-size:11px" onclick="cp('cPromptOut')">복사</button>
+      </div>
+      <div class="out-box" id="cPromptOut"></div>
+    </div>
+    <div class="card cg">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
+        <span class="sec" style="margin:0">Base Omni <span class="tag tg" style="margin-left:4px">Kling / Seedance용</span></span>
+        <button class="btn" style="padding:2px 10px;font-size:11px" onclick="cp('cOmniOut')">복사</button>
+      </div>
+      <div class="out-box" id="cOmniOut"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 1 ══════════════════════════════════════════════════ -->
+<div class="pnl" id="p1">
+  <div class="card ct">
+    <div class="sec">레퍼런스 이미지 <span class="tag tr">무드보드 · 촬영 레퍼런스</span></div>
+    <div class="upload-zone" id="dZone" onclick="document.getElementById('dFile').click()"
+         ondragover="ev(event,'dZone')" ondragleave="lv('dZone')" ondrop="drop(event,'dImgs','dGrid','dZone')">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary)">무드보드 / 촬영 레퍼런스 / 브랜드 이미지</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px">업로드하면 씬 분위기 설명에 자동 반영</div>
+      <input type="file" id="dFile" accept="image/*" multiple style="display:none" onchange="addImgs(this,'dImgs','dGrid','dZone')">
+    </div>
+    <div class="thumb-grid" id="dGrid"></div>
+  </div>
+
+  <div class="card ct">
+    <div class="sec">영상 설정</div>
+
+    <div class="g4">
+      <div>
+        <div class="lbl">총 길이</div>
+        <select id="dLen" onchange="updatePageHint()">
+          <option>30s</option><option>60s</option><option>90s</option><option>120s</option>
+        </select>
+      </div>
+      <div>
+        <div class="lbl">총 컷 수</div>
+        <select id="dCuts" onchange="updatePageHint()">
+          <option value="10">10컷</option>
+          <option value="15">15컷</option>
+          <option value="20" selected>20컷</option>
+          <option value="25">25컷</option>
+          <option value="30">30컷</option>
+          <option value="35">35컷</option>
+          <option value="40">40컷</option>
+          <option value="45">45컷</option>
+          <option value="50">50컷</option>
+        </select>
+      </div>
+      <div>
+        <div class="lbl">장 수 (슬라이드)</div>
+        <select id="dPages" onchange="updatePageHint()">
+          <option value="1">1장</option>
+          <option value="2" selected>2장</option>
+          <option value="3">3장</option>
+          <option value="4">4장</option>
+          <option value="5">5장</option>
+        </select>
+      </div>
+      <div>
+        <div class="lbl">배경</div>
+        <select id="dBg">
+          <option>◼ WHITE</option><option>◼ BLACK</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="config-info" id="configInfo">
+      <div class="ci"><span class="ci-lbl">컷당</span><span class="ci-val" id="cfSecPerCut">—</span></div>
+      <div class="ci"><span class="ci-lbl">장당</span><span class="ci-val" id="cfCutsPerPage">—</span></div>
+      <div class="ci"><span class="ci-lbl">PAGE 1</span><span class="ci-val" id="cfPage1">—</span></div>
+    </div>
+
+    <div class="lbl">브랜드 / 제품</div>
+    <input id="dBrand" value="PROSPECS TRILOGY — 러닝화 (쿠셔닝·그립·스태빌리티)">
+    <div class="lbl">캠페인 컨셉</div>
+    <textarea id="dConcept" rows="2">한계를 넘는 여정. 새벽 산악 러닝에서 정상까지. MOVE FEARLESS, LIVE LIMITLESS.</textarea>
+    <div class="lbl">스토리 구조</div>
+    <textarea id="dStory" rows="2">Act1(초반 1/3): 새벽 준비·출발 / Act2(중반 1/3): 오르막·한계·제품등장 / Act3(후반 1/3): 정상·성취·브랜드 엔딩</textarea>
+    <div class="lbl">주인공</div>
+    <input id="dChar" value="한국 여성 러너, 20대, PROSPECS 러닝화, 산악 러닝복">
+    <div class="lbl">분위기</div>
+    <input id="dVibe" value="새벽~황혼, 산악 지형, 역동적이면서 감성적, 시네마틱">
+
+    <button class="btn r btn-full" id="dGenBtn" onclick="genDuck()">씬 구조 자동 생성</button>
+    <div class="bar-wrap" id="dBar" style="display:none"><div class="bar-fill" id="dBarF" style="width:0%"></div></div>
+    <div id="dMsg"></div>
+  </div>
+
+  <div id="dResult" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+      <span style="font-size:13px;font-weight:500;color:var(--color-text-primary)" id="resultTitle">생성된 씬 구조</span>
+      <button class="btn" style="padding:3px 10px;font-size:11px" onclick="cp('rawOut')">전체 텍스트 복사</button>
+    </div>
+    <div id="cutList"></div>
+    <div class="out-box" id="rawOut" style="max-height:1px;overflow:hidden;padding:0;border:none;margin:0"></div>
+  </div>
+</div>
+
+<!-- ══ TAB 2 ══════════════════════════════════════════════════ -->
+<div class="pnl" id="p2">
+  <div class="card ct">
+    <div class="sec">컷별 GPT Image 2 프롬프트</div>
+    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:.6rem">덕테이프 탭에서 씬 생성 후 여기서 확인하세요. START / END 각각 복사 → ChatGPT GPT Image 2에 붙여넣기</div>
+    <div class="lbl">캐릭터 Omni</div>
+    <textarea id="imgOmni" rows="2" placeholder="캐릭터 시트 탭에서 생성하면 자동으로 채워집니다"></textarea>
+    <div class="lbl">시각 스타일</div>
+    <input id="imgStyle" value="cinematic, photorealistic, 16:9, natural lighting, no text, no watermarks">
+  </div>
+  <div id="imgList"></div>
+  <div id="imgNoData" class="msg info">덕테이프 탭에서 씬을 먼저 생성해주세요</div>
+</div>
+</div>
+
+<!-- FAB 전체 복사 버튼 -->
+<button class="fab hidden" id="fabBtn" onclick="copyAll(this)">
+  <span>📋</span><span id="fabLbl">전체 프롬프트 복사</span>
+</button>
+
+<script>
+var S = { cImgs:[], dImgs:[], cuts:[], omni:'', charPrompt:'', charOmni:'', duckRaw:'', imgAll:'' };
+
+/* ── 씬 템플릿 20개 ─────────────────────────────────────────── */
+var SCENES=[
+  {tk:'새벽의 시작',te:'Dawn Begins',cam:'Drone Wide → Slow Tilt Down',dk:'산봉우리 위로 새벽빛이 번진다. 러너의 실루엣이 작게 보인다.',de:'Dawn light spreads over mountain peaks. Runner silhouette appears small below.',sk:'바람 소리, 새벽 정적',se:'Wind, dawn silence',mk:'현악 롱톤 — 서서히 부상',me:'Strings long tone rises slowly',it:'영상의 세계관을 확립한다. 인간 대 자연의 스케일을 보여준다.'},
+  {tk:'러너의 준비',te:'Preparation',cam:'Low Angle CU → Rise',dk:'러너가 신발 끈을 단단히 조인다. 손의 긴장감이 느껴진다.',de:'Runner tightens laces with focused determination.',sk:'신발 끈 조이는 소리',se:'Lace tightening sound',mk:'피아노 단음 — 집중감',me:'Piano, focused single notes',it:'캐릭터와의 첫 친밀한 접촉. 준비의 의식을 보여준다.'},
+  {tk:'첫 발걸음',te:'First Step',cam:'Tracking Shot → Follow',dk:'산길을 향해 첫 발을 내딛는다. 숨을 깊게 들이쉰다.',de:'First step onto the mountain trail, deep breath taken.',sk:'자갈 밟는 소리, 깊은 숨',se:'Gravel crunch, deep breath',mk:'비트 시작 — 조용히',me:'Beat begins quietly',it:'여정의 공식적 시작. 긴장과 설렘이 공존한다.'},
+  {tk:'가파른 오르막',te:'Steep Ascent',cam:'Side Profile Track',dk:'경사진 산길을 빠르게 달린다. 다리 근육이 긴장된다.',de:'Racing up steep incline, leg muscles straining.',sk:'발소리 리듬, 거친 호흡',se:'Rhythmic footsteps, heavy breathing',mk:'비트 강화 — 에너지 상승',me:'Beat intensifies, energy rising',it:'육체적 도전의 시작. 관객이 함께 달리는 느낌.'},
+  {tk:'바위 지형',te:'Rocky Terrain',cam:'Handheld Dynamic',dk:'바위 지형을 민첩하게 넘어간다. 슈즈 그립감이 강조된다.',de:'Agile navigation through rocky terrain, shoe grip emphasized.',sk:'바위 위 착지 소리',se:'Rock landing impact',mk:'드럼 롤 — 긴장 고조',me:'Drum roll, tension building',it:'제품의 기능을 자연스럽게 시각화한다.'},
+  {tk:'한계의 순간',te:'The Limit',cam:'Face MCU → Hold',dk:'숨이 찬다. 멈추고 싶은 충동과 싸운다.',de:'Gasping for breath, fighting the urge to stop.',sk:'거친 호흡, 심장 박동',se:'Heavy breathing, heartbeat',mk:'음악 소강 — 긴장 정점',me:'Music drops to silence, tension peak',it:'모든 이가 공감하는 한계의 순간. 이야기의 위기점.'},
+  {tk:'결의의 눈빛',te:'Resolve',cam:'Eye CU → Slight Push',dk:'눈빛이 변한다. 포기가 아닌 계속을 선택한다.',de:'Eyes change — choosing to continue, not stop.',sk:'심장 소리 선명해짐',se:'Heartbeat clarifies, grows stronger',mk:'피아노 단음 — 전환',me:'Piano note — the turn',it:'이야기의 전환점. 내적 결의의 시각화.'},
+  {tk:'브랜드 순간',te:'Brand Hero',cam:'Product CU → Orbit',dk:'달리는 발. 슈즈가 지면을 강하게 밟는다.',de:'Running feet, shoes strike ground powerfully.',sk:'강한 착지음 — 임팩트',se:'Strong footstrike impact',mk:'비트 드롭 — 브랜드 피크',me:'Beat drop — brand peak',it:'제품이 한계 극복의 도구로 자연스럽게 등장한다.'},
+  {tk:'가속',te:'Acceleration',cam:'Low Tracking Fast',dk:'새로운 에너지로 속도를 올린다. 이전과 다른 힘.',de:'New energy surges, speed increases beyond before.',sk:'발소리 빨라짐, 바람',se:'Faster footsteps, rushing wind',mk:'풀 비트 — 스포츠 필름',me:'Full beat — sports film energy',it:'제품 사용 후 변화. 비포 애프터의 시각적 대비.'},
+  {tk:'능선',te:'The Ridge',cam:'Aerial Follow',dk:'능선을 타고 달린다. 지평선이 펼쳐진다.',de:'Running along ridge, horizon opens ahead.',sk:'바람 강해짐, 웅장한 공기',se:'Wind intensifies, vast air',mk:'현악 가세 — 고조',me:'Strings join — soaring',it:'자유의 시각화. 한계를 넘은 후의 해방감.'},
+  {tk:'정상의 도착',te:'Summit',cam:'Crane High Reveal',dk:'정상에 도달한다. 탁 트인 시야가 펼쳐진다.',de:'Reaching summit. Open panoramic view unfolds.',sk:'바람, 탁 트인 공기감',se:'Wind, vast open air',mk:'오케스트라 클라이맥스',me:'Orchestral climax',it:'여정의 절정. 성취의 순간을 극적으로 표현.'},
+  {tk:'승리의 순간',te:'Victory',cam:'Slow Motion MCU',dk:'두 팔을 벌리고 하늘을 바라본다. 감동의 눈물.',de:'Arms spread, looking up to sky. Tears of triumph.',sk:'바람 소리, 고요함',se:'Wind, profound silence',mk:'감동적인 현악 — 클로징',me:'Emotional strings — closing',it:'감정적 카타르시스. 관객과의 공감 포인트.'},
+  {tk:'브랜드 엔딩',te:'Brand Closing',cam:'Wide → Logo Push',dk:'브랜드 로고가 등장한다. 강력한 슬로건.',de:'Brand logo appears with powerful slogan.',sk:'임팩트 사운드',se:'Impact sound hit',mk:'브랜드 시그니처 사운드',me:'Brand signature sound',it:'강력한 브랜드 각인. 시청자의 기억에 남는 엔딩.'},
+  {tk:'갈림길',te:'Crossroads',cam:'Dutch Angle MCU',dk:'두 개의 길. 어느 쪽을 선택할 것인가.',de:'Two paths. Which will be chosen.',sk:'정적, 심장 박동',se:'Silence, heartbeat',mk:'피아노 서스펜스',me:'Piano suspense',it:'선택의 순간 연출. 브랜드가 정답임을 암시한다.'},
+  {tk:'동료의 지지',te:'Support',cam:'Two Shot → CU',dk:'옆에서 함께 달리는 동료. 눈빛 교환.',de:'Fellow runner alongside. Eye contact exchange.',sk:'두 사람의 발소리 싱크',se:'Two runners footsteps in sync',mk:'따뜻한 선율',me:'Warm melody',it:'연대감. 함께하면 더 멀리 갈 수 있다는 메시지.'},
+  {tk:'디테일 클로즈업',te:'Product Detail',cam:'Extreme CU → Macro',dk:'슈즈 솔의 질감. 기술력의 시각화.',de:'Shoe sole texture. Technology visualized.',sk:'미세한 마찰음',se:'Subtle friction sound',mk:'단음 포인트',me:'Single note point',it:'제품 기술력 강조. 구매 욕구 자극.'},
+  {tk:'자연 속 자유',te:'Nature Freedom',cam:'Drone Landscape Wide',dk:'광활한 자연 속 작은 점처럼 달리는 러너.',de:'Tiny runner in vast natural landscape.',sk:'자연의 소리 — 새, 바람',se:'Nature sounds — birds, wind',mk:'오케스트라 — 장대함',me:'Orchestra — grandeur',it:'인간과 자연의 대조. 브랜드의 크기를 자연에 빗댄다.'},
+  {tk:'내면의 목소리',te:'Inner Voice',cam:'Face ECU Hold',dk:'눈을 감고 내면을 듣는다. 몇 초간의 정적.',de:'Eyes closed, listening to inner voice. Brief silence.',sk:'심장 소리만',se:'Only heartbeat',mk:'무음 → 피아노 단음',me:'Silence → single piano note',it:'내면의 성찰. 감성적 연결 고리.'},
+  {tk:'새벽 도심',te:'Dawn City',cam:'Establishing Wide → Tracking',dk:'텅 빈 도심. 혼자 달리는 러너의 실루엣.',de:'Empty city streets. Lone runner silhouette.',sk:'고요한 도시 환경음',se:'Quiet city ambience',mk:'lo-fi 감성 — 도회적',me:'Lo-fi urban mood',it:'도시인의 자기 시간. 공감대 형성.'},
+  {tk:'마지막 스퍼트',te:'Final Sprint',cam:'Slow Motion + Regular Mix',dk:'모든 힘을 쥐어짜는 마지막 100m.',de:'Squeezing every last bit of energy for the final 100m.',sk:'발소리 최고조, 함성',se:'Footsteps peak, crowd roar',mk:'최고조 — 모든 악기',me:'Full orchestra peak',it:'클라이맥스 직전. 에너지 최고점.'}
+];
+
+/* ── 이미지 업로드 / 드래그앤드롭 ─────────────────────────── */
+function updatePageHint(){
+  var cuts=parseInt(document.getElementById('dCuts').value)||20;
+  var pages=parseInt(document.getElementById('dPages').value)||2;
+  var len=document.getElementById('dLen').value;
+  var secs=parseFloat(len)*0.9;
+  var secPerCut=(secs/cuts).toFixed(1);
+  var cutsPerPage=Math.ceil(cuts/pages);
+  var p1end=Math.min(cutsPerPage,cuts);
+  document.getElementById('cfSecPerCut').textContent=secPerCut+'s';
+  document.getElementById('cfCutsPerPage').textContent=cutsPerPage+'컷';
+  document.getElementById('cfPage1').textContent='CUT 01–'+String(p1end).padStart(2,'0');
+}
+updatePageHint();
+
+function ev(e,id){e.preventDefault();document.getElementById(id).classList.add('has-img');}
+function lv(id){var z=document.getElementById(id);if(!S[z.id==='cZone'?'cImgs':'dImgs'].length)z.classList.remove('has-img');}
+function drop(e,key,gid,zid){e.preventDefault();handleFiles(Array.from(e.dataTransfer.files),key,gid,zid);}
+function addImgs(input,key,gid,zid){handleFiles(Array.from(input.files),key,gid,zid);input.value='';}
+function handleFiles(files,key,gid,zid){
+  files.filter(function(f){return f.type.startsWith('image/')}).forEach(function(file){
+    var r=new FileReader();
+    r.onload=function(e){S[key].push({src:e.target.result,name:file.name,type:file.type});renderThumbs(key,gid,zid);};
+    r.readAsDataURL(file);
+  });
+}
+function renderThumbs(key,gid,zid){
+  var g=document.getElementById(gid);g.innerHTML='';
+  S[key].forEach(function(img,i){
+    var d=document.createElement('div');d.className='thumb';
+    d.innerHTML='<img src="'+img.src+'"><button onclick="rmImg(\''+key+'\',\''+gid+'\',\''+zid+'\','+i+')">×</button>';
+    g.appendChild(d);
+  });
+  var z=document.getElementById(zid);
+  if(z)z.className='upload-zone'+(S[key].length>0?' has-img':'');
+}
+function rmImg(key,gid,zid,i){S[key].splice(i,1);renderThumbs(key,gid,zid);}
+
+/* ── 공통 유틸 ──────────────────────────────────────────────── */
+function setMsg(id,txt,cls){var e=document.getElementById(id);if(e)e.innerHTML='<div class="msg '+cls+'">'+txt+'</div>';}
+function setBar(id,pct){var f=document.getElementById(id);if(f)f.style.width=pct+'%';}
+function sw(i){
+  document.querySelectorAll('.tab').forEach(function(t,j){t.className='tab'+(j===i?' on':'');});
+  document.querySelectorAll('.pnl').forEach(function(p,j){p.className='pnl'+(j===i?' on':'');});
+  if(i===2)renderImgPrompts();
+}
+function updateFab(){
+  var fab=document.getElementById('fabBtn');
+  fab.className='fab'+(S.charPrompt||S.duckRaw||S.imgAll?'':' hidden');
+}
+
+/* 복사 — clipboard API + execCommand 폴백 (file:// 로컬 환경 대응) */
+function doCopy(text,onDone,onFail){
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(text).then(onDone).catch(function(){fallbackCopy(text,onDone,onFail);});
+  }else{
+    fallbackCopy(text,onDone,onFail);
+  }
+}
+function fallbackCopy(text,onDone,onFail){
+  var ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.cssText='position:fixed;left:-9999px;top:-9999px;opacity:0;pointer-events:none';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  var ok=false;
+  try{ok=document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+  if(ok&&onDone)onDone();
+  else if(!ok&&onFail)onFail();
+}
+function cp(id){
+  var el=document.getElementById(id);if(!el)return;
+  var text=el.textContent||el.value||'';
+  doCopy(text,function(){
+    var t=document.createElement('span');t.style.cssText='font-size:10px;color:#2E5E28;margin-left:6px';t.textContent='복사됨!';
+    if(el.parentNode)el.parentNode.appendChild(t);
+    setTimeout(function(){if(t.parentNode)t.remove();},1500);
+  },function(){alert('복사 실패 — 텍스트를 직접 선택 후 Cmd+C로 복사해주세요.');});
+}
+function cpT(btn,enc){
+  doCopy(decodeURIComponent(enc),function(){
+    var orig=btn.textContent;btn.textContent='복사됨!';
+    setTimeout(function(){btn.textContent=orig;},1500);
+  },function(){alert('복사 실패 — 직접 선택 후 Cmd+C');});
+}
+
+/* FAB 전체 복사 */
+function copyAll(btn){
+  var parts=[];
+  if(S.charPrompt)parts.push('━━━ 캐릭터 시트 GPT Image 2 프롬프트 ━━━\n\n'+S.charPrompt);
+  if(S.charOmni)  parts.push('━━━ Base Omni (Kling / Seedance / Higgsfield) ━━━\n\n'+S.charOmni);
+  if(S.duckRaw)   parts.push('━━━ 덕테이프 씬 구조 (피그마 플러그인용) ━━━\n\n'+S.duckRaw);
+  if(S.imgAll)    parts.push('━━━ 이미지 프롬프트 START / END ━━━\n\n'+S.imgAll);
+  if(!parts.length){alert('먼저 각 탭에서 프롬프트를 생성해주세요.');return;}
+  var text=parts.join('\n\n══════════════════════════════\n\n');
+  var lbl=document.getElementById('fabLbl');
+  doCopy(text,function(){
+    btn.classList.add('done');lbl.textContent='복사 완료! ✓';
+    setTimeout(function(){btn.classList.remove('done');lbl.textContent='전체 프롬프트 복사';},2200);
+  },function(){alert('복사 실패 — 직접 선택 후 Cmd+C');});
+}
+
+/* ── 캐릭터 시트 — 로컬 GPT Image 2 프롬프트 생성 ──────────── */
+function genChar(){
+  document.getElementById('cGenBtn').disabled=true;
+  document.getElementById('cBar').style.display='block';
+  setBar('cBarF',20);setMsg('cMsg','프롬프트 생성 중...','info');
+
+  var name   =document.getElementById('cName').value;
+  var proj   =document.getElementById('cProj').value;
+  var phys   =document.getElementById('cPhys').value;
+  var outfit =document.getElementById('cOutfit').value;
+  var hasRef =S.cImgs.length>0;
+
+  var items=[];
+  if(document.getElementById('ri1').checked)items.push('[Shot 1 — FRONT] Direct front view, symmetric, white studio background, neutral expression, head to mid-thigh');
+  if(document.getElementById('ri2').checked)items.push('[Shot 2 — 45° ANGLE] Three-quarter left turn, elegant 3/4 body view, slight body rotation showing depth');
+  if(document.getElementById('ri3').checked)items.push('[Shot 3 — LEFT PROFILE] Pure left side view, clean jawline silhouette, full profile');
+  if(document.getElementById('ri4').checked)items.push('[Shot 4 — FULL BODY] Head to toe, complete outfit visible, dynamic natural pose');
+  if(document.getElementById('ri5').checked)items.push('[Shot 5 — FACE CLOSE-UP] Extreme close-up, eyes fill frame, skin texture and eye detail visible');
+  if(document.getElementById('ri6').checked)items.push('[Shot 6 — EXPRESSIONS GRID] 3×2 grid of 6 expressions: (1)Neutral resting face (2)Soft gentle smile (3)Bright candid laugh (4)Intense strong gaze (5)Shy demure downcast (6)Fierce cool haughty');
+
+  var refBlock=hasRef?
+'\n⚡ REFERENCE IMAGE PROTOCOL (HIGHEST PRIORITY)\nReference photos are attached to this conversation. BEFORE generating, analyze the reference images and extract:\n1. Exact face shape, skin tone, eye shape, eye color, nose, lips, distinctive features\n2. Exact hair color, length, texture, and styling\n3. Overall vibe, mood, aesthetic, makeup style\nThe extracted traits from the reference image OVERRIDE all physical description text below.\nUse the reference photos as the SINGLE SOURCE OF TRUTH for face and hair.\nThe SAME person must appear identically in every panel.\n':'';
+
+  var prompt=
+'[GPT Image 2 — CHARACTER REFERENCE SHEET]\n'+
+'PROJECT: '+proj+'\n'+
+'TASK: Create ONE single image containing ALL the panels below in a professional reference sheet layout.\n'+
+refBlock+
+'\n━━━ CHARACTER ━━━\n'+
+'Name: '+name+'\n'+
+'\n━━━ PHYSICAL DESCRIPTION'+(hasRef?' (REFERENCE IMAGE IS AUTHORITATIVE)':'')+' ━━━\n'+
+phys+'\n'+
+'Default outfit: '+outfit+'\n'+
+'\n━━━ REFERENCE SHEET PANELS ━━━\n'+
+items.join('\n')+'\n'+
+'\n━━━ TECHNICAL ━━━\n'+
+'Background: Pure white studio for all panels\n'+
+'Layout: Clean professional reference sheet, all panels labeled in Korean + English\n'+
+'CRITICAL: SAME character, SAME face, SAME hair across ALL panels — total consistency\n'+
+'Output: ONE single image. No text overlays except panel labels. No watermarks. High resolution.';
+
+  var omni=
+'[BASE OMNI — '+name+']\n'+
+phys+'\nOutfit: '+outfit+'.\n'+
+(hasRef?'Reference photos provided — match face and appearance exactly. ':'')+
+'Photorealistic, ultra high resolution, professional retouching. No text, no watermarks.';
+
+  setBar('cBarF',100);
+  S.charPrompt=prompt;
+  S.charOmni=omni;
+  S.omni=omni;
+
+  document.getElementById('cPromptOut').textContent=prompt;
+  document.getElementById('cOmniOut').textContent=omni;
+  document.getElementById('cResult').style.display='block';
+  document.getElementById('imgOmni').value=omni;
+
+  setMsg('cMsg','✓ 프롬프트 생성 완료'+(hasRef?' — ChatGPT에 이 프롬프트 + 레퍼런스 이미지를 함께 첨부하세요':''),'ok');
+  document.getElementById('cGenBtn').disabled=false;
+  document.getElementById('cBar').style.display='none';
+  updateFab();
+}
+
+/* ── 덕테이프 씬 — 로컬 템플릿 자동 생성 ──────────────────── */
+function genDuck(){
+  var cuts       =parseInt(document.getElementById('dCuts').value)||20;
+  var pages      =parseInt(document.getElementById('dPages').value)||2;
+  var len        =document.getElementById('dLen').value;
+  var brand      =document.getElementById('dBrand').value;
+  var concept    =document.getElementById('dConcept').value;
+  var story      =document.getElementById('dStory').value;
+  var char       =document.getElementById('dChar').value;
+  var vibe       =document.getElementById('dVibe').value;
+  var bg         =document.getElementById('dBg').value;
+  var secs       =parseFloat(len)*0.9;
+  var secPerCut  =secs/cuts;
+  var cutsPerPage=Math.ceil(cuts/pages);
+
+  document.getElementById('dGenBtn').disabled=true;
+  document.getElementById('dBar').style.display='block';
+  setBar('dBarF',10);setMsg('dMsg',cuts+'컷 / '+pages+'장 구조 생성 중...','info');
+
+  S.cuts=[];
+  for(var i=0;i<cuts;i++){
+    var t=SCENES[i%SCENES.length];
+    var st=(i*secPerCut).toFixed(1);
+    var en=((i+1)*secPerCut).toFixed(1);
+    S.cuts.push({
+      cut:String(i+1).padStart(2,'0'),
+      title_ko:t.tk,title_en:t.te,
+      time:'0:'+st+'–'+en,
+      camera:t.cam,
+      direction_ko:t.dk,direction_en:t.de,
+      vo_ko:null,vo_en:null,
+      sfx_ko:t.sk,sfx_en:t.se,
+      music_ko:t.mk,music_en:t.me,
+      intent:t.it
+    });
+  }
+
+  setBar('dBarF',70);
+  buildRaw();
+  renderCuts(cutsPerPage,pages);
+  document.getElementById('resultTitle').textContent='생성된 '+S.cuts.length+'컷 씬 구조 ('+pages+'장)';
+  document.getElementById('dResult').style.display='block';
+  setBar('dBarF',100);
+  setMsg('dMsg','✓ '+S.cuts.length+'컷 / '+pages+'장 생성 완료 — 이미지 프롬프트 탭 확인','ok');
+  document.getElementById('dGenBtn').disabled=false;
+  document.getElementById('dBar').style.display='none';
+  updateFab();
+}
+
+function renderCuts(cutsPerPage,pages){
+  var list=document.getElementById('cutList');list.innerHTML='';
+  S.cuts.forEach(function(c,i){
+    var pageIdx=Math.floor(i/cutsPerPage)+1;
+    var isPageStart=i%cutsPerPage===0;
+    if(isPageStart){
+      var start=i+1,end=Math.min(i+cutsPerPage,S.cuts.length);
+      var pd=document.createElement('div');pd.className='page-div';
+      pd.innerHTML='<span>PAGE '+pageIdx+' — CUT '+String(start).padStart(2,'0')+'~'+String(end).padStart(2,'0')+'</span><span class="pg-badge">'+end+'컷</span>';
+      list.appendChild(pd);
+    }
+    var div=document.createElement('div');div.className='cut-card';
+    var vo=c.vo_ko?'<div class="f full"><div class="f-lbl">VO</div><div class="f-val blue">'+c.vo_ko+(c.vo_en?' — '+c.vo_en:'')+'</div></div>':'';
+    div.innerHTML='<div class="cut-head"><span class="cut-n">'+c.cut+'</span><span class="cut-t">'+c.title_ko+' / '+c.title_en+'</span><span class="cut-time">'+c.time+'</span></div>'+
+    '<div class="cut-body">'+
+    '<div class="f"><div class="f-lbl">Camera</div><div class="f-val">'+c.camera+'</div></div>'+
+    '<div class="f"><div class="f-lbl">SFX</div><div class="f-val">'+c.sfx_ko+'</div></div>'+
+    '<div class="f full"><div class="f-lbl">Direction</div><div class="f-val">'+c.direction_ko+'</div><div class="f-val" style="color:var(--color-text-secondary);font-size:10px;margin-top:1px">'+c.direction_en+'</div></div>'+
+    vo+
+    '<div class="f full"><div class="f-lbl">Music</div><div class="f-val green">'+c.music_ko+' / '+c.music_en+'</div></div>'+
+    '<div class="intent-bar">연출의도: '+c.intent+'</div>'+
+    '</div>';
+    list.appendChild(div);
+  });
+}
+
+function buildRaw(){
+  var t=S.cuts.map(function(c){
+    return '[CUT '+c.cut+']\nTIME: '+c.time+'\nCAMERA: '+c.camera+
+    '\nDIRECTION: '+c.direction_ko+' / '+c.direction_en+
+    (c.vo_ko?'\nVO: '+c.vo_ko+(c.vo_en?' — '+c.vo_en:''):'')+
+    '\nSFX: '+c.sfx_ko+' / '+c.sfx_en+
+    '\nMUSIC: '+c.music_ko+' / '+c.music_en+
+    '\nCUT_TITLE: '+c.title_ko+' / '+c.title_en+
+    '\nDIRECTOR_INTENT: '+c.intent;
+  }).join('\n\n');
+  S.duckRaw=t;
+  document.getElementById('rawOut').textContent=t;
+}
+
+/* ── 이미지 프롬프트 ────────────────────────────────────────── */
+function renderImgPrompts(){
+  var list=document.getElementById('imgList'),nodata=document.getElementById('imgNoData');
+  if(!S.cuts.length){list.innerHTML='';nodata.style.display='block';return;}
+  nodata.style.display='none';list.innerHTML='';
+  var omni=document.getElementById('imgOmni').value||S.omni||'Character as described';
+  var style=document.getElementById('imgStyle').value;
+  var allParts=[];
+
+  S.cuts.forEach(function(c,i){
+    var next=S.cuts[i+1];
+    var prev=S.cuts[i-1];
+    var endNote=next?'This END FRAME leads directly into CUT '+next.cut+' ('+next.title_en+': '+next.direction_en+').':'FINAL CUT — end with brand resolution.';
+    var prevNote=prev?'Continues from end of CUT '+prev.cut+' ('+prev.title_en+').':'OPENING CUT — establish the world and character.';
+
+    var sp=
+'[GPT Image 2 · CUT '+c.cut+' / '+c.title_en+' / START FRAME]\n'+
+'CHARACTER: '+omni+'\n'+
+'SCENE: '+c.direction_en+'\n'+
+'CAMERA: '+c.camera+' (opening position — very first frame)\n'+
+prevNote+'\n'+
+'Capture: tension and anticipation BEFORE action begins\n'+
+'SFX context: '+c.sfx_ko+' | Music: '+c.music_ko+'\n'+
+'DIRECTOR NOTE: '+c.intent+'\n'+
+'STYLE: '+style+'\n'+
+'NO text NO watermarks NO logos';
+
+    var ep=
+'[GPT Image 2 · CUT '+c.cut+' / '+c.title_en+' / END FRAME]\n'+
+'CHARACTER: '+omni+'\n'+
+'SCENE: '+c.direction_en+'\n'+
+'CAMERA: '+c.camera+' (closing position — very last frame)\n'+
+endNote+'\n'+
+'Capture: resolution and peak energy AFTER action completes\n'+
+'SFX context: '+c.sfx_ko+' | Music: '+c.music_ko+'\n'+
+'DIRECTOR NOTE: '+c.intent+'\n'+
+'STYLE: '+style+'\n'+
+'NO text NO watermarks NO logos';
+
+    allParts.push('CUT '+c.cut+' START:\n'+sp);
+    allParts.push('CUT '+c.cut+' END:\n'+ep);
+
+    var div=document.createElement('div');div.style.marginBottom='.6rem';
+    div.innerHTML='<div style="display:flex;align-items:center;gap:6px;margin-bottom:.3rem">'+
+    '<span style="background:#EA2E00;color:#fff;padding:1px 8px;border-radius:3px;font-size:11px;font-weight:500">CUT '+c.cut+'</span>'+
+    '<span style="font-size:11px;font-weight:500;color:var(--color-text-primary)">'+c.title_ko+'</span>'+
+    '<span style="font-size:10px;color:var(--color-text-tertiary)">'+c.time+'</span></div>'+
+    '<div class="img-row">'+
+    '<div class="ip-box"><div class="ip-head" style="background:#E6F1FB"><span style="font-size:10px;font-weight:500;color:#0C447C">START</span><button class="btn" style="padding:1px 8px;font-size:10px" onclick="cpT(this,\''+encodeURIComponent(sp)+'\')">복사</button></div><div class="ip-body">'+sp+'</div></div>'+
+    '<div class="ip-box"><div class="ip-head" style="background:#EAF3DE"><span style="font-size:10px;font-weight:500;color:#27500A">END</span><button class="btn" style="padding:1px 8px;font-size:10px" onclick="cpT(this,\''+encodeURIComponent(ep)+'\')">복사</button></div><div class="ip-body">'+ep+'</div></div>'+
+    '</div>';
+    list.appendChild(div);
+  });
+
+  S.imgAll=allParts.join('\n\n─────────────────────\n\n');
+  updateFab();
+}
+</script>
