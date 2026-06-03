@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMERICANO — 구독 & 가격 정책</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--surface:#111;--s2:#161616;--s3:#1c1c1c;
+  --b1:#222;--b2:#2e2e2e;--b3:#333;
+  --text:#f5f5f5;--muted:#666;--muted2:#444;
+  --red:#e8291c;--red-dim:rgba(232,41,28,.08);--red-border:rgba(232,41,28,.25);
+  --yellow:#f5d000;--yellow-dim:rgba(245,208,0,.07);--yellow-border:rgba(245,208,0,.2);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.08);--green-border:rgba(34,197,94,.2);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:rgba(10,10,10,.94);backdrop-filter:blur(16px);z-index:300}
+.nav-logo-wrap{display:flex;align-items:center;gap:8px}
+.nav-logo-wrap img{height:22px;width:auto;display:block;flex-shrink:0}
+.nav-sub{font-size:9px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;font-family:'Space Mono',monospace}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nbadge{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);background:var(--s2);padding:3px 10px;border-radius:3px;border:1px solid var(--b1);letter-spacing:.05em;text-transform:uppercase}
+
+/* ── CONF BAR ── */
+.conf-bar{background:var(--s2);border-bottom:1px solid var(--b1);text-align:center;padding:7px 2rem;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:10px;position:sticky;top:60px;z-index:299}
+.conf-bar strong{color:var(--text)}
+
+/* ── HERO ── */
+.hero{position:relative;height:100vh;min-height:560px;max-height:800px;background:var(--bg);overflow:hidden;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:center}
+.hero-copy{text-align:center;z-index:20;pointer-events:none;position:relative}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.4rem;border-bottom:1px solid var(--b1);padding-bottom:10px;display:inline-block}
+.hero-title{font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.04em;line-height:.9;color:var(--text)}
+.hero-title .dim{color:var(--b3);font-weight:300}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--b1) 1px,transparent 1px),linear-gradient(90deg,var(--b1) 1px,transparent 1px);background-size:60px 60px;opacity:.3;pointer-events:none}
+.hero-vline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--b2) 30%,var(--b2) 70%,transparent);opacity:.4}
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-line{width:1px;height:24px;background:linear-gradient(to bottom,var(--b2),transparent)}
+
+/* ── SECTION COMMON ── */
+.section{max-width:1080px;margin:0 auto;padding:4rem 40px 3rem}
+.section-ey{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
+.section-ey::before{content:'';width:14px;height:1px;background:var(--red)}
+.section-ttl{font-size:1.5rem;font-weight:700;letter-spacing:-.025em;margin-bottom:1.6rem}
+.info-banner{display:flex;align-items:flex-start;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:14px 18px;margin-bottom:2.5rem}
+.info-banner-icon{font-family:'Space Mono',monospace;font-size:11px;color:var(--yellow);flex-shrink:0;margin-top:1px;letter-spacing:.05em}
+.info-banner-title{font-size:11px;font-weight:700;letter-spacing:.04em;margin-bottom:4px}
+.info-banner-desc{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.65}
+.info-banner-desc strong{color:var(--text)}
+
+/* ── BILLING TOGGLE ── */
+.billing-toggle{display:flex;align-items:center;gap:0;border:1px solid var(--b1);border-radius:6px;overflow:hidden;width:fit-content;margin-bottom:1.5rem}
+.btog{padding:8px 20px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:var(--s2);color:var(--muted);border:none;cursor:pointer;transition:all .18s;position:relative}
+.btog.active{background:var(--red);color:#fff;font-weight:700}
+.btog-badge{display:inline-block;margin-left:6px;font-size:8px;background:var(--green);color:#000;padding:1px 6px;border-radius:2px;font-weight:700;letter-spacing:.04em}
+
+/* ── PLAN CARDS GRID ── */
+.plans-grid{display:grid;grid-template-columns:repeat(4,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+
+/* ── PLAN CARD ── */
+.plan{background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:1.8rem 1.5rem;cursor:pointer;transition:all .2s;position:relative}
+.plan:hover{background:var(--s3);border-color:var(--b3)}
+.plan.selected{background:var(--red);border-color:var(--red)}
+.plan::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.plan.selected::before{transform:scaleX(1);background:rgba(255,255,255,.3)}
+.plan-hot{display:none;position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--yellow);color:#000;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:2px 12px;border-radius:0 0 5px 5px;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.plan.hot .plan-hot{display:block}
+.pl-ey{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.4rem;transition:color .2s}
+.plan:not(.selected) .pl-ey{color:var(--muted)}
+.pl-name{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.2rem;transition:color .2s}
+.plan.selected .pl-name{color:#fff}
+.pl-tag{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:1.2rem;transition:color .2s}
+.plan.selected .pl-tag{color:rgba(255,255,255,.4)}
+.pl-pr-row{display:flex;align-items:baseline;gap:3px;margin-bottom:1px}
+.pl-pr{font-size:1.7rem;font-weight:700;letter-spacing:-.03em;color:var(--yellow);transition:color .2s}
+.plan.selected .pl-pr{color:#fff}
+.pl-sfx{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);transition:color .2s}
+.plan.selected .pl-sfx{color:rgba(255,255,255,.35)}
+.pl-annual{font-family:'Space Mono',monospace;font-size:9px;color:var(--green);margin-bottom:1.2rem;min-height:16px}
+.plan.selected .pl-annual{color:rgba(255,255,255,.6)}
+
+/* ── CREDIT BOX in plan ── */
+.credit-box{border:1px solid var(--b2);border-radius:6px;padding:.85rem 1rem;margin-bottom:1.2rem;transition:border-color .2s,background .2s}
+.plan.selected .credit-box{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.07)}
+.cb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+.cb-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.plan.selected .cb-label{color:rgba(255,255,255,.3)}
+.cb-val-wrap{display:flex;align-items:baseline;gap:3px}
+.cb-val{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;color:var(--yellow);transition:color .2s}
+.plan.selected .cb-val{color:#fff}
+.cb-unit{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);transition:color .2s}
+.plan.selected .cb-unit{color:rgba(255,255,255,.3)}
+.cb-bar{width:100%;height:2px;background:var(--b2);border-radius:2px;overflow:hidden;margin-bottom:6px;transition:background .2s}
+.plan.selected .cb-bar{background:rgba(255,255,255,.15)}
+.cb-fill{height:100%;background:var(--yellow);border-radius:2px;transition:width .4s ease,background .2s}
+.plan.selected .cb-fill{background:#fff}
+.cb-sub{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);transition:color .2s}
+.plan.selected .cb-sub{color:rgba(255,255,255,.3)}
+
+/* ── PLAN BTN ── */
+.pl-btn{display:block;width:100%;padding:.65rem;border-radius:5px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;cursor:pointer;border:1px solid var(--b2);background:var(--s2);color:var(--muted);margin-bottom:1.2rem;transition:all .15s}
+.plan:not(.selected) .pl-btn:hover{border-color:var(--b3);color:var(--text);background:var(--s3)}
+.plan.selected .pl-btn{background:#fff;color:var(--red);border-color:#fff;font-weight:800}
+
+/* ── FEAT LIST ── */
+.feat-hdr{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;transition:color .2s}
+.plan.selected .feat-hdr{color:rgba(255,255,255,.3)}
+.feat-list{list-style:none}
+.feat-item{display:flex;align-items:flex-start;gap:8px;padding:.4rem 0;border-top:1px solid var(--b1);font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;transition:color .2s,border-color .2s}
+.feat-item:first-child{border-top:none}
+.plan.selected .feat-item{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.08)}
+.fic{width:12px;height:12px;border-radius:50%;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:border-color .2s}
+.plan.selected .fic{border-color:rgba(255,255,255,.25)}
+.fic svg path{stroke:var(--muted)}
+.plan.selected .fic svg path{stroke:rgba(255,255,255,.5)}
+/* Enterprise card */
+.plan-enterprise{border:1px solid var(--red-border) !important;background:var(--surface) !important}
+.plan-enterprise:hover{background:var(--s2) !important}
+.plan-enterprise.selected{background:var(--red) !important}
+.plan-enterprise .pl-pr{color:var(--text) !important}
+.plan.hot{border-color:var(--yellow)}
+.plan.hot .plan-hot{display:block}
+
+/* ── TOP-UP ── */
+.topup-section{max-width:960px;margin:0 auto;padding:0 40px 4rem}
+.topup-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem}
+.topup-ttl{font-size:13px;font-weight:700;letter-spacing:.02em}
+.topup-sub{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted)}
+.topup-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--b1);border-radius:10px;overflow:hidden;background:var(--b1)}
+.topup-card{background:var(--s2);padding:1.4rem;cursor:pointer;transition:background .15s;position:relative}
+.topup-card:hover{background:var(--s3)}
+.topup-card.on{background:var(--surface);border-color:var(--yellow)}
+.tc-tier{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.tc-name{font-size:13px;font-weight:700;margin-bottom:.8rem}
+.tc-pr{font-size:1.4rem;font-weight:700;color:var(--yellow);letter-spacing:-.025em}
+.tc-pr span{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);font-weight:400;margin-left:2px}
+.tc-credits{font-family:'Space Mono',monospace;font-size:10px;color:var(--text);margin:.4rem 0 .2rem}
+.tc-note{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);line-height:1.5}
+.tc-tog{width:100%;margin-top:1rem;padding:.55rem;border-radius:4px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.tc-tog:hover{border-color:var(--b3);color:var(--text)}
+.topup-card.on .tc-tog{background:var(--yellow);border-color:var(--yellow);color:#000;font-weight:700}
+
+/* ── SERVICE COSTS ── */
+.service-section{max-width:960px;margin:0 auto;padding:0 40px 4rem}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--b1);border-radius:10px;overflow:hidden;background:var(--b1)}
+.svc-row{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;background:var(--s2);gap:1rem;transition:background .15s}
+.svc-row:hover{background:var(--s3)}
+.svc-l{display:flex;flex-direction:column;gap:2px}
+.svc-name{font-size:12px;font-weight:600}
+.svc-desc{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted)}
+.svc-r{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.svc-api{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+.svc-cr{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--yellow);white-space:nowrap}
+.svc-tag{font-family:'Space Mono',monospace;font-size:8px;padding:2px 7px;border-radius:2px;border:1px solid;flex-shrink:0}
+.tag-r{background:var(--red-dim);color:#ff6b5e;border-color:var(--red-border)}
+.tag-y{background:var(--yellow-dim);color:var(--yellow);border-color:var(--yellow-border)}
+.tag-g{background:var(--green-dim);color:var(--green);border-color:var(--green-border)}
+.tag-b{background:var(--blue-dim);color:var(--blue);border-color:rgba(96,165,250,.25)}
+
+/* ── REWARD SECTION ── */
+.reward-section{max-width:960px;margin:0 auto;padding:0 40px 4rem}
+.reward-grid{display:flex;flex-direction:column;gap:1px;border:1px solid var(--b1);border-radius:10px;overflow:hidden;background:var(--b1)}
+.reward-card{background:var(--s2);padding:1.6rem 1.8rem;transition:background .15s}
+.reward-card:hover{background:var(--s3)}
+.rc-head{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.rc-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0}
+.rc-title{font-size:13px;font-weight:700;letter-spacing:.01em}
+.rc-desc{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.65;margin-bottom:1rem}
+.rc-table{width:100%;border-collapse:collapse}
+.rc-table th{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:5px 10px;border-bottom:1px solid var(--b1);text-align:left;font-weight:400}
+.rc-table td{font-family:'Space Mono',monospace;font-size:10px;padding:8px 10px;border-bottom:1px solid var(--b2);color:var(--text)}
+.rc-table tr:last-child td{border-bottom:none}
+.rc-table .y{color:var(--yellow)}
+.rc-table .g{color:var(--green)}
+.rc-table .m{color:var(--muted)}
+.tier-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.tier-card{background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:10px 12px}
+.tier-name{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.tier-cond{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-bottom:6px;line-height:1.5}
+.tier-rate{font-size:14px;font-weight:700;color:var(--yellow)}
+.tier-extra{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-top:3px}
+
+/* ── MARGIN SIMULATOR ── */
+.sim-section{max-width:960px;margin:0 auto;padding:0 40px 4rem}
+.sim-box{background:var(--s2);border:1px solid var(--b1);border-radius:10px;overflow:hidden}
+.sim-top{padding:1.8rem 2rem;border-bottom:1px solid var(--b1)}
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.sim-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.sim-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sim-key{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:170px;flex-shrink:0}
+.sim-input{background:var(--s3);border:1px solid var(--b1);color:var(--text);padding:6px 10px;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;width:100px;outline:none;transition:border-color .15s}
+.sim-input:focus{border-color:var(--red)}
+.sim-bottom{padding:1.8rem 2rem}
+.sim-result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.sstat{background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:12px 14px}
+.sstat-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.sstat-val{font-size:20px;font-weight:700;line-height:1}
+.sstat-sub{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-top:4px}
+.sim-table{width:100%;border-collapse:collapse}
+.sim-table th{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 10px;border-bottom:1px solid var(--b1);text-align:left;font-weight:400}
+.sim-table td{font-family:'Space Mono',monospace;font-size:10px;padding:9px 10px;border-bottom:1px solid var(--b2)}
+.sim-table tr:last-child td{border-bottom:none}
+.sim-table .y{color:var(--yellow)}
+.sim-table .g{color:var(--green)}
+.sim-table .r{color:#ff6b5e}
+.sim-table .m{color:var(--muted)}
+
+/* ── SUM BAR (fixed bottom) ── */
+.sum-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-top:1px solid var(--b1);padding:.9rem 40px;display:flex;align-items:center;justify-content:space-between;gap:2rem;z-index:300;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.sum-bar.show{transform:translateY(0)}
+.sum-l{display:flex;flex-direction:column;gap:2px}
+.sum-plan-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sum-plan-detail{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;max-width:380px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sum-c{text-align:center}
+.sum-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.sum-amount{font-size:1.7rem;font-weight:700;letter-spacing:-.03em;color:var(--yellow);display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.sum-amount.pop{transform:scale(1.07)}
+.sum-vat{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);margin-top:1px}
+.sum-credits{font-family:'Space Mono',monospace;font-size:10px;color:var(--text);margin-top:2px}
+.sum-btns{display:flex;gap:8px;flex-shrink:0}
+.sum-btn-copy{padding:.65rem 1.2rem;background:var(--s3);color:var(--text);border:1px solid var(--b2);border-radius:5px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.04em}
+.sum-btn-copy:hover{background:var(--s2);border-color:var(--b3)}
+.sum-cta{padding:.65rem 1.6rem;background:var(--red);color:#fff;border:none;border-radius:5px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase;transition:background .15s}
+.sum-cta:hover{background:#c9200f}
+
+/* ── FINAL CTA ── */
+.final-section{max-width:960px;margin:0 auto;padding:0 40px 8rem}
+.final-box{background:var(--surface);border:1px solid var(--b1);border-radius:12px;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.final-ey{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.final-ttl{font-size:1.4rem;font-weight:700;letter-spacing:-.025em;margin-bottom:.35rem}
+.final-desc{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);line-height:1.65}
+.final-btns{display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.btn-primary{padding:.8rem 1.8rem;background:var(--red);color:#fff;border:none;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.06em;text-transform:uppercase;transition:background .15s;display:flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#c9200f}
+.btn-secondary{padding:.8rem 1.8rem;background:transparent;color:var(--text);border:1px solid var(--b2);border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;letter-spacing:.04em;transition:border-color .15s}
+.btn-secondary:hover{border-color:var(--b3)}
+
+/* ── DIVIDER ── */
+.sec-div{height:1px;background:var(--b1);max-width:960px;margin:0 auto 0;opacity:.6}
+
+/* ── UTILS ── */
+.note{background:var(--yellow-dim);border:1px solid var(--yellow-border);border-radius:6px;padding:10px 14px;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.65;margin-top:10px}
+.note b{color:var(--yellow)}
+input[type=range]{-webkit-appearance:none;width:100%;height:1px;background:var(--b2);outline:none;cursor:pointer;border-radius:1px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--b2)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.2)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo-wrap">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:2px">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red)">AMERICANO</span><sup style="font-size:8px;color:var(--red)">®</sup>
+      </div>
+      <div class="nav-sub">AI Image Studio · Pricing Policy</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="nbadge">Recipe Tools</span>
+    <span class="nbadge">v1.0</span>
+  </div>
+</nav>
+
+<!-- CONF BAR -->
+<div class="conf-bar">
+  <span>🔒</span>
+  본 자료는 <strong>AMERICANO 내부 가격 정책 자료</strong>입니다 · 외부 유출 및 무단 배포 금지
+  <span style="color:var(--muted2)">·</span>
+  <span>CONFIDENTIAL — Internal Use Only</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-vline"></div>
+  <div class="hero-copy">
+    <div class="hero-eyebrow">AI 이미지 스튜디오 · 구독 & 크레딧 정책</div>
+    <h1 class="hero-title">나의 구독,<br><span class="dim">얼마일까</span></h1>
+  </div>
+  <div class="scroll-cue"><span>SCROLL</span><div class="scroll-line"></div></div>
+</div>
+
+<!-- ── 01 SUBSCRIPTION PLANS ── -->
+<section class="section">
+  <div class="section-ey">구독 플랜</div>
+  <div class="section-ttl">어떤 플랜이 필요하신가요?</div>
+  <div class="info-banner">
+    <div class="info-banner-icon">// TIP</div>
+    <div>
+      <div class="info-banner-title">크레딧 기반 구독 시스템</div>
+      <div class="info-banner-desc">플랜 선택 후 하단 <strong>Summary Bar</strong>에서 총 금액과 월 예상 이미지 생성 수를 확인할 수 있습니다. 구독 중에도 크레딧이 부족하면 Top-up 추가 충전이 가능합니다.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:0;border:1px solid var(--b1);border-radius:6px;overflow:hidden;width:fit-content;margin-bottom:1.5rem" id="billing-wrap">
+    <button style="padding:8px 20px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;background:var(--red);color:#fff;font-weight:700" id="btog-monthly" onclick="setBilling('monthly')">월간 결제</button>
+    <button style="padding:8px 20px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;background:var(--s2);color:var(--muted)" id="btog-annual" onclick="setBilling('annual')">연간 결제 <span style="background:var(--green);color:#000;font-size:8px;padding:1px 6px;border-radius:2px;font-weight:700">10% 할인</span></button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px" id="plans-grid">
+    <!-- Starter -->
+    <div class="plan-card" id="pc-starter" onclick="selectPlan('starter')" style="background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:1.6rem 1.4rem;cursor:pointer;position:relative;transition:all .2s">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Entry · Personal</div>
+      <div style="font-size:1.25rem;font-weight:700;margin-bottom:.2rem">Starter</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:1rem">개인 · 소규모 브랜드<br>기본 Recipe Tools 전용</div>
+      <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:2px">
+        <div style="font-size:1.7rem;font-weight:700;color:var(--yellow)" class="plan-price" data-monthly="39000" data-annual="35100">₩39,000</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">/월</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:1rem" class="plan-annual-note">연간 시 ₩35,100/월</div>
+      <div style="background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:.8rem 1rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">월 지급 크레딧</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--yellow)">200 <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);font-weight:400">cr</span></div>
+        </div>
+        <div style="width:100%;height:2px;background:var(--b2);border-radius:2px;overflow:hidden;margin-bottom:5px"><div style="width:36%;height:100%;background:var(--yellow);border-radius:2px"></div></div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted)">₩195/cr · 2K 이미지 약 100장</div>
+      </div>
+      <button onclick="event.stopPropagation();selectPlan('starter')" style="width:100%;padding:.6rem;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid var(--b2);background:var(--s2);color:var(--muted);margin-bottom:1rem;transition:all .15s" class="plan-btn" id="pbtn-starter">이 플랜 선택하기</button>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">포함 사항</div>
+      <ul style="list-style:none">
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 2K 이미지 전용 (100장/월)</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· Single · Recast · Upscale</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 기본 Packshot 포함</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 월말 크레딧 만료</li>
+      </ul>
+    </div>
+
+    <!-- Standard -->
+    <div class="plan-card" id="pc-standard" onclick="selectPlan('standard')" style="background:var(--s2);border:2px solid var(--yellow);border-radius:8px;padding:1.6rem 1.4rem;cursor:pointer;position:relative;transition:all .2s">
+      <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--yellow);color:#000;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;padding:2px 12px;border-radius:0 0 5px 5px;letter-spacing:.08em;text-transform:uppercase">MOST POPULAR</div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Mid · Creator</div>
+      <div style="font-size:1.25rem;font-weight:700;margin-bottom:.2rem">Standard</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:1rem">실무 크리에이터<br>모든 Recipe Tools 포함</div>
+      <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:2px">
+        <div style="font-size:1.7rem;font-weight:700;color:var(--yellow)" class="plan-price" data-monthly="69000" data-annual="62100">₩69,000</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">/월</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:1rem" class="plan-annual-note">연간 시 ₩62,100/월</div>
+      <div style="background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:.8rem 1rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">월 지급 크레딧</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--yellow)">380 <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);font-weight:400">cr</span></div>
+        </div>
+        <div style="width:100%;height:2px;background:var(--b2);border-radius:2px;overflow:hidden;margin-bottom:5px"><div style="width:68%;height:100%;background:var(--yellow);border-radius:2px"></div></div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted)">₩182/cr · 2K 이미지 약 190장</div>
+      </div>
+      <button onclick="event.stopPropagation();selectPlan('standard')" style="width:100%;padding:.6rem;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid var(--b2);background:var(--s2);color:var(--muted);margin-bottom:1rem;transition:all .15s" class="plan-btn" id="pbtn-standard">이 플랜 선택하기</button>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">포함 사항</div>
+      <ul style="list-style:none">
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 2K / 4K 전체 사용 (190장/월)</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 모든 Recipe Tools 탭</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· Venti 배치 · Model Gen 포함</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· Top-up 구독자 전용가</li>
+      </ul>
+    </div>
+
+    <!-- Pro -->
+    <div class="plan-card" id="pc-pro" onclick="selectPlan('pro')" style="background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:1.6rem 1.4rem;cursor:pointer;position:relative;transition:all .2s">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Pro · Agency</div>
+      <div style="font-size:1.25rem;font-weight:700;margin-bottom:.2rem">Pro</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:1rem">에이전시 · 파워유저<br>Crew Tools 얼리 액세스</div>
+      <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:2px">
+        <div style="font-size:1.7rem;font-weight:700;color:var(--yellow)" class="plan-price" data-monthly="99000" data-annual="89100">₩99,000</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">/월</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:1rem" class="plan-annual-note">연간 시 ₩89,100/월</div>
+      <div style="background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:.8rem 1rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">월 지급 크레딧</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--yellow)">560 <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);font-weight:400">cr</span></div>
+        </div>
+        <div style="width:100%;height:2px;background:var(--b2);border-radius:2px;overflow:hidden;margin-bottom:5px"><div style="width:100%;height:100%;background:var(--yellow);border-radius:2px"></div></div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted)">₩177/cr · 2K 이미지 약 280장</div>
+      </div>
+      <button onclick="event.stopPropagation();selectPlan('pro')" style="width:100%;padding:.6rem;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid var(--b2);background:var(--s2);color:var(--muted);margin-bottom:1rem;transition:all .15s" class="plan-btn" id="pbtn-pro">이 플랜 선택하기</button>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">포함 사항</div>
+      <ul style="list-style:none">
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 전 기능 무제한 (280장/월)</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· Crew Tools 얼리 액세스</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 우선 처리 큐 배정</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· Top-up 월 2회 한도</li>
+      </ul>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="plan-card" id="pc-enterprise" style="background:var(--surface);border:1px solid var(--red-border);border-radius:8px;padding:1.6rem 1.4rem;cursor:pointer;position:relative;transition:all .2s" onclick="alert('문의 페이지로 이동합니다')">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Enterprise · Custom</div>
+      <div style="font-size:1.25rem;font-weight:700;margin-bottom:.2rem">Enterprise</div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-bottom:1rem">대형 에이전시 · 팀<br>커스텀 계약</div>
+      <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:2px">
+        <div style="font-size:1.2rem;font-weight:700;color:var(--text)">별도 협의</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:1rem">인보이스 · 연간 계약</div>
+      <div style="background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:.8rem 1rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem">
+          <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">월 지급 크레딧</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--text)">Custom</div>
+        </div>
+        <div style="width:100%;height:2px;background:var(--b2);border-radius:2px;overflow:hidden;margin-bottom:5px"><div style="width:100%;height:100%;background:var(--red);border-radius:2px"></div></div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--muted)">팀 규모 · 사용량 맞춤 설계</div>
+      </div>
+      <button onclick="event.stopPropagation();alert('문의 페이지로 이동합니다')" style="width:100%;padding:.6rem;border-radius:4px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:1px solid var(--red-border);background:transparent;color:var(--red);margin-bottom:1rem">문의하기 →</button>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">포함 사항</div>
+      <ul style="list-style:none">
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 크레딧 · 멤버 수 맞춤 협의</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 전담 계정 매니저</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· SLA 보장 · API 직접 연결</li>
+        <li style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);padding:.35rem 0;border-top:1px solid var(--b1)">· 인보이스 결제 가능</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="sec-div"></div>
+
+<!-- ── 02 TOP-UP ── -->
+<section class="topup-section">
+  <div class="topup-hdr">
+    <div class="topup-ttl">구독 중 추가 충전 (Top-up)</div>
+    <div class="topup-sub">구독자 전용 · 비구독 대비 최대 15% 저렴</div>
+  </div>
+  <div class="topup-grid">
+    <div class="topup-card" onclick="toggleTopup('mini',this)">
+      <div class="tc-tier">Mini</div>
+      <div class="tc-name">Mini Top-up</div>
+      <div class="tc-pr">₩9,900<span>/회</span></div>
+      <div class="tc-credits">110 크레딧</div>
+      <div class="tc-note">₩90/cr · 전 플랜 사용 가능</div>
+      <button class="tc-tog">추가하기</button>
+    </div>
+    <div class="topup-card" onclick="toggleTopup('std',this)">
+      <div class="tc-tier">Standard</div>
+      <div class="tc-name">Standard Top-up</div>
+      <div class="tc-pr">₩19,900<span>/회</span></div>
+      <div class="tc-credits">240 크레딧 <span style="color:var(--green);font-size:9px">+9% 보너스</span></div>
+      <div class="tc-note">₩83/cr · 자동 충전 설정 가능</div>
+      <button class="tc-tog">추가하기</button>
+    </div>
+    <div class="topup-card" onclick="toggleTopup('pro',this)">
+      <div class="tc-tier">Pro</div>
+      <div class="tc-name">Pro Top-up</div>
+      <div class="tc-pr">₩39,900<span>/회</span></div>
+      <div class="tc-credits">500 크레딧 <span style="color:var(--green);font-size:9px">+25% 보너스</span></div>
+      <div class="tc-note">₩80/cr · Standard↑ 전용</div>
+      <button class="tc-tog">추가하기</button>
+    </div>
+    <div class="topup-card" onclick="toggleTopup('studio',this)">
+      <div class="tc-tier">Large</div>
+      <div class="tc-name">Large Top-up</div>
+      <div class="tc-pr">₩79,900<span>/회</span></div>
+      <div class="tc-credits">1,100 크레딧 <span style="color:var(--green);font-size:9px">+38% 보너스</span></div>
+      <div class="tc-note">₩73/cr · Pro↑ 전용</div>
+      <button class="tc-tog">추가하기</button>
+    </div>
+  </div>
+  <div class="note"><b>만료 정책</b> · 구독 크레딧 = 당월 말 만료 (이월 불가) · Top-up / 단품 구매 크레딧 = 구매일 +12개월 유효 · 구독 해지 후에도 Top-up 크레딧 잔여분 유지</div>
+</section>
+
+<div class="sec-div"></div>
+
+<!-- ── 03 SERVICE CREDIT COSTS ── -->
+<section class="service-section">
+  <div class="topup-hdr">
+    <div class="topup-ttl">서비스별 크레딧 소모량</div>
+    <div class="topup-sub">1 크레딧 = ₩100 기준</div>
+  </div>
+  <div class="service-grid" id="service-grid"></div>
+</section>
+
+<div class="sec-div"></div>
+
+<!-- ── 04 MARGIN SIMULATOR ── -->
+<section class="sim-section">
+  <div class="topup-hdr">
+    <div class="topup-ttl">마진 시뮬레이터</div>
+    <div class="topup-sub">Higgsfield Creator 연간 ($24/월 = ₩33,600) · PG 3.3% · 인프라 ₩70,000 기준</div>
+  </div>
+
+  <!-- 플랜 1인당 마진 카드 -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px" id="unit-margin-cards"></div>
+
+  <!-- 머릿수 계산기 -->
+  <div style="background:var(--s2);border:1px solid var(--b1);border-radius:8px;overflow:hidden">
+    <!-- 파라미터 헤더 -->
+    <div style="padding:16px 20px;border-bottom:1px solid var(--b1);display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">USD/KRW 환율</div>
+        <input class="sim-input" type="number" id="fx" value="1400" oninput="calcMargin()" style="width:100%">
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">크레딧 평균 소진율 (%)</div>
+        <input class="sim-input" type="number" id="util" value="70" step="5" oninput="calcMargin()" style="width:100%">
+      </div>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">결제 방식</div>
+        <div style="display:flex;gap:0;border:1px solid var(--b1);border-radius:4px;overflow:hidden;margin-top:2px">
+          <button id="sim-monthly" onclick="setSimBilling('monthly')" style="flex:1;padding:6px 8px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.06em;border:none;cursor:pointer;background:var(--red);color:#fff;font-weight:700">월간</button>
+          <button id="sim-annual" onclick="setSimBilling('annual')" style="flex:1;padding:6px 8px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.06em;border:none;cursor:pointer;background:var(--s3);color:var(--muted)">연간 (-10%)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 구독자 수 입력 -->
+    <div style="padding:20px;border-bottom:1px solid var(--b1)">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">플랜별 구독자 수 입력</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-size:13px;font-weight:700">Starter</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--yellow)" id="sim-starter-price">₩39,000/월</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button onclick="adjN('starter',-1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">−</button>
+            <input type="number" id="n-starter" value="1" min="0" oninput="calcMargin()" style="flex:1;text-align:center;background:var(--s3);border:1px solid var(--b1);color:var(--text);padding:5px;border-radius:4px;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;outline:none">
+            <button onclick="adjN('starter',1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">+</button>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px" id="n-starter-sub">월 매출 ₩39,000</div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-size:13px;font-weight:700">Standard</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--yellow)" id="sim-standard-price">₩69,000/월</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button onclick="adjN('standard',-1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">−</button>
+            <input type="number" id="n-standard" value="1" min="0" oninput="calcMargin()" style="flex:1;text-align:center;background:var(--s3);border:1px solid var(--b1);color:var(--text);padding:5px;border-radius:4px;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;outline:none">
+            <button onclick="adjN('standard',1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">+</button>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px" id="n-standard-sub">월 매출 ₩69,000</div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-size:13px;font-weight:700">Pro</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--yellow)" id="sim-pro-price">₩99,000/월</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button onclick="adjN('pro',-1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">−</button>
+            <input type="number" id="n-pro" value="1" min="0" oninput="calcMargin()" style="flex:1;text-align:center;background:var(--s3);border:1px solid var(--b1);color:var(--text);padding:5px;border-radius:4px;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;outline:none">
+            <button onclick="adjN('pro',1)" style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--s3);color:var(--text);font-size:16px;cursor:pointer;line-height:1">+</button>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px" id="n-pro-sub">월 매출 ₩99,000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결과 -->
+    <div style="padding:20px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px" id="margin-stats"></div>
+      <table class="sim-table" style="width:100%">
+        <thead><tr>
+          <th>플랜</th>
+          <th>구독료</th>
+          <th>구독자</th>
+          <th>총 매출</th>
+          <th>API 원가<br><span style="opacity:.6;font-weight:400">소진율 적용</span></th>
+          <th>PG 수수료</th>
+          <th>HF 초과</th>
+          <th>플랜 순이익</th>
+          <th>마진율</th>
+        </tr></thead>
+        <tbody id="margin-table"></tbody>
+      </table>
+      <div id="hf-plan-alert" style="display:none;margin-top:10px;background:rgba(232,41,28,.07);border:1px solid var(--red-border);border-radius:6px;padding:10px 14px;font-family:'Space Mono',monospace;font-size:10px;color:#ff6b5e;line-height:1.7"></div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-div"></div>
+
+<!-- ── 05 REWARD ── -->
+<section class="reward-section">
+  <div class="topup-hdr">
+    <div class="topup-ttl">리워드 & 레퍼럴 정책</div>
+    <div class="topup-sub">쿠팡 파트너스 벤치마킹 · 크레딧 인센티브 시스템</div>
+  </div>
+  <div class="reward-grid">
+
+    <!-- REFERRAL -->
+    <div class="reward-card">
+      <div class="rc-head">
+        <div class="rc-num" style="background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)">01</div>
+        <div class="rc-title">레퍼럴 크레딧 리워드 (쿠팡 파트너스형)</div>
+      </div>
+      <div class="rc-desc">고유 레퍼럴 링크를 통해 신규 고객 유입 시 크레딧 지급. 피추천인 첫 결제 완료 후 14일 뒤 확정 지급.</div>
+      <table class="rc-table">
+        <thead><tr><th>단계</th><th>트리거</th><th>지급 대상</th><th>지급량</th><th>한도</th></tr></thead>
+        <tbody>
+          <tr><td><span class="svc-tag tag-b">Lv.1 가입</span></td><td class="m">레퍼럴 링크로 신규 가입</td><td class="m">추천인</td><td class="y">+30 크레딧</td><td class="m">무제한</td></tr>
+          <tr><td><span class="svc-tag tag-g">Lv.2 첫 결제</span></td><td class="m">피추천인 첫 구독/구매</td><td class="m">추천인</td><td class="y">결제금액 10% 환산</td><td class="m">월 max 500cr</td></tr>
+          <tr><td><span class="svc-tag tag-y">Lv.3 유지</span></td><td class="m">피추천인 3개월 구독 유지</td><td class="m">추천인</td><td class="y">+50 크레딧 보너스</td><td class="m">1인당 1회</td></tr>
+          <tr><td><span class="svc-tag tag-r">피추천인</span></td><td class="m">레퍼럴 링크로 가입</td><td class="m">신규 가입자</td><td class="y">+50 웰컴 크레딧</td><td class="m">1회</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TIER -->
+    <div class="reward-card">
+      <div class="rc-head">
+        <div class="rc-num" style="background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow-border)">02</div>
+        <div class="rc-title">파트너 등급 시스템 (누적 실적 기반)</div>
+      </div>
+      <div class="rc-desc">추천 누적 결제액에 따라 리워드 배율 자동 상승. 인플루언서·에이전시 공략 채널.</div>
+      <div class="tier-row">
+        <div class="tier-card">
+          <div class="tier-name" style="color:var(--blue)">Bronze</div>
+          <div class="tier-cond">누적 0 ~<br>₩499,999</div>
+          <div class="tier-rate">10%</div>
+          <div class="tier-extra">기본 리워드</div>
+        </div>
+        <div class="tier-card">
+          <div class="tier-name" style="color:#94a3b8">Silver</div>
+          <div class="tier-cond">₩500,000 ~<br>₩1,999,999</div>
+          <div class="tier-rate">13%</div>
+          <div class="tier-extra">전용 배너 제공</div>
+        </div>
+        <div class="tier-card">
+          <div class="tier-name" style="color:var(--yellow)">Gold</div>
+          <div class="tier-cond">₩2,000,000 ~<br>₩4,999,999</div>
+          <div class="tier-rate">15%</div>
+          <div class="tier-extra">월정액 5% 추가 할인</div>
+        </div>
+        <div class="tier-card" style="border-color:var(--red-border)">
+          <div class="tier-name" style="color:var(--red)">Diamond</div>
+          <div class="tier-cond">₩5,000,000<br>이상</div>
+          <div class="tier-rate" style="color:var(--red)">20%</div>
+          <div class="tier-extra">전담 매니저 배정</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="reward-card">
+      <div class="rc-head">
+        <div class="rc-num" style="background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)">03</div>
+        <div class="rc-title">활동 기반 크레딧 리워드</div>
+      </div>
+      <div class="rc-desc">장기 구독 유지 · SNS 공유 등 참여 행동에 인센티브 부여. 자동 지급.</div>
+      <table class="rc-table">
+        <thead><tr><th>행동</th><th>지급량</th><th>조건</th></tr></thead>
+        <tbody>
+          <tr><td class="m">3개월 연속 구독</td><td class="y">+100 크레딧</td><td class="m">자동</td></tr>
+          <tr><td class="m">6개월 연속 구독</td><td class="y">+250 크레딧</td><td class="m">자동</td></tr>
+          <tr><td class="m">12개월 연속 구독</td><td class="y">+600 크레딧</td><td class="m">자동</td></tr>
+          <tr><td class="m">플랜 업그레이드</td><td class="y">+50 크레딧</td><td class="m">1회</td></tr>
+          <tr><td class="m">SNS 결과물 공유 (태그)</td><td class="y">+10 cr/회</td><td class="m">월 최대 50cr</td></tr>
+          <tr><td class="m">SNS 팔로워 1만 이상</td><td class="g">×2 배율 적용</td><td class="m">인증 후 적용</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="note"><b>어뷰징 방지</b> · 셀프 레퍼럴 차단 (동일 IP / 결제수단 감지) · 크레딧 지급은 첫 결제 완료 후 14일 유예 · 레퍼럴 링크 1계정 1링크 고정 · 비정상 패턴 감지 시 계정 검토</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-section">
+  <div class="final-box">
+    <div>
+      <div class="final-ey">Americano · 가격 정책</div>
+      <div class="final-ttl">구독 정책 설계가 완료되셨나요?</div>
+      <div class="final-desc">선택하신 플랜과 옵션을 기반으로 요약서를 확인하거나<br>추가 협의 및 커스텀 구독 문의를 남겨주세요.</div>
+    </div>
+    <div class="final-btns">
+      <button class="btn-primary" onclick="copySpec()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        요약 복사하기
+      </button>
+      <button class="btn-secondary">커스텀 플랜 문의 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- SUM BAR -->
+<div class="sum-bar" id="sum-bar">
+  <div class="sum-l">
+    <div class="sum-plan-label" id="sb-plan-label">—</div>
+    <div class="sum-plan-detail" id="sb-plan-detail">플랜을 선택하면 여기에 표시됩니다</div>
+  </div>
+  <div class="sum-c">
+    <div class="sum-label">월 결제금액</div>
+    <div><span class="sum-amount" id="sb-amount">—</span></div>
+    <div class="sum-vat">VAT 별도 · 카드 자동 결제</div>
+    <div class="sum-credits" id="sb-credits">—</div>
+  </div>
+  <div class="sum-btns">
+    <button class="sum-btn-copy" onclick="copySpec()">요약 복사</button>
+    <button class="sum-cta" onclick="alert('문의 페이지로 이동합니다')">구독 시작하기 →</button>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+var billing = 'monthly';
+var selectedPlan = null;
+var selectedTopups = {};
+
+var PLANS = [
+  {
+    id:'starter', ey:'Entry · Personal', name:'Starter', tag:'개인 · 소규모 브랜드\n기본 Recipe Tools 전용',
+    monthly:39000, credits:200,
+    apiCostUsd:0.12, crPerImg:2,
+    features:['2K 이미지 전용 (100장/월)','Single · Recast · Upscale','기본 Packshot 포함','월말 크레딧 만료'],
+  },
+  {
+    id:'standard', ey:'Mid · Creator', name:'Standard', tag:'실무 크리에이터\n모든 Recipe Tools 포함',
+    monthly:69000, credits:380,
+    apiCostUsd:0.12, crPerImg:2,
+    features:['2K / 4K 전체 사용 (190장/월)','모든 Recipe Tools 탭','Venti 배치 · Model Gen 포함','Top-up 구독자 전용가'],
+    hot:true
+  },
+  {
+    id:'pro', ey:'Pro · Agency', name:'Pro', tag:'에이전시 · 파워유저\nCrew Tools 얼리 액세스',
+    monthly:99000, credits:560,
+    apiCostUsd:0.12, crPerImg:2,
+    features:['전 기능 무제한 (280장/월)','Crew Tools 얼리 액세스','우선 처리 큐 배정','Top-up 월 2회 한도'],
+  },
+  {
+    id:'enterprise', ey:'Enterprise · Custom', name:'Enterprise', tag:'대형 에이전시 · 팀\n커스텀 계약',
+    monthly:null, credits:null,
+    apiCostUsd:0.12, crPerImg:2,
+    features:['크레딧 · 멤버 수 맞춤 협의','전담 계정 매니저','SLA 보장 · API 직접 연결','인보이스 결제 가능'],
+    enterprise:true
+  }
+];
+
+var SERVICES = [
+  {name:'Single 2K', desc:'Nano Banana 2 · 패션 합성', api:'$0.12', credits:2, tag:'tag-r', tagLabel:'Single'},
+  {name:'Single 4K', desc:'Nano Banana 2 · 고해상도', api:'$0.16', credits:3, tag:'tag-r', tagLabel:'Single'},
+  {name:'Single 2K Pro', desc:'Nano Banana Pro · 고품질', api:'$0.15', credits:3, tag:'tag-r', tagLabel:'Single'},
+  {name:'Single 4K Pro', desc:'Nano Banana Pro · 최고품질', api:'$0.30', credits:5, tag:'tag-r', tagLabel:'Single'},
+  {name:'Model Gen 2K', desc:'Cinema Studio · 모델 생성', api:'$0.18', credits:3, tag:'tag-b', tagLabel:'Model'},
+  {name:'Model Gen 4K', desc:'Cinema Studio · 고해상도', api:'$0.32', credits:6, tag:'tag-b', tagLabel:'Model'},
+  {name:'Face Swap', desc:'Recast · 기본 페이스스왑', api:'$0.05', credits:1, tag:'tag-y', tagLabel:'Recast'},
+  {name:'Advanced Swap', desc:'Recast · 고품질 스왑', api:'$0.08', credits:2, tag:'tag-y', tagLabel:'Recast'},
+  {name:'Head Swap', desc:'Recast · 헤드 교체', api:'$0.06', credits:1, tag:'tag-y', tagLabel:'Recast'},
+  {name:'Packshot 2K', desc:'Nano Banana 2 · 제품 합성', api:'$0.12', credits:2, tag:'tag-b', tagLabel:'Packshot'},
+  {name:'Packshot Pro', desc:'Nano Banana Pro · 고품질', api:'$0.15', credits:3, tag:'tag-b', tagLabel:'Packshot'},
+  {name:'Upscale Clarity', desc:'fal-ai clarity-upscaler', api:'~$0.04', credits:1, tag:'tag-g', tagLabel:'Upscale'},
+  {name:'Upscale Portrait', desc:'CCSR / Aura SR', api:'~$0.04', credits:1, tag:'tag-g', tagLabel:'Upscale'},
+  {name:'Upscale Magnific', desc:'Magnific Precise V2 · 대형', api:'$0.17~2.05', credits:10, tag:'tag-g', tagLabel:'Upscale'},
+];
+
+var TOPUP_DATA = {
+  mini:{price:9900, credits:110},
+  std:{price:19900, credits:240},
+  pro:{price:39900, credits:500},
+  studio:{price:79900, credits:1100}
+};
+
+/* ── RENDER PLANS ── */
+function renderPlans() {
+  var disc = billing === 'annual' ? 0.20 : 0;
+  var html = '';
+  var maxCr = 560;
+  PLANS.forEach(function(pl) {
+    var isSelected = selectedPlan === pl.id;
+    var isEnterprise = !!pl.enterprise;
+    html += '<div class="plan' + (pl.hot?' hot':'') + (isSelected?' selected':'') + (isEnterprise?' plan-enterprise':'') + '" id="plan-' + pl.id + '" onclick="selectPlan(\'' + pl.id + '\')">';
+    html += '<div class="plan-hot">MOST POPULAR</div>';
+    html += '<div class="pl-ey">' + pl.ey + '</div>';
+    html += '<div class="pl-name">' + pl.name + '</div>';
+    html += '<div class="pl-tag">' + pl.tag.replace('\n','<br>') + '</div>';
+    if (isEnterprise) {
+      html += '<div class="pl-pr-row"><div class="pl-pr" style="font-size:1.1rem;letter-spacing:-.01em">별도 협의</div></div>';
+      html += '<div class="pl-annual" style="color:var(--muted)">인보이스 · 연간 계약</div>';
+      html += '<div class="credit-box">';
+      html += '<div class="cb-top"><div class="cb-label">월 지급 크레딧</div><div class="cb-val-wrap"><div class="cb-val" style="font-size:.95rem">Custom</div></div></div>';
+      html += '<div class="cb-bar"><div class="cb-fill" style="width:100%;background:var(--red)"></div></div>';
+      html += '<div class="cb-sub">팀 규모 · 사용량 맞춤 설계</div>';
+      html += '</div>';
+    } else {
+      var price = Math.round(pl.monthly * (1 - disc));
+      var annualPrice = Math.round(pl.monthly * 0.80);
+      var fillPct = Math.round((pl.credits / maxCr) * 100);
+      html += '<div class="pl-pr-row"><div class="pl-pr" id="price-' + pl.id + '">₩' + price.toLocaleString() + '</div><div class="pl-sfx">/월</div></div>';
+      if (billing === 'monthly') {
+        html += '<div class="pl-annual">연간 시 ₩' + annualPrice.toLocaleString() + '/월</div>';
+      } else {
+        html += '<div class="pl-annual" style="color:var(--green)">연 ₩' + (annualPrice*12).toLocaleString() + ' 총액</div>';
+      }
+      html += '<div class="credit-box">';
+      html += '<div class="cb-top"><div class="cb-label">월 지급 크레딧</div><div class="cb-val-wrap"><div class="cb-val">' + pl.credits.toLocaleString() + '</div><div class="cb-unit"> cr</div></div></div>';
+      html += '<div class="cb-bar"><div class="cb-fill" style="width:' + fillPct + '%"></div></div>';
+      html += '<div class="cb-sub">₩' + Math.round(price/pl.credits) + '/cr · 2K 이미지 약 ' + Math.floor(pl.credits/2) + '장</div>';
+      html += '</div>';
+    }
+    html += '<button class="pl-btn" onclick="event.stopPropagation();' + (isEnterprise ? 'alert(\'문의 페이지로 이동합니다\')' : 'selectPlan(\'' + pl.id + '\')') + '">' + (isEnterprise ? '문의하기 →' : (isSelected?'✓ 선택됨':'이 플랜 선택하기')) + '</button>';
+    html += '<div class="feat-hdr">포함 사항</div>';
+    html += '<ul class="feat-list">';
+    pl.features.forEach(function(f) {
+      html += '<li class="feat-item"><div class="fic"><svg width="7" height="5" fill="none" viewBox="0 0 7 5"><path d="M1 2.5l1.8 1.8 3.5-3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' + f + '</li>';
+    });
+    html += '</ul></div>';
+  });
+  document.getElementById('plans-grid').innerHTML = html;
+}
+
+/* ── RENDER SERVICES ── */
+function renderServices() {
+  var html = '';
+  SERVICES.forEach(function(s) {
+    html += '<div class="svc-row">';
+    html += '<div class="svc-l"><div class="svc-name">' + s.name + '</div><div class="svc-desc">' + s.desc + '</div></div>';
+    html += '<div class="svc-r">';
+    html += '<div class="svc-api">' + s.api + '</div>';
+    html += '<div class="svc-cr">' + s.credits + ' cr</div>';
+    html += '<div class="svc-tag ' + s.tag + '">' + s.tagLabel + '</div>';
+    html += '</div></div>';
+  });
+  document.getElementById('service-grid').innerHTML = html;
+}
+
+/* ── SELECT PLAN ── */
+function selectPlan(id) {
+  selectedPlan = id;
+  // 모든 카드 원상 복구
+  ['starter','standard','pro'].forEach(function(pid){
+    var card = document.getElementById('pc-'+pid);
+    var btn = document.getElementById('pbtn-'+pid);
+    if(!card) return;
+    if(pid === 'standard') {
+      card.style.border = '2px solid var(--yellow)';
+    } else {
+      card.style.border = '1px solid var(--b2)';
+    }
+    card.style.background = 'var(--s2)';
+    if(btn){ btn.style.background='var(--s2)'; btn.style.color='var(--muted)'; btn.style.border='1px solid var(--b2)'; btn.textContent='이 플랜 선택하기'; }
+  });
+  // 선택된 카드 강조
+  var selCard = document.getElementById('pc-'+id);
+  var selBtn = document.getElementById('pbtn-'+id);
+  if(selCard){ selCard.style.background='var(--red)'; selCard.style.border='1px solid var(--red)'; }
+  if(selBtn){ selBtn.style.background='#fff'; selBtn.style.color='var(--red)'; selBtn.style.border='1px solid #fff'; selBtn.textContent='✓ 선택됨'; }
+  updateSumBar();
+}
+
+/* ── BILLING TOGGLE ── */
+function setBilling(b) {
+  billing = b;
+  var monthly = b === 'monthly';
+  // 토글 버튼 스타일
+  var bm = document.getElementById('btog-monthly');
+  var ba = document.getElementById('btog-annual');
+  bm.style.background = monthly ? 'var(--red)' : 'var(--s2)';
+  bm.style.color = monthly ? '#fff' : 'var(--muted)';
+  ba.style.background = monthly ? 'var(--s2)' : 'var(--red)';
+  ba.style.color = monthly ? 'var(--muted)' : '#fff';
+  // 가격 업데이트
+  var plans = {starter:{monthly:39000,annual:35100}, standard:{monthly:69000,annual:62100}, pro:{monthly:99000,annual:89100}};
+  Object.keys(plans).forEach(function(id){
+    var priceEl = document.querySelector('#pc-'+id+' .plan-price');
+    var noteEl = document.querySelector('#pc-'+id+' .plan-annual-note');
+    if(!priceEl) return;
+    var price = monthly ? plans[id].monthly : plans[id].annual;
+    priceEl.textContent = '\u20a9' + price.toLocaleString();
+    if(noteEl) noteEl.textContent = monthly ? ('연간 시 \u20a9'+plans[id].annual.toLocaleString()+'/월') : ('연 \u20a9'+(plans[id].annual*12).toLocaleString()+' 총액');
+  });
+  updateSumBar();
+}
+
+/* ── TOPUP TOGGLE ── */
+function toggleTopup(id, el) {
+  selectedTopups[id] = !selectedTopups[id];
+  el.classList.toggle('on', selectedTopups[id]);
+  updateSumBar();
+}
+
+/* ── SUM BAR ── */
+var PLAN_DATA = {
+  starter:{name:'Starter', monthly:39000, annual:35100, credits:200},
+  standard:{name:'Standard', monthly:69000, annual:62100, credits:380},
+  pro:{name:'Pro', monthly:99000, annual:89100, credits:560}
+};
+function updateSumBar() {
+  var bar = document.getElementById('sum-bar');
+  if (!selectedPlan || selectedPlan==='enterprise') { bar.classList.remove('show'); return; }
+  var pl = PLAN_DATA[selectedPlan];
+  if(!pl){ bar.classList.remove('show'); return; }
+  var price = billing==='annual' ? pl.annual : pl.monthly;
+  var totalCredits = pl.credits;
+  var topupTotal = 0;
+  Object.keys(selectedTopups).forEach(function(k){
+    if(selectedTopups[k]){ topupTotal += TOPUP_DATA[k].price; totalCredits += TOPUP_DATA[k].credits; }
+  });
+  var total = price + topupTotal;
+  var label = pl.name + ' · ' + (billing==='annual'?'연간':'월간');
+  var detail = '기본 ' + pl.credits + ' cr' + (topupTotal>0?' + Top-up':'') + ' · 2K 이미지 약 ' + Math.floor(totalCredits/2) + '장 생성 가능';
+  document.getElementById('sb-plan-label').textContent = label;
+  document.getElementById('sb-plan-detail').textContent = detail;
+  var amtEl = document.getElementById('sb-amount');
+  amtEl.textContent = '₩' + total.toLocaleString();
+  amtEl.classList.add('pop');
+  setTimeout(function(){ amtEl.classList.remove('pop'); }, 300);
+  document.getElementById('sb-credits').textContent = '총 ' + totalCredits.toLocaleString() + ' 크레딧 / 월';
+  bar.classList.add('show');
+}
+
+/* ── MARGIN CALC ── */
+var simBilling = 'monthly';
+var HF_FIXED_KRW = 33600;
+var HF_POOL_CR   = 500;
+var HF_TOPUP_USD = 0.05;
+var INFRA_KRW    = 70000;
+var PG_RATE      = 0.033;
+var COSTS = {
+  starter:  {monthly:39000, annual:35100, credits:200, hfCrPerImg:2.5, amCrPerImg:2},
+  standard: {monthly:69000, annual:62100, credits:380, hfCrPerImg:2.5, amCrPerImg:2},
+  pro:      {monthly:99000, annual:89100, credits:560, hfCrPerImg:2.5, amCrPerImg:2}
+};
+var PLAN_NAMES = {starter:'Starter', standard:'Standard', pro:'Pro'};
+
+function setSimBilling(b) {
+  simBilling = b;
+  var mb = document.getElementById('sim-monthly');
+  var ab = document.getElementById('sim-annual');
+  if (!mb || !ab) return;
+  mb.style.background = b==='monthly' ? 'var(--red)' : 'var(--s3)';
+  mb.style.color       = b==='monthly' ? '#fff' : 'var(--muted)';
+  mb.style.fontWeight  = b==='monthly' ? '700' : '400';
+  ab.style.background  = b==='annual'  ? 'var(--red)' : 'var(--s3)';
+  ab.style.color       = b==='annual'  ? '#fff' : 'var(--muted)';
+  ab.style.fontWeight  = b==='annual'  ? '700' : '400';
+  calcMargin();
+}
+
+function adjN(id, delta) {
+  var el = document.getElementById('n-' + id);
+  if (!el) return;
+  var v = (parseInt(el.value) || 0) + delta;
+  if (v < 0) v = 0;
+  el.value = v;
+  calcMargin();
+}
+
+function mkStat(label, val, sub, color) {
+  var d = document.createElement('div');
+  d.style.cssText = 'background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:12px 14px';
+  d.innerHTML =
+    '<div style="font-family:Space Mono,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">' + label + '</div>' +
+    '<div style="font-size:20px;font-weight:700;line-height:1;color:' + color + '">' + val + '</div>' +
+    '<div style="font-family:Space Mono,monospace;font-size:8px;color:var(--muted);margin-top:4px">' + sub + '</div>';
+  return d;
+}
+
+function calcMargin() {
+  var fxEl   = document.getElementById('fx');
+  var utilEl = document.getElementById('util');
+  if (!fxEl || !utilEl) return;
+  var fx     = parseInt(fxEl.value)   || 1400;
+  var util   = parseInt(utilEl.value) || 70;
+  var hfTopupKrw = HF_TOPUP_USD * fx;
+
+  var ns = {
+    starter:  parseInt((document.getElementById('n-starter')  || {}).value) || 0,
+    standard: parseInt((document.getElementById('n-standard') || {}).value) || 0,
+    pro:      parseInt((document.getElementById('n-pro')      || {}).value) || 0
+  };
+
+  /* 1인당 마진 카드 */
+  var cardWrap = document.getElementById('unit-margin-cards');
+  if (cardWrap) {
+    cardWrap.innerHTML = '';
+    ['starter','standard','pro'].forEach(function(id) {
+      var c     = COSTS[id];
+      var price = simBilling === 'annual' ? c.annual : c.monthly;
+      var usedAmCr  = c.credits * (util / 100);
+      var usedHfCr  = usedAmCr / c.amCrPerImg * c.hfCrPerImg;
+      var hfShare   = usedHfCr / HF_POOL_CR;
+      var hfCost    = HF_FIXED_KRW * Math.min(hfShare, 1);
+      var overage   = Math.max(0, usedHfCr - HF_POOL_CR) * hfTopupKrw;
+      var pg        = price * PG_RATE;
+      var infraShr  = INFRA_KRW / 3;
+      var net       = price - hfCost - overage - pg - infraShr;
+      var mrate     = Math.round(net / price * 100);
+      var col       = mrate >= 45 ? 'var(--green)' : mrate >= 25 ? 'var(--yellow)' : '#ff6b5e';
+
+      var card = document.createElement('div');
+      card.style.cssText = 'background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:16px 18px';
+      card.innerHTML =
+        '<div style="font-family:Space Mono,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">' + PLAN_NAMES[id] + ' · 1인 기준</div>' +
+        '<div style="font-size:22px;font-weight:700;color:' + col + ';line-height:1;margin-bottom:4px">' + fmtKrw(net) + '</div>' +
+        '<div style="font-family:Space Mono,monospace;font-size:9px;color:var(--muted);margin-bottom:12px">마진율 ' + mrate + '% · 구독료 ' + fmtKrw(price) + '</div>' +
+        '<div style="border-top:1px solid var(--b1);padding-top:10px;display:flex;flex-direction:column;gap:5px">' +
+          row('HF 원가', fmtKrw(hfCost)) +
+          row('PG 수수료', fmtKrw(pg)) +
+          row('인프라 배분', fmtKrw(infraShr)) +
+          (overage > 0 ? '<div style="display:flex;justify-content:space-between;font-family:Space Mono,monospace;font-size:9px;color:#ff6b5e"><span>HF 초과</span><span>' + fmtKrw(overage) + '</span></div>' : '') +
+        '</div>';
+      cardWrap.appendChild(card);
+    });
+  }
+
+  /* 가격/매출 라벨 업데이트 */
+  ['starter','standard','pro'].forEach(function(id) {
+    var c     = COSTS[id];
+    var price = simBilling === 'annual' ? c.annual : c.monthly;
+    var n     = ns[id];
+    var prEl  = document.getElementById('sim-' + id + '-price');
+    var sbEl  = document.getElementById('n-' + id + '-sub');
+    if (prEl) prEl.textContent = fmtKrw(price) + '/월';
+    if (sbEl) sbEl.textContent = '월 매출 ' + fmtKrw(price * n);
+  });
+
+  /* 전체 계산 */
+  var totalRev = 0, totalCost = 0, totalSubs = 0, totalUsedHfCr = 0;
+  ['starter','standard','pro'].forEach(function(id) {
+    var c = COSTS[id];
+    var n = ns[id] || 0;
+    var price = simBilling === 'annual' ? c.annual : c.monthly;
+    var usedAmCr = c.credits * (util / 100) * n;
+    var usedHfCr = usedAmCr / c.amCrPerImg * c.hfCrPerImg;
+    totalUsedHfCr += usedHfCr;
+    totalRev  += price * n;
+    totalSubs += n;
+  });
+
+  var overageTotalKrw = Math.max(0, totalUsedHfCr - HF_POOL_CR) * hfTopupKrw;
+
+  /* 테이블 */
+  var tbody = document.getElementById('margin-table');
+  if (tbody) {
+    tbody.innerHTML = '';
+    ['starter','standard','pro'].forEach(function(id) {
+      var c     = COSTS[id];
+      var n     = ns[id] || 0;
+      var price = simBilling === 'annual' ? c.annual : c.monthly;
+      var rev   = price * n;
+      var usedAmCr = c.credits * (util / 100) * n;
+      var usedHfCr = usedAmCr / c.amCrPerImg * c.hfCrPerImg;
+      var hfShr = totalUsedHfCr > 0 ? usedHfCr / totalUsedHfCr : 0;
+      var hfCostPl  = HF_FIXED_KRW * hfShr;
+      var ovrPl     = overageTotalKrw * hfShr;
+      var pg        = rev * PG_RATE;
+      var infraPl   = n > 0 ? INFRA_KRW * n / Math.max(totalSubs, 1) : 0;
+      var net       = rev - hfCostPl - ovrPl - pg - infraPl;
+      var mrate     = rev > 0 ? Math.round(net / rev * 100) : 0;
+      totalCost    += hfCostPl + ovrPl + pg + infraPl;
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><span class="svc-tag tag-r">' + PLAN_NAMES[id] + '</span></td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:var(--yellow)">' + fmtKrw(price) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:13px;font-weight:700;color:var(--text)">' + n + '명</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:var(--yellow)">' + fmtKrw(rev) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:var(--muted)">' + fmtKrw(hfCostPl) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:var(--muted)">' + fmtKrw(pg) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:' + (ovrPl>0?'#ff6b5e':'var(--muted)') + '">' + fmtKrw(ovrPl) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;color:var(--yellow)">' + fmtKrw(net) + '</td>' +
+        '<td style="font-family:Space Mono,monospace;font-size:11px;font-weight:700;color:' + (mrate>=45?'var(--green)':mrate>=25?'var(--yellow)':'#ff6b5e') + '">' + mrate + '%</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  /* 요약 통계 */
+  var statsWrap = document.getElementById('margin-stats');
+  if (statsWrap) {
+    var totalNet   = totalRev - totalCost;
+    var totalMrate = totalRev > 0 ? Math.round(totalNet / totalRev * 100) : 0;
+    var mc = totalMrate >= 45 ? 'var(--green)' : totalMrate >= 25 ? 'var(--yellow)' : '#ff6b5e';
+    statsWrap.innerHTML = '';
+    statsWrap.appendChild(mkStat('총 월 매출', fmtKrw(totalRev), '구독자 ' + totalSubs + '명', 'var(--yellow)'));
+    statsWrap.appendChild(mkStat('총 비용', fmtKrw(totalCost), 'HF+PG+인프라', '#ff6b5e'));
+    statsWrap.appendChild(mkStat('월 순이익', fmtKrw(totalNet), '소진율 ' + util + '% 가정', totalNet >= 0 ? 'var(--green)' : '#ff6b5e'));
+    statsWrap.appendChild(mkStat('실질 마진율', totalMrate + '%', '전체 평균', mc));
+  }
+
+  /* HF 경보 */
+  var alertEl = document.getElementById('hf-plan-alert');
+  if (alertEl) {
+    if (totalUsedHfCr > HF_POOL_CR) {
+      alertEl.style.display = 'block';
+      alertEl.innerHTML = '⚠ HF cr ' + Math.round(totalUsedHfCr) + 'cr 소비 — 500cr 초과 ' + Math.round(totalUsedHfCr - HF_POOL_CR) + 'cr · 추가비용 ' + fmtKrw(overageTotalKrw) + '<br>Higgsfield Studio 업그레이드($166/월) 검토 권장';
+    } else {
+      alertEl.style.display = 'none';
+    }
+  }
+}
+
+function fmtKrw(n) { return '\u20a9' + Math.round(n).toLocaleString(); }
+function row(k, v) {
+  return '<div style="display:flex;justify-content:space-between;font-family:Space Mono,monospace;font-size:9px"><span style="color:var(--muted)">' + k + '</span><span>' + v + '</span></div>';
+}
+
+/* ── COPY SPEC ── */
+function copySpec() {
+  if(!selectedPlan){ alert('먼저 플랜을 선택해주세요.'); return; }
+  var pl = PLANS.find(function(p){ return p.id===selectedPlan; });
+  var disc = billing==='annual'?0.20:0;
+  var price = Math.round(pl.monthly*(1-disc));
+  var lines = [
+    '[ AMERICANO 구독 정책 요약 ]',
+    '플랜: ' + pl.name + ' (' + (billing==='annual'?'연간':'월간') + ')',
+    '월 결제: ₩' + price.toLocaleString(),
+    '월 크레딧: ' + (pl.credits||'Custom') + ' cr',
+    '2K 이미지(NB2): 약 ' + (pl.credits ? Math.floor(pl.credits/2) : '맞춤') + '장',
+    '',
+    '[ 서비스별 크레딧 소모 ]',
+    'Single 2K · 2cr | Single 4K · 3cr | Model Gen · 3~6cr',
+    'Face Swap · 1cr | Advanced · 2cr | Upscale · 1~10cr',
+    '',
+    '[ 리워드 ]',
+    '레퍼럴 가입 +30cr · 첫결제 10% · 3개월유지 +50cr',
+    '피추천인 +50 웰컴cr',
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(function(){
+    alert('요약이 클립보드에 복사되었습니다.');
+  });
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  renderServices();
+  calcMargin();
+});
+</script>
+</body>
+</html>
