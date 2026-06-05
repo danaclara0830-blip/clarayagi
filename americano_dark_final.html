@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMERICANO — Editorial Dark Final</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMERICANO — Editorial Dark Guide</title>
+</head>
+<body>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --er:#E62E2D;
+  --er-dim:rgba(230,46,45,.07);
+  --er-soft:#F4D9D7;
+  --er-pale:#FDF5F5;
+  --ink:#F0EDE8;
+  --ink2:#888;
+  --ink3:#555;
+  --ink4:#333;
+  --white:#FFFFFF;
+  --off:#171717;
+  --border:#222222;
+  --border2:#2E2E2E;
+  --fa:'Helvetica Neue',HelveticaNeue,'Pretendard Variable',Pretendard,sans-serif;
+  --fm:'Helvetica Neue',HelveticaNeue,'Pretendard Variable',Pretendard,sans-serif;
+}
+body{background:#0A0A0A;color:var(--ink);font-family:var(--fm)}
+
+.G{max-width:100%}
+
+/* ── COVER ── */
+.cover{background:#111111;border-bottom:3px solid var(--er);padding:32px 28px 28px;position:relative;overflow:hidden}
+.cover-eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:10px}
+.cover-title{font-family:var(--fa);font-size:72px;line-height:.85;color:#fff;letter-spacing:.02em}
+.cover-title .soft{color:var(--er-soft)}
+.cover-sub{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.16em;text-transform:uppercase;margin-top:12px}
+.cover-ver{position:absolute;top:20px;right:24px;font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.1em}
+
+/* ── SECTION ── */
+.sec{padding:28px 24px;border-bottom:1px solid var(--border)}
+.sec:last-child{border-bottom:none}
+.sec-eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sec-eyebrow::before{content:'';width:16px;height:2px;background:var(--er);display:block;flex-shrink:0}
+.sec-title{font-family:var(--fa);font-size:38px;color:var(--ink);line-height:.9;margin-bottom:20px}
+
+/* ── COLOR ── */
+.color-system{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cs-main{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}
+.swatch{border-radius:3px;padding:12px 10px;display:flex;flex-direction:column;justify-content:flex-end;min-height:72px}
+.swatch.tall{min-height:100px}
+.sw-name{font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.02em;display:block;margin-bottom:2px}
+.sw-hex{font-family:var(--fm);font-size:11px;display:block}
+.sw-role{font-family:var(--fm);font-size:11px;opacity:.55;display:block;margin-top:1px}
+
+.sw-red{background:var(--er)}
+.sw-red .sw-name,.sw-red .sw-hex,.sw-red .sw-role{color:#fff}
+.sw-soft{background:var(--er-soft)}
+.sw-soft .sw-name{color:#7a2020}.sw-soft .sw-hex{color:#a33030}.sw-soft .sw-role{color:#c06060}
+.sw-pale{background:var(--er-pale);border:1px solid #f0e0e0}
+.sw-pale .sw-name{color:#5a1010}.sw-pale .sw-hex{color:#8a3030}.sw-pale .sw-role{color:#b06060}
+.sw-ink{background:var(--ink)}
+.sw-ink .sw-name,.sw-ink .sw-hex,.sw-ink .sw-role{color:#fff}
+.sw-white{background:#fff;border:1px solid var(--border)}
+.sw-white .sw-name{color:#111}.sw-white .sw-hex{color:#444}.sw-white .sw-role{color:#999}
+.sw-off{background:var(--off);border:1px solid var(--border)}
+.sw-off .sw-name{color:#111}.sw-off .sw-hex{color:#555}.sw-off .sw-role{color:#999}
+.sw-border{background:var(--border);border:1px solid #ddd}
+.sw-border .sw-name{color:#222}.sw-border .sw-hex{color:#555}.sw-border .sw-role{color:#888}
+.sw-ink2{background:var(--ink2)}
+.sw-ink2 .sw-name,.sw-ink2 .sw-hex,.sw-ink2 .sw-role{color:#fff}
+
+.token-table{width:100%;border-collapse:collapse;margin-top:6px}
+.token-table td{padding:8px 10px;font-family:var(--fm);font-size:11px;border-bottom:1px solid var(--border);vertical-align:top}
+.token-table tr:last-child td{border-bottom:none}
+.token-table td:first-child{color:var(--er);font-weight:500;white-space:nowrap;width:160px}
+.token-table td:nth-child(2){color:var(--ink);font-style:italic}
+.token-table td:last-child{color:var(--ink2)}
+
+/* ── TYPOGRAPHY ── */
+.type-rows{display:flex;flex-direction:column;gap:0}
+.type-row{padding:18px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:start}
+.type-row:last-child{border-bottom:none}
+.type-meta{display:flex;flex-direction:column;gap:4px;padding-top:4px}
+.type-meta-label{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.type-meta-spec{font-family:var(--fm);font-size:11px;color:var(--er)}
+.type-meta-usage{font-family:var(--fm);font-size:11px;color:var(--ink4)}
+
+.ty-d1{font-family:var(--fa);font-size:64px;line-height:.88;color:var(--ink);letter-spacing:.01em}
+.ty-d2{font-family:var(--fa);font-size:40px;line-height:.9;color:var(--ink);letter-spacing:.01em}
+.ty-d3{font-family:var(--fa);font-size:24px;line-height:.95;color:var(--ink);letter-spacing:.01em}
+.ty-body{font-family:var(--fm);font-size:13px;line-height:1.7;color:var(--ink)}
+.ty-label{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2)}
+.ty-caption{font-family:var(--fm);font-size:11px;color:var(--ink3);letter-spacing:.04em}
+.ty-mono{font-family:var(--fm);font-size:12px;color:var(--ink);background:var(--off);border:1px solid var(--border);border-radius:2px;padding:2px 7px;display:inline-block}
+
+/* ── SPACING ── */
+.spacing-row{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.sp-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sp-box{background:var(--er-dim);border:1px solid rgba(230,46,45,.2)}
+.sp-label{font-family:var(--fm);font-size:11px;color:var(--er);letter-spacing:.04em}
+.sp-sub{font-family:var(--fm);font-size:11px;color:var(--ink3)}
+
+/* ── COMPONENTS ── */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.comp-block{background:#111111;border:1px solid var(--border);border-radius:4px;padding:16px}
+.comp-label{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px}
+
+/* buttons */
+.btn-row{display:flex;flex-direction:column;gap:6px}
+.b-primary{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--er);color:#fff;border:none;border-radius:2px;padding:10px 16px;font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
+.b-secondary{display:flex;align-items:center;justify-content:center;gap:6px;background:#1E1E1E;color:var(--ink);border:1px solid var(--border2);border-radius:2px;padding:10px 16px;font-family:var(--fm);font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
+.b-ghost{display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--er);border:1px solid var(--er);border-radius:2px;padding:10px 16px;font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
+.b-danger{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--ink);color:#fff;border:none;border-radius:2px;padding:10px 16px;font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
+.btn-spec{font-family:var(--fm);font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.7}
+.btn-spec span{color:var(--er)}
+
+/* input */
+.inp{width:100%;background:#171717;border:1px solid var(--border2);color:var(--ink);padding:9px 12px;border-radius:2px;font-family:var(--fm);font-size:12px;outline:none;margin-bottom:6px}
+.inp.focus{border-color:var(--er)}
+.inp.err{border-color:var(--er);background:var(--er-pale)}
+.inp-label{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin-bottom:5px;display:block}
+.inp-hint{font-family:var(--fm);font-size:11px;color:var(--ink3);margin-top:3px}
+.inp-hint.err{color:var(--er)}
+
+/* tabs */
+.tab-strip{display:flex;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tab-item{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;color:var(--ink3);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tab-item.a{color:var(--er);border-bottom-color:var(--er)}
+
+/* badges */
+.badge-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.badge{font-family:var(--fm);font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:2px}
+.bd-red{background:var(--er-dim);color:var(--er);border:1px solid rgba(230,46,45,.25)}
+.bd-soft{background:var(--er-soft);color:#7a2020;border:1px solid rgba(230,46,45,.2)}
+.bd-muted{background:var(--off);color:var(--ink2);border:1px solid var(--border)}
+.bd-ink{background:var(--ink);color:#fff}
+.bd-outline{background:transparent;color:var(--ink);border:1px solid var(--border2)}
+
+/* card */
+.card-demo{background:#111111;border:1px solid var(--border);border-radius:3px;overflow:hidden}
+.card-thumb-demo{background:var(--er-soft);aspect-ratio:3/2;position:relative;display:flex;align-items:flex-end;padding:12px}
+.card-thumb-tag{background:var(--er);color:#fff;font-family:var(--fm);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:1px}
+.card-body-demo{padding:12px 14px;border-top:1px solid var(--border)}
+.card-title-demo{font-family:var(--fa);font-size:22px;color:var(--ink);line-height:1;margin-bottom:3px}
+.card-sub-demo{font-family:var(--fm);font-size:11px;color:var(--ink3)}
+
+/* table */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);text-align:left;padding:8px 10px;border-bottom:2px solid var(--er);white-space:nowrap}
+.data-table td{font-family:var(--fm);font-size:12px;color:var(--ink);padding:8px 10px;border-bottom:1px solid var(--border)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td.red{color:var(--er);font-weight:500}
+
+/* nav */
+.nav-demo{background:#111111;border:1px solid var(--border);border-radius:3px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-logo{font-family:var(--fa);font-size:20px;letter-spacing:.04em;color:var(--ink);display:flex;align-items:center;gap:8px}
+.nav-logo-dot{width:10px;height:10px;background:var(--er);border-radius:1px;display:inline-block}
+.nav-links{display:flex;gap:18px}
+.nav-link{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);padding:4px 0;border-bottom:1px solid transparent}
+.nav-link.a{color:var(--er);border-bottom-color:var(--er)}
+.nav-cta{background:var(--er);color:#fff;border:none;border-radius:2px;padding:7px 14px;font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+
+/* header block */
+.header-demo{background:var(--er);padding:24px;border-radius:3px;position:relative;overflow:hidden}
+.header-demo-sub{font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px}
+.header-demo-title{font-family:var(--fa);font-size:44px;line-height:.88;color:#fff}
+.header-demo-title .s{color:var(--er-soft);font-size:22px;display:block;letter-spacing:.04em;margin-bottom:4px}
+
+/* ── STATES ── */
+.states-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.state-block{background:#111111;border:1px solid var(--border);border-radius:3px;padding:12px}
+.state-label{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.state-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--border);border-radius:2px;background:#171717;margin-bottom:5px;font-family:var(--fm);font-size:12px;color:var(--ink)}
+.state-item.hover{border-color:var(--border2);background:var(--off)}
+.state-item.focus{border-color:var(--er);background:#171717}
+.state-item.active{background:var(--er-pale);border-color:rgba(230,46,45,.3)}
+.state-item.disabled{opacity:.38;cursor:not-allowed}
+.state-item.error{border-color:var(--er);background:var(--er-pale);color:var(--er)}
+.state-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.state-item.hover .state-dot{background:var(--ink2)}
+.state-item.focus .state-dot,.state-item.active .state-dot{background:var(--er)}
+.state-item.error .state-dot{background:var(--er)}
+
+/* ── GRID SYSTEM ── */
+.grid-demo{border:1px solid var(--border);border-radius:3px;padding:14px;background:#111111}
+.grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:8px}
+.grid-col{height:20px;background:rgba(230,46,45,.12);border:1px solid rgba(230,46,45,.2);border-radius:1px}
+.grid-col.active{background:rgba(230,46,45,.25);border-color:rgba(230,46,45,.45)}
+.grid-layouts{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.gl-row{display:grid;gap:4px;height:24px}
+.gl-cell{background:#1E1E1E;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;padding:0 8px}
+.gl-cell-label{font-family:var(--fm);font-size:11px;color:var(--ink3)}
+.gl-cell.main{background:var(--er-dim);border-color:rgba(230,46,45,.2)}
+.gl-cell.main .gl-cell-label{color:var(--er)}
+
+/* ── RULES ── */
+.rules-list{list-style:none;display:flex;flex-direction:column;gap:0}
+.rule-item{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--border)}
+.rule-item:last-child{border-bottom:none}
+.rule-num{font-family:var(--fa);font-size:34px;color:var(--er);line-height:1}
+.rule-content{}
+.rule-title{font-family:var(--fm);font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.rule-desc{font-family:var(--fm);font-size:12px;color:var(--ink2);line-height:1.7}
+.rule-code{font-family:var(--fm);font-size:11px;color:var(--er);background:var(--er-dim);border:1px solid rgba(230,46,45,.15);border-radius:2px;padding:2px 7px;display:inline-block;margin-top:4px}
+
+/* ── FOOTER ── */
+.guide-footer{background:var(--er);padding:24px;display:flex;align-items:center;justify-content:space-between}
+.gf-logo{font-family:var(--fa);font-size:24px;color:#fff;letter-spacing:.04em}
+.gf-logo span{color:var(--er)}
+.gf-meta{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-align:right}
+</style>
+
+<div class="G">
+
+<div class="cover">
+  <div class="cover-ver">EDITORIAL DARK — FINAL</div>
+  <div class="cover-eyebrow">AMERICANO — DESIGN SYSTEM</div>
+  <div class="cover-title">DESIGN<br><span class="soft">GUIDE</span></div>
+  <div class="cover-sub">Web UI · Components · Tokens · Rules</div>
+</div>
+
+<!-- 01 COLOR -->
+<div class="sec">
+  <div class="sec-eyebrow">01</div>
+  <div class="sec-title">COLOR</div>
+
+  <div class="cs-main">
+    <div class="swatch sw-red tall">
+      <span class="sw-name">PRIMARY RED</span>
+      <span class="sw-hex">#E62E2D</span>
+      <span class="sw-role">CTA · Header · Active</span>
+    </div>
+    <div class="swatch sw-soft tall">
+      <span class="sw-name">SOFT RED</span>
+      <span class="sw-hex">#F4D9D7</span>
+      <span class="sw-role">Dim bg · Card fill</span>
+    </div>
+    <div class="swatch sw-pale tall">
+      <span class="sw-name">PALE RED</span>
+      <span class="sw-hex">#FDF5F5</span>
+      <span class="sw-role">Error bg · Hover fill</span>
+    </div>
+    <div class="swatch sw-ink tall">
+      <span class="sw-name">INK</span>
+      <span class="sw-hex">#0D0D0D</span>
+      <span class="sw-role">Primary text · Icon</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:6px">
+    <div class="swatch sw-white">
+      <span class="sw-name">WHITE</span>
+      <span class="sw-hex">#FFFFFF</span>
+      <span class="sw-role">Page bg · Surface</span>
+    </div>
+    <div class="swatch sw-off">
+      <span class="sw-name">OFF-WHITE</span>
+      <span class="sw-hex">#FAFAFA</span>
+      <span class="sw-role">Card bg · Input bg</span>
+    </div>
+    <div class="swatch sw-border">
+      <span class="sw-name">BORDER</span>
+      <span class="sw-hex">#EBEBEB</span>
+      <span class="sw-role">Default border</span>
+    </div>
+    <div class="swatch sw-ink2">
+      <span class="sw-name">MUTED</span>
+      <span class="sw-hex">#555555</span>
+      <span class="sw-role">Secondary text</span>
+    </div>
+  </div>
+
+  <div style="margin-top:16px">
+    <div class="type-meta-label" style="font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px">CSS DESIGN TOKENS</div>
+    <table class="token-table">
+      <tbody><tr><td>--er</td><td>#E62E2D</td><td>Primary red. 모든 accent에 이것만.</td></tr>
+      <tr><td>--er-dim</td><td>rgba(230,46,45,.07)</td><td>Red tinted bg. hover/selected 상태.</td></tr>
+      <tr><td>--er-soft</td><td>#F4D9D7</td><td>Soft pink. card thumb, image placeholder.</td></tr>
+      <tr><td>--er-pale</td><td>#FDF5F5</td><td>Error state bg, very light tint.</td></tr>
+      <tr><td>--ink</td><td>#0D0D0D</td><td>Body text, icon, heading.</td></tr>
+      <tr><td>--ink2</td><td>#555555</td><td>Secondary text, placeholder.</td></tr>
+      <tr><td>--ink3</td><td>#999999</td><td>Muted label, caption, disabled.</td></tr>
+      <tr><td>--ink4</td><td>#CCCCCC</td><td>Very muted. divider text.</td></tr>
+      <tr><td>--border</td><td>#EBEBEB</td><td>Default border. 모든 구분선.</td></tr>
+      <tr><td>--border2</td><td>#D8D8D8</td><td>Hover border, stronger divider.</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- 02 TYPOGRAPHY -->
+<div class="sec">
+  <div class="sec-eyebrow">02</div>
+  <div class="sec-title">TYPOGRAPHY</div>
+
+  <div style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:16px">
+    <div class="type-meta-label" style="font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px">FONT FAMILY</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div style="font-family:var(--fm);font-size:11px;color:var(--er);letter-spacing:.08em;margin-bottom:4px">DISPLAY — Helvetica Neue</div>
+        <div style="font-family:'Helvetica Neue',HelveticaNeue,'Pretendard Variable',Pretendard,sans-serif;font-size:28px;color:var(--ink);line-height:1">ABCDEFG<br>1234567</div>
+        <div style="font-family:var(--fm);font-size:11px;color:var(--ink3);margin-top:5px">Helvetica Neue · 영문 헤딩 전용</div>
+      </div>
+      <div>
+        <div style="font-family:var(--fm);font-size:11px;color:var(--er);letter-spacing:.08em;margin-bottom:4px">UI / BODY — Pretendard</div>
+        <div style="font-family:'Helvetica Neue',HelveticaNeue,'Pretendard Variable',Pretendard,sans-serif;font-size:16px;color:var(--ink);line-height:1.5">Aa Bb Cc<br>0123456789</div>
+        <div style="font-family:var(--fm);font-size:11px;color:var(--ink3);margin-top:5px">Pretendard · 국문 포함 모든 UI 텍스트</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="type-rows">
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">D1</div>
+        <div class="type-meta-spec">Anton / 64px / 0.85lh</div>
+        <div class="type-meta-usage">Hero title</div>
+      </div>
+      <div class="ty-d1">FASHION<br><span style="color:var(--er)">STUDIO</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">D2</div>
+        <div class="type-meta-spec">Anton / 40px / 0.9lh</div>
+        <div class="type-meta-usage">Section heading</div>
+      </div>
+      <div class="ty-d2">GENERATE</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">D3</div>
+        <div class="type-meta-spec">Anton / 24px / 0.95lh</div>
+        <div class="type-meta-usage">Card heading, modal title</div>
+      </div>
+      <div class="ty-d3">MODEL SELECT</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">BODY</div>
+        <div class="type-meta-spec">DM Mono / 13px / 1.7lh</div>
+        <div class="type-meta-usage">본문, 설명 텍스트</div>
+      </div>
+      <div class="ty-body">Upload your reference image and configure generation parameters. Results will appear in the panel below.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">LABEL</div>
+        <div class="type-meta-spec">DM Mono / 11px / .16em / UC</div>
+        <div class="type-meta-usage">Field label, section tag</div>
+      </div>
+      <div class="ty-label">RESOLUTION — MODEL — ASPECT RATIO</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-meta-label">CAPTION</div>
+        <div class="type-meta-spec">DM Mono / 11px / .04em</div>
+        <div class="type-meta-usage">Hint, meta, timestamp</div>
+      </div>
+      <div class="ty-caption">Generated 2m ago · NB PRO · 2048px</div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 SPACING -->
+<div class="sec">
+  <div class="sec-eyebrow">03</div>
+  <div class="sec-title">SPACING</div>
+  <div class="spacing-row">
+    <div class="sp-item">
+      <div class="sp-box" style="width:4px;height:4px"></div>
+      <div class="sp-label">4px</div>
+      <div class="sp-sub">xs</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:8px;height:8px"></div>
+      <div class="sp-label">8px</div>
+      <div class="sp-sub">sm</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:12px;height:12px"></div>
+      <div class="sp-label">12px</div>
+      <div class="sp-sub">md</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:16px;height:16px"></div>
+      <div class="sp-label">16px</div>
+      <div class="sp-sub">base</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:24px;height:24px"></div>
+      <div class="sp-label">24px</div>
+      <div class="sp-sub">lg</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:32px;height:32px"></div>
+      <div class="sp-label">32px</div>
+      <div class="sp-sub">xl</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:48px;height:48px"></div>
+      <div class="sp-label">48px</div>
+      <div class="sp-sub">2xl</div>
+    </div>
+    <div class="sp-item">
+      <div class="sp-box" style="width:64px;height:64px"></div>
+      <div class="sp-label">64px</div>
+      <div class="sp-sub">3xl</div>
+    </div>
+  </div>
+  <div style="margin-top:14px">
+    <table class="token-table">
+      <tbody><tr><td>Border Radius</td><td>2px (btn/input) · 3px (card) · 0 (header block)</td><td>샤프한 에디토리얼 엣지 유지</td></tr>
+      <tr><td>Border Width</td><td>1px default · 2px active accent</td><td>0.5px는 너무 얇음, 1px 유지</td></tr>
+      <tr><td>Page Padding</td><td>24–40px 양옆</td><td>콘텐츠 최대폭 1200px</td></tr>
+      <tr><td>Section Gap</td><td>48–64px</td><td>섹션 간 여백 충분히</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- 04 COMPONENTS -->
+<div class="sec">
+  <div class="sec-eyebrow">04</div>
+  <div class="sec-title">COMPONENTS</div>
+
+  <div style="margin-bottom:14px">
+    <div class="comp-label">NAVIGATION</div>
+    <div class="nav-demo">
+      <div class="nav-logo"><span class="nav-logo-dot"></span>AMERICANO</div>
+      <div class="nav-links">
+        <div class="nav-link a">SINGLE</div>
+        <div class="nav-link">BATCH</div>
+        <div class="nav-link">ASSETS</div>
+      </div>
+      <button class="nav-cta">LOGIN</button>
+    </div>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div class="comp-label">HEADER BLOCK</div>
+    <div class="header-demo">
+      <div class="header-demo-sub">AI CONTENT STUDIO</div>
+      <div class="header-demo-title"><span class="s">GENERATE</span>AMERI<br>CANO</div>
+    </div>
+  </div>
+
+  <div class="comp-grid" style="margin-bottom:14px">
+    <div class="comp-block">
+      <div class="comp-label">BUTTONS</div>
+      <div class="btn-row">
+        <button class="b-primary">↗ GENERATE</button>
+        <button class="b-secondary">BATCH MODE</button>
+        <button class="b-ghost">EXPORT ALL</button>
+        <button class="b-danger">DELETE</button>
+      </div>
+      <div class="btn-spec">
+        <span>Primary</span> · bg #E62E2D · color #fff · radius 2px<br>
+        <span>Secondary</span> · bg #fff · border #D8D8D8<br>
+        <span>Ghost</span> · transparent · border #E62E2D<br>
+        <span>Danger</span> · bg #0D0D0D · color #fff
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">FORM INPUTS</div>
+      <div>
+        <span class="inp-label">FILENAME</span>
+        <input class="inp" type="text" value="ACOC_SS26_01" readonly="">
+        <span class="inp-label">PROMPT</span>
+        <input class="inp focus" type="text" value="Full body shot..." readonly="">
+        <span class="inp-label">ERROR STATE</span>
+        <input class="inp err" type="text" value="Invalid format" readonly="">
+        <span class="inp-hint err">파일명은 영문/숫자만 입력 가능합니다</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-grid" style="margin-bottom:14px">
+    <div class="comp-block">
+      <div class="comp-label">TABS</div>
+      <div class="tab-strip">
+        <div class="tab-item a">SINGLE</div>
+        <div class="tab-item">BATCH</div>
+        <div class="tab-item">RECAST</div>
+        <div class="tab-item">ASSETS</div>
+      </div>
+      <div style="font-family:var(--fm);font-size:11px;color:var(--ink3);line-height:1.7">
+        Active: color #E62E2D · border-bottom 2px #E62E2D<br>
+        Default: color #999 · border-bottom transparent<br>
+        Font: DM Mono 11px / .1em / UPPERCASE
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">BADGES</div>
+      <div class="badge-row">
+        <span class="badge bd-red">ACTIVE</span>
+        <span class="badge bd-soft">PREMIUM</span>
+        <span class="badge bd-ink">PRO</span>
+        <span class="badge bd-outline">DRAFT</span>
+        <span class="badge bd-muted">PENDING</span>
+      </div>
+      <div style="font-family:var(--fm);font-size:11px;color:var(--ink3);margin-top:8px;line-height:1.7">
+        모든 배지: radius 2px · 11px / .07em / UC<br>
+        Red dim: bg rgba(230,46,45,.07) · border rgba(230,46,45,.25)<br>
+        Soft: bg #F4D9D7 · text #7a2020
+      </div>
+    </div>
+  </div>
+
+  <div class="comp-grid">
+    <div class="comp-block" style="padding:0;overflow:hidden">
+      <div style="padding:14px 16px 10px">
+        <div class="comp-label">ASSET CARD</div>
+      </div>
+      <div class="card-demo" style="margin:0 12px 12px;border-radius:3px">
+        <div class="card-thumb-demo">
+          <div class="card-thumb-tag">NB PRO</div>
+        </div>
+        <div class="card-body-demo">
+          <div class="card-title-demo">LOOK 03</div>
+          <div class="card-sub-demo">ACOC_SS26 · 2048px · 9:16</div>
+        </div>
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">DATA TABLE</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>FILE</th>
+            <th>MODEL</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>LOOK_01</td>
+            <td>NB PRO</td>
+            <td class="red">DONE</td>
+          </tr>
+          <tr>
+            <td>LOOK_02</td>
+            <td>NB 2</td>
+            <td style="color:var(--ink3)">QUEUE</td>
+          </tr>
+          <tr>
+            <td>LOOK_03</td>
+            <td>NB PRO</td>
+            <td style="color:var(--ink3)">QUEUE</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 05 STATES -->
+<div class="sec">
+  <div class="sec-eyebrow">05</div>
+  <div class="sec-title">INTERACTION STATES</div>
+  <div class="states-grid">
+    <div class="state-block">
+      <div class="state-label">DEFAULT → HOVER</div>
+      <div class="state-item"><div class="state-dot"></div>Default state</div>
+      <div class="state-item hover"><div class="state-dot"></div>Hover state</div>
+    </div>
+    <div class="state-block">
+      <div class="state-label">FOCUS · ACTIVE</div>
+      <div class="state-item focus"><div class="state-dot"></div>Focused</div>
+      <div class="state-item active"><div class="state-dot"></div>Selected / Active</div>
+    </div>
+    <div class="state-block">
+      <div class="state-label">DISABLED · ERROR</div>
+      <div class="state-item disabled"><div class="state-dot"></div>Disabled</div>
+      <div class="state-item error"><div class="state-dot"></div>Error state</div>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <table class="token-table">
+      <tbody><tr><td>Default border</td><td>#EBEBEB</td><td>모든 인풋/카드 기본</td></tr>
+      <tr><td>Hover border</td><td>#D8D8D8</td><td>조금 진하게</td></tr>
+      <tr><td>Focus / Active</td><td>#E62E2D</td><td>Red 강조. bg는 er-pale</td></tr>
+      <tr><td>Disabled</td><td>opacity: 0.38</td><td>색상 건드리지 말고 opacity만</td></tr>
+      <tr><td>Error</td><td>border #E62E2D · bg #FDF5F5</td><td>Red border + pale fill</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- 06 GRID -->
+<div class="sec">
+  <div class="sec-eyebrow">06</div>
+  <div class="sec-title">GRID SYSTEM</div>
+  <div class="grid-demo">
+    <div style="font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px">12-COL BASE GRID · GAP 16px · MAX-WIDTH 1200px</div>
+    <div class="grid-12">
+      <div class="grid-col active"></div><div class="grid-col active"></div><div class="grid-col active"></div>
+      <div class="grid-col active"></div><div class="grid-col active"></div><div class="grid-col active"></div>
+      <div class="grid-col active"></div><div class="grid-col active"></div><div class="grid-col active"></div>
+      <div class="grid-col active"></div><div class="grid-col active"></div><div class="grid-col active"></div>
+    </div>
+    <div class="grid-layouts">
+      <div style="font-family:var(--fm);font-size:11px;color:var(--ink3);margin-bottom:4px">COMMON LAYOUTS</div>
+      <div class="gl-row" style="grid-template-columns:8fr 4fr">
+        <div class="gl-cell main"><div class="gl-cell-label">8 col — Main</div></div>
+        <div class="gl-cell"><div class="gl-cell-label">4 col — Side</div></div>
+      </div>
+      <div class="gl-row" style="grid-template-columns:1fr 1fr">
+        <div class="gl-cell main"><div class="gl-cell-label">6 col</div></div>
+        <div class="gl-cell main"><div class="gl-cell-label">6 col</div></div>
+      </div>
+      <div class="gl-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="gl-cell"><div class="gl-cell-label">4 col</div></div>
+        <div class="gl-cell"><div class="gl-cell-label">4 col</div></div>
+        <div class="gl-cell"><div class="gl-cell-label">4 col</div></div>
+      </div>
+      <div class="gl-row" style="grid-template-columns:1fr 1fr 1fr 1fr">
+        <div class="gl-cell main"><div class="gl-cell-label">3</div></div>
+        <div class="gl-cell main"><div class="gl-cell-label">3</div></div>
+        <div class="gl-cell main"><div class="gl-cell-label">3</div></div>
+        <div class="gl-cell main"><div class="gl-cell-label">3</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 RULES -->
+<div class="sec">
+  <div class="sec-eyebrow">07</div>
+  <div class="sec-title">DESIGN RULES</div>
+  <ul class="rules-list">
+    <li class="rule-item">
+      <div class="rule-num">1</div>
+      <div class="rule-content">
+        <div class="rule-title">Red는 하나의 목적으로만</div>
+        <div class="rule-desc">한 화면에서 Red가 등장하는 포인트는 1–2개. CTA 버튼 또는 헤더 블록. 둘 다 Red면 희석된다. Error state의 Red는 별도 역할.</div>
+        <div class="rule-code">--er: #E62E2D · Primary action only</div>
+      </div>
+    </li>
+    <li class="rule-item">
+      <div class="rule-num">2</div>
+      <div class="rule-content">
+        <div class="rule-title">White space가 에디토리얼을 만든다</div>
+        <div class="rule-desc">섹션 간 여백 최소 48px. 카드 패딩 16px 이상. 빽빽하게 채우지 말고 여백으로 콘텐츠를 강조.</div>
+        <div class="rule-code">section-gap: 48–64px · card-padding: 16–24px</div>
+      </div>
+    </li>
+    <li class="rule-item">
+      <div class="rule-num">3</div>
+      <div class="rule-content">
+        <div class="rule-title">Anton은 대문자로만, 작은 크기 금지</div>
+        <div class="rule-desc">Anton 최소 사용 크기 22px. 그 이하는 DM Mono로 대체. 절대 소문자로 쓰지 않는다.</div>
+        <div class="rule-code">Anton min: 22px · ALL CAPS only</div>
+      </div>
+    </li>
+    <li class="rule-item">
+      <div class="rule-num">4</div>
+      <div class="rule-content">
+        <div class="rule-title">Border radius 일관성</div>
+        <div class="rule-desc">버튼·인풋 2px / 카드 3px / 헤더 블록 0px. 둥글게 만들지 않는다. 에디토리얼의 샤프함은 각진 엣지에서 온다.</div>
+        <div class="rule-code">btn/input: 2px · card: 3px · header: 0px</div>
+      </div>
+    </li>
+    <li class="rule-item">
+      <div class="rule-num">5</div>
+      <div class="rule-content">
+        <div class="rule-title">텍스트 컬러 4단계만 사용</div>
+        <div class="rule-desc">#0D0D0D (primary) · #555 (secondary) · #999 (muted) · #CCC (hint). 이 밖의 gray는 사용하지 않는다.</div>
+        <div class="rule-code">ink / ink2 / ink3 / ink4</div>
+      </div>
+    </li>
+    <li class="rule-item">
+      <div class="rule-num">6</div>
+      <div class="rule-content">
+        <div class="rule-title">아이콘은 Tabler Outline만</div>
+        <div class="rule-desc">filled 아이콘 사용 금지. stroke-width 1.5. 크기는 16–20px. 버튼 내 아이콘은 텍스트와 같은 색상.</div>
+        <div class="rule-code">tabler-outline · 16–20px · stroke 1.5</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="guide-footer">
+  <div class="gf-logo">AMERI<span>.</span>CANO</div>
+  <div class="gf-meta">EDITORIAL DARK SYSTEM — FINAL<br>YAGI WORKSHOP © 2025</div>
+</div>
+
+</div>
+</div>
+  <div id="copy-toast"></div>
+</body>
+</html>
+</body>
+</html>
