@@ -43,7 +43,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 .pb{height:100%;background:var(--gold);width:0%;transition:width 0.18s;}
 .ps{font-family:var(--mono);font-size:9.5px;color:var(--t2);letter-spacing:0.05em;}
 .pths{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:660px;}
-.pth{width:68px;height:43px;object-fit:cover;border-radius:1px;opacity:0;transition:opacity 0.22s;border:0.5px solid var(--b);}
+.pth{width:68px;height:43px;object-fit:contain;border-radius:1px;opacity:0;transition:opacity 0.22s;border:0.5px solid var(--b);background:#0a0a0a;}
 .pth.ld{opacity:1;}
 
 /* RESULT */
@@ -69,7 +69,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 .agr{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:4px;margin-top:0.8rem;}
 .atw{position:relative;cursor:pointer;border-radius:2px;overflow:hidden;border:0.5px solid var(--b);transition:border-color 0.12s;}
 .atw.sel{border-color:var(--gold);border-width:1px;}
-.atw img{width:100%;height:54px;object-fit:cover;display:block;opacity:0.85;transition:opacity 0.12s;}
+.atw img{width:100%;height:54px;object-fit:contain;display:block;opacity:0.85;transition:opacity 0.12s;background:#0a0a0a;}
 .atw:hover img,.atw.sel img{opacity:1;}
 .atchk{position:absolute;top:3px;right:3px;width:13px;height:13px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;}
 .atw.sel .atchk{display:flex;}
@@ -110,7 +110,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 
 .cbody{display:grid;grid-template-columns:280px 1fr;}
 .iw{position:relative;overflow:hidden;background:#0a0a0a;min-height:165px;}
-.iw img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.92;}
+.iw img{width:100%;height:100%;object-fit:contain;display:block;opacity:0.92;background:#0a0a0a;}
 .iov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.88));padding:14px 8px 6px;}
 .iov-t{font-family:var(--mono);font-size:7px;color:#ccc;line-height:1.8;}
 .hexw{position:absolute;top:5px;left:5px;display:flex;flex-direction:column;gap:2px;}
@@ -216,7 +216,7 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg2);border:0.5px so
 /* VIDEO CARD */
 .cpair{display:flex;gap:5px;padding:8px;align-items:center;background:var(--bg2);}
 .cth{flex:1;}
-.cth img{width:100%;height:65px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.88;}
+.cth img{width:100%;height:65px;object-fit:contain;border-radius:1px;border:0.5px solid var(--b);opacity:0.88;background:#0a0a0a;}
 .ctl{font-family:var(--mono);font-size:6.5px;color:#7a7570;text-align:center;margin-top:2px;}
 .cdv{font-size:12px;color:#c8c4be;flex-shrink:0;}
 
@@ -260,7 +260,7 @@ body{padding-top:40px;}
 .stor-card-date{font-family:var(--mono);font-size:8px;color:#7a7570;}
 .stor-card-body{padding:10px 14px;}
 .stor-thumbs{display:flex;gap:3px;margin-bottom:10px;flex-wrap:wrap;}
-.stor-thumb{width:52px;height:33px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.85;}
+.stor-thumb{width:auto;height:38px;max-width:80px;object-fit:contain;border-radius:1px;border:0.5px solid var(--b);opacity:0.85;background:#0a0a0a;}
 .stor-meta-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
 .stor-meta-item{font-family:var(--mono);font-size:7.5px;color:#7a7570;}
 .stor-meta-item span{color:var(--t2);}
@@ -290,6 +290,18 @@ body{padding-top:40px;}
 .tip-box{position:absolute;left:20px;top:50%;transform:translateY(-50%);background:#1a1814;color:#f0ede8;border-radius:3px;padding:8px 10px;font-size:10px;line-height:1.65;width:220px;z-index:200;pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:normal;font-family:var(--sans);}
 .tip-box b{color:#c8a96e;display:block;margin-bottom:3px;font-size:9px;font-family:var(--mono);letter-spacing:0.05em;}
 .tip-wrap:hover .tip-box{opacity:1;}
+
+/* FAVORITE STAR */
+.fav-btn{background:transparent;border:none;font-size:14px;cursor:pointer;line-height:1;padding:0 2px;opacity:0.35;transition:opacity 0.12s,color 0.12s;color:#7a7570;flex-shrink:0;}
+.fav-btn:hover{opacity:0.7;}
+.fav-btn.starred{color:#c8a040;opacity:1;}
+
+/* LIBRARY TABS */
+.lib-tabs{display:flex;gap:0;border-bottom:0.5px solid var(--b);margin-bottom:1.25rem;}
+.lib-tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--t3);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.1em;padding:8px 16px;cursor:pointer;text-transform:uppercase;transition:color 0.12s,border-color 0.12s;}
+.lib-tab.act{color:var(--t);border-bottom-color:var(--gold);}
+.lib-tab.star.act{color:#c8a040;border-bottom-color:#c8a040;}
+.lib-tab:hover:not(.act){color:var(--t);}
 
 /* API SETTINGS BUTTON — nav에 통합됨 */
 .api-btn{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;padding:5px 10px;cursor:pointer;margin-left:auto;transition:border-color 0.12s,color 0.12s;}
@@ -351,6 +363,10 @@ body{padding-top:40px;}
     </div>
     <button class="save-now-btn" id="save-now-btn" onclick="saveCurrentProject()" disabled>현재 프로젝트 저장</button>
   </div>
+  <div class="lib-tabs">
+    <button class="lib-tab act" id="lib-tab-all" onclick="swLibTab('all')">전체 프로젝트</button>
+    <button class="lib-tab star" id="lib-tab-fav" onclick="swLibTab('fav')">★ 즐겨찾기</button>
+  </div>
   <div id="stor-list"></div>
 </div>
 
@@ -359,7 +375,10 @@ body{padding-top:40px;}
   <div class="stor-prompt-modal">
     <div class="spm-header">
       <div class="spm-title" id="spm-title">프롬프트 보기</div>
-      <button class="spm-close" onclick="closeSPM()">닫기</button>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="save-now-btn" id="spm-zip-btn" style="display:none;font-size:8px;padding:5px 12px;">↓ 이미지 ZIP</button>
+        <button class="spm-close" onclick="closeSPM()">닫기</button>
+      </div>
     </div>
     <div class="spm-body" id="spm-body"></div>
   </div>
@@ -394,13 +413,10 @@ body{padding-top:40px;}
     <div class="dz-s">MP4 · MOV · WebM · 원본 해상도 PNG 최대화질 · ffmpeg 카메라 분석</div>
     <div class="fsel" id="fsel"></div>
   </div>
-  <div class="sets">
+  <div class="sets" style="grid-template-columns:1fr 1fr;">
     <div class="sg"><div class="sl">프로젝트명</div><input type="text" id="pn" placeholder="Project name"></div>
     <div class="sg"><div class="sl">추출 간격</div>
       <select id="iv"><option value="2">2초</option><option value="1">1초</option><option value="3">3초</option><option value="5">5초</option></select>
-    </div>
-    <div class="sg"><div class="sl">영상 모델</div>
-      <select id="vm"><option value="kling">Kling 3.0</option><option value="seedance">Seedance 2.0</option><option value="cinematic">Cinema Studio 3.0</option></select>
     </div>
     <div class="sg">
       <div style="display:flex;align-items:center;">
@@ -815,7 +831,10 @@ function buildImgCard(frame,st){
               <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
               <span class="src-badge">Nano Banana Pro · Higgsfield 공식 가이드</span>
             </div>
-            <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoMatch))}\`)">COPY</button>
+            <div style="display:flex;gap:4px;align-items:center;">
+              <button class="fav-btn" data-fav-id="fav-pm-nano-${frame.idx}" data-prompt="${escB(stripH(pNanoMatch))}" data-label="SC.${pad(frame.idx)} MATCH · Nano" data-thumb="${frame.dataUrl?'__THUMB__':''}" onclick="toggleFav(this)">☆</button>
+              <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoMatch))}\`)">COPY</button>
+            </div>
           </div>
           <div class="pt">${pNanoMatch}</div>
           <div class="enhanced-box" id="enh-pm-nano-${frame.idx}">
@@ -829,7 +848,10 @@ function buildImgCard(frame,st){
               <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
               <span class="src-badge">GPT Image 2 · OpenAI 공식 가이드 Apr2026</span>
             </div>
-            <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTMatch))}\`)">COPY</button>
+            <div style="display:flex;gap:4px;align-items:center;">
+              <button class="fav-btn" data-fav-id="fav-pm-gpt-${frame.idx}" data-prompt="${escB(stripH(pGPTMatch))}" data-label="SC.${pad(frame.idx)} MATCH · GPT" data-thumb="" onclick="toggleFav(this)">☆</button>
+              <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTMatch))}\`)">COPY</button>
+            </div>
           </div>
           <div class="pt">${pGPTMatch}</div>
           <div class="enhanced-box" id="enh-pm-gpt-${frame.idx}">
@@ -846,7 +868,10 @@ function buildImgCard(frame,st){
               <span class="ptlbl">✏️ 내 모델로 변형</span>
               <span class="src-badge">Nano Banana Pro</span>
             </div>
-            <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoAdapt))}\`)">COPY</button>
+            <div style="display:flex;gap:4px;align-items:center;">
+              <button class="fav-btn" data-fav-id="fav-pa-nano-${frame.idx}" data-prompt="${escB(stripH(pNanoAdapt))}" data-label="SC.${pad(frame.idx)} ADAPT · Nano" data-thumb="" onclick="toggleFav(this)">☆</button>
+              <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoAdapt))}\`)">COPY</button>
+            </div>
           </div>
           <div class="pt">${pNanoAdapt}</div>
           <div class="enhanced-box" id="enh-pa-nano-${frame.idx}">
@@ -860,7 +885,10 @@ function buildImgCard(frame,st){
               <span class="ptlbl">✏️ 내 모델로 변형</span>
               <span class="src-badge">GPT Image 2</span>
             </div>
-            <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTAdapt))}\`)">COPY</button>
+            <div style="display:flex;gap:4px;align-items:center;">
+              <button class="fav-btn" data-fav-id="fav-pa-gpt-${frame.idx}" data-prompt="${escB(stripH(pGPTAdapt))}" data-label="SC.${pad(frame.idx)} ADAPT · GPT" data-thumb="" onclick="toggleFav(this)">☆</button>
+              <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTAdapt))}\`)">COPY</button>
+            </div>
           </div>
           <div class="pt">${pGPTAdapt}</div>
           <div class="enhanced-box" id="enh-pa-gpt-${frame.idx}">
@@ -1341,6 +1369,13 @@ function openSPM(id){
   document.getElementById('spm-title').textContent=p.name+' — '+p.date;
   const body=document.getElementById('spm-body');
 
+  // ZIP 다운로드 버튼 — 모달 헤더에 추가
+  const zipBtn=document.getElementById('spm-zip-btn');
+  if(zipBtn){
+    zipBtn.style.display='inline-block';
+    zipBtn.onclick=()=>dlZipFromLibrary(p.id);
+  }
+
   const palHTML=(p.palette||[]).map(c=>`<span style="display:inline-block;width:16px;height:16px;background:${c};border-radius:2px;border:0.5px solid #d8d4ce;margin-right:3px;" title="${c}"></span>`).join('');
 
   let html=`<div class="spm-section">
@@ -1352,10 +1387,18 @@ function openSPM(id){
   if(p.imgPrompts?.length){
     html+=`<div class="spm-section"><div class="spm-section-title">이미지 프롬프트 (${p.imgPrompts.length}개)</div>`;
     p.imgPrompts.forEach((pt,i)=>{
-      html+=`<div class="spm-prompt-label">SC.${String(i+1).padStart(2,'0')}</div>
-      <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:8px;">
-        <div class="spm-prompt-item" style="flex:1;">${escHtml(pt)}</div>
-        <button class="stor-btn" style="flex-shrink:0;" onclick="navigator.clipboard.writeText(${JSON.stringify(pt)}).then(()=>toast('복사됨'))">COPY</button>
+      // 썸네일 — thumbs 배열에서 매칭 (최대 8장 저장됨)
+      const thumb=p.thumbs?.[i]||'';
+      const thumbHTML=thumb?`<img src="${thumb}" style="width:auto;height:60px;max-width:100px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);flex-shrink:0;opacity:0.9;background:#0a0a0a;" loading="lazy"/>`:'';
+      html+=`<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+        ${thumbHTML}
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">SC.${String(i+1).padStart(2,'0')}</div>
+          <div style="display:flex;gap:6px;align-items:flex-start;">
+            <div class="spm-prompt-item" style="flex:1;">${escHtml(pt)}</div>
+            <button class="stor-btn" style="flex-shrink:0;" onclick="navigator.clipboard.writeText(${JSON.stringify(pt)}).then(()=>toast('복사됨'))">COPY</button>
+          </div>
+        </div>
       </div>`;
     });
     html+=`</div>`;
@@ -1393,7 +1436,40 @@ function openSPM(id){
   document.getElementById('spm-bg').classList.add('show');
 }
 
-function closeSPM(){document.getElementById('spm-bg').classList.remove('show');}
+// ── ZIP DOWNLOAD FROM LIBRARY ──
+async function dlZipFromLibrary(projectId){
+  const p=getProjects().find(x=>x.id===projectId);
+  if(!p){toast('프로젝트를 찾을 수 없습니다');return;}
+  if(!window.JSZip){toast('JSZip 로딩 중...');return;}
+
+  // 현재 세션에 같은 프로젝트 원본 있는지 확인
+  const hasOriginal=frames.length>0&&pname===p.name;
+
+  if(hasOriginal){
+    // 원본 PNG 고화질 ZIP
+    toast('원본 PNG 고화질 ZIP 생성 중...');
+    await dlZip(true);
+    return;
+  }
+
+  // 원본 없으면 저장된 썸네일로 ZIP
+  toast('썸네일 ZIP 생성 중... (원본은 분석 직후 자동 저장됩니다)');
+  const zip=new JSZip();
+  const fld=zip.folder(slug(p.name)+'_thumbs');
+  (p.thumbs||[]).forEach((thumb,i)=>{
+    const b64=thumb.split(',')[1];
+    fld.file('SC'+String(i+1).padStart(2,'0')+'_thumb.jpg',b64,{base64:true});
+  });
+  const blob=await zip.generateAsync({type:'blob',compression:'STORE'});
+  tDL(URL.createObjectURL(blob),slug(p.name)+'_thumbs.zip');
+  toast('⚠ 썸네일 ZIP 저장됨 — 원본 고화질은 분석 직후 자동 저장된 ZIP을 사용하세요');
+}
+
+function closeSPM(){
+  const zipBtn=document.getElementById('spm-zip-btn');
+  if(zipBtn)zipBtn.style.display='none';
+  document.getElementById('spm-bg').classList.remove('show');
+}
 document.getElementById('spm-bg').addEventListener('click',function(e){if(e.target===this)closeSPM();});
 
 // ── EXPORT PROJECT JSON ──
@@ -1410,6 +1486,88 @@ function exportProjectJSON(id){
 
 // Init storage count on load
 updateStorCount();
+
+// ── FAVORITES ──
+const FAV_KEY='yagi_favorites';
+
+function getFavs(){try{return JSON.parse(localStorage.getItem(FAV_KEY)||'[]');}catch{return [];}}
+function setFavs(arr){try{localStorage.setItem(FAV_KEY,JSON.stringify(arr));}catch{toast('즐겨찾기 저장 실패');}}
+
+function toggleFav(btn){
+  const id=btn.dataset.favId;
+  const prompt=btn.dataset.prompt||'';
+  const label=btn.dataset.label||'';
+  const favs=getFavs();
+  const idx=favs.findIndex(f=>f.id===id);
+  if(idx>=0){
+    // 이미 즐겨찾기 → 제거
+    favs.splice(idx,1);
+    btn.textContent='☆';btn.classList.remove('starred');
+    toast('즐겨찾기 해제');
+  } else {
+    // 추가
+    const now=new Date();
+    favs.unshift({
+      id,label,prompt,
+      project:pname||'',
+      date:now.getFullYear()+'.'+(now.getMonth()+1).toString().padStart(2,'0')+'.'+now.getDate().toString().padStart(2,'0'),
+      time:now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')
+    });
+    btn.textContent='★';btn.classList.add('starred');
+    toast('★ 즐겨찾기 추가됨');
+  }
+  setFavs(favs);
+  updateFavCount();
+}
+
+function updateFavCount(){
+  const n=getFavs().length;
+  const tab=document.getElementById('lib-tab-fav');
+  if(tab)tab.textContent='★ 즐겨찾기'+(n?` (${n})`:'');
+}
+
+function swLibTab(tab){
+  document.getElementById('lib-tab-all').classList.toggle('act',tab==='all');
+  document.getElementById('lib-tab-fav').classList.toggle('act',tab==='fav');
+  if(tab==='all') renderStorageList();
+  else renderFavList();
+}
+
+function renderFavList(){
+  const favs=getFavs();
+  const el=document.getElementById('stor-list');
+  if(!favs.length){
+    el.innerHTML=`<div class="stor-empty"><div class="stor-empty-icon">★</div>즐겨찾기한 프롬프트가 없습니다.<br>Shot Sheet에서 프롬프트 옆 ☆ 버튼을 눌러 추가하세요.</div>`;
+    return;
+  }
+  el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px;">
+    ${favs.map(f=>`
+    <div style="background:var(--bg1);border:0.5px solid var(--b);border-radius:3px;padding:12px 14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--t);margin-bottom:2px;">${escHtml(f.label)}</div>
+          <div style="font-family:var(--mono);font-size:8px;color:#7a7570;">${escHtml(f.project)} · ${f.date} ${f.time}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="stor-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(f.prompt)}).then(()=>toast('복사됨'))">COPY</button>
+          <button class="stor-btn stor-btn-del" onclick="removeFav('${f.id}')">삭제</button>
+        </div>
+      </div>
+      <div class="spm-prompt-item" style="font-size:9.5px;">${escHtml(f.prompt)}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function removeFav(id){
+  const favs=getFavs().filter(f=>f.id!==id);
+  setFavs(favs);
+  updateFavCount();
+  renderFavList();
+  toast('즐겨찾기 삭제됨');
+}
+
+// Init fav count
+updateFavCount();
 
 // ── CLAUDE PROMPT ENHANCE ──
 function swPTabEnhance(btn,id){
