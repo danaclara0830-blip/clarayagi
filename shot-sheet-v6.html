@@ -170,7 +170,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 .cp{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:6.5px;padding:1px 5px;cursor:pointer;letter-spacing:0.06em;transition:color 0.12s,border-color 0.12s;}
 .cp:hover{color:var(--gold);border-color:var(--gold);}
 .cp.cpd{color:var(--green);border-color:#90c8a8;}
-.pt{font-size:10px;line-height:1.85;color:var(--t2);background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:8px 10px;font-family:var(--sans);}
+.pt{font-size:10px;line-height:1.85;color:var(--t2);background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:8px 10px;font-family:var(--sans);text-transform:none;letter-spacing:normal;}
 .v{color:#5a3800;background:#f0e0b8;border-radius:2px;padding:0 2px;font-weight:500;}
 .r{color:#1a3a7a;background:#d8e4f4;border-radius:2px;padding:0 2px;font-weight:500;}
 .cm{color:#1a5a3a;background:#d4eee0;border-radius:2px;padding:0 2px;font-weight:500;}
@@ -628,29 +628,64 @@ function detectCuts(){
 }
 
 // ── CLAUDE VISION SCENE ANALYSIS ──
+// Vercel 프록시 URL — 자동 감지
+function getProxyUrl(){
+  const h=location.hostname;
+  if(h.includes('vercel.app')||h.includes('clarayagi')){
+    return location.origin+'/api/analyze';
+  }
+  if(location.protocol==='file:'||h==='localhost'||h==='127.0.0.1'){
+    return null; // 로컬에서는 브라우저 직접 호출 시도
+  }
+  return location.origin+'/api/analyze';
+}
+
 async function analyzeFramesWithClaude(key){
-  document.getElementById('ptitle').textContent='Claude Vision 장면 분석 중';
-  // 프레임 하나씩 분석 (정확도 우선)
+  const proxyUrl=getProxyUrl();
+  const useProxy=!!proxyUrl;
+
+  // file:// 에서 프록시도 없으면 스킵
+  if(location.protocol==='file:'&&!useProxy){
+    console.log('Vision: file:// — GitHub Pages 또는 Vercel에서 사용 시 자동 활성화');
+    return;
+  }
+
+  const psEl=document.getElementById('ps');
+  if(psEl)psEl.textContent='Claude Vision 장면 분석 중...';
+
   for(let i=0;i<frames.length;i++){
     const f=frames[i];
-    document.getElementById('ps').textContent=`Claude Vision 분석 ${i+1} / ${frames.length}프레임 (TC ${ftc(f.tc)})...`;
+    if(psEl)psEl.textContent=`Claude Vision 분석 ${i+1} / ${frames.length}프레임 (TC ${ftc(f.tc)})...`;
     try{
-      // 이미지 리사이즈 (async)
       const thumbB64=await resizeDataUrlAsync(f.dataUrl,640);
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-          'x-api-key':key,
-          'anthropic-version':'2023-06-01',
-          'anthropic-dangerous-direct-browser-access':'true'
-        },
-        body:JSON.stringify({
-          model:'claude-haiku-4-5-20251001',
-          max_tokens:800,
-          messages:[{role:'user',content:[
-            {type:'image',source:{type:'base64',media_type:'image/jpeg',data:thumbB64}},
-            {type:'text',text:`You are an expert image analyst for AI image generation prompts. Analyze this frame precisely.
+      let res;
+
+      if(useProxy){
+        // Vercel 프록시 경유
+        res=await fetch(proxyUrl,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({imageB64:thumbB64,mimeType:'image/jpeg'})
+        });
+        if(!res.ok)continue;
+        const data=await res.json();
+        if(data.ok&&data.result) frames[i].sceneDesc=data.result;
+      } else {
+        // 브라우저 직접 호출 (GitHub Pages)
+        res=await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'x-api-key':key,
+            'anthropic-version':'2023-06-01',
+            'anthropic-dangerous-direct-browser-access':'true'
+          },
+          body:JSON.stringify({
+            model:'claude-haiku-4-5-20251001',
+            max_tokens:800,
+            messages:[{role:'user',content:[
+              {type:'image',source:{type:'base64',media_type:'image/jpeg',data:thumbB64}},
+              {type:'text',text:`You are an expert image analyst for AI image generation prompts. Analyze this frame precisely.
 
 Output ONLY a JSON object (no other text):
 {
@@ -660,23 +695,22 @@ Output ONLY a JSON object (no other text):
   "lighting": "Light sources visible, direction (front/side/back/top), quality (hard/soft/diffused), shadows, highlights, color temperature effect on scene",
   "mood": "Overall visual mood, atmosphere, color palette description"
 }`}
-          ]}]
-        })
-      });
-      if(!res.ok)continue;
-      const data=await res.json();
-      const txt=data.content?.[0]?.text||'';
-      const clean=txt.replace(/```json|```/g,'').trim();
-      const start=clean.indexOf('{');
-      const end=clean.lastIndexOf('}');
-      if(start>=0&&end>start){
-        frames[i].sceneDesc=JSON.parse(clean.slice(start,end+1));
+            ]}]
+          })
+        });
+        if(!res.ok)continue;
+        const data=await res.json();
+        const txt=data.content?.[0]?.text||'';
+        const clean=txt.replace(/```json|```/g,'').trim();
+        const start=clean.indexOf('{');const end=clean.lastIndexOf('}');
+        if(start>=0&&end>start) frames[i].sceneDesc=JSON.parse(clean.slice(start,end+1));
       }
     }catch(e){
       console.warn(`Frame ${i+1} vision failed:`,e);
     }
   }
-  document.getElementById('ps').textContent='Vision 분석 완료 → 카드 생성 중...';
+  const psEl2=document.getElementById('ps');
+  if(psEl2)psEl2.textContent='Vision 분석 완료 → 카드 생성 중...';
 }
 
 function resizeDataUrlAsync(dataUrl,maxW){
