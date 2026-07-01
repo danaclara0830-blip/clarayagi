@@ -519,7 +519,7 @@ function setVid(f){vf=f;document.getElementById('fsel').textContent=f.name+' ('+
 gb.addEventListener('click',()=>{
   if(!vf)return;
   pname=document.getElementById('pn').value||vf.name.replace(/\.[^.]+$/,'');
-  svm=document.getElementById('vm').value;
+  svm='kling'; // 영상 모델은 카드 안 탭에서 선택 (업로드 화면 select 제거됨)
   sref=document.getElementById('rt').value;
   nclr=parseInt(document.getElementById('cc').value);
   startProc();
@@ -780,47 +780,46 @@ function buildImgCard(frame,st){
       </div>
 
       <div id="pe-${frame.idx}" class="pnl">
-        <div style="padding:8px 0 4px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <span style="font-family:var(--mono);font-size:7px;letter-spacing:0.15em;color:#4a1a7a;text-transform:uppercase;">✦ Claude로 강화 — 현재 모델+탭 기준 자동 선택</span>
+        <!-- 모델 선택 -->
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;">
+          <span style="font-family:var(--mono);font-size:7.5px;color:#7a7570;letter-spacing:0.1em;">베이스 프롬프트</span>
+          <button class="enhance-btn" id="pe-base-nm-${frame.idx}" style="font-size:7.5px;padding:3px 9px;background:#f5edd8;color:#7a4a10;border-color:#d0a870;" onclick="setPeBase(${frame.idx},'nano','match',this)">Nano MATCH</button>
+          <button class="enhance-btn" id="pe-base-na-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'nano','adapt',this)">Nano ADAPT</button>
+          <button class="enhance-btn" id="pe-base-gm-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'gpt','match',this)">GPT MATCH</button>
+          <button class="enhance-btn" id="pe-base-ga-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'gpt','adapt',this)">GPT ADAPT</button>
         </div>
-        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-          <button class="enhance-btn" style="font-size:8px;padding:5px 12px;"
-            data-nano-match="${escB(stripH(pNanoMatch))}"
-            data-nano-adapt="${escB(stripH(pNanoAdapt))}"
-            data-gpt-match="${escB(stripH(pGPTMatch))}"
-            data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
-            data-fd="${escB(JSON.stringify({colors:frame.colors.slice(0,6),style:frame.style,tech}))}"
-            data-frame="${frame.idx}"
-            data-target="match"
-            onclick="handleEnhanceTab(this)">MATCH 강화</button>
-          <button class="enhance-btn" style="font-size:8px;padding:5px 12px;"
-            data-nano-match="${escB(stripH(pNanoMatch))}"
-            data-nano-adapt="${escB(stripH(pNanoAdapt))}"
-            data-gpt-match="${escB(stripH(pGPTMatch))}"
-            data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
-            data-fd="${escB(JSON.stringify({colors:frame.colors.slice(0,6),style:frame.style,tech}))}"
-            data-frame="${frame.idx}"
-            data-target="adapt"
-            onclick="handleEnhanceTab(this)">ADAPT 강화</button>
+        <!-- 변경사항 입력 -->
+        <div style="margin-bottom:8px;">
+          <div style="font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">원하는 변경사항</div>
+          <textarea id="pe-request-${frame.idx}" placeholder="예: 인물을 금발 여성으로 바꿔줘 / 배경을 야외 정원으로 교체 / 의상을 흰색 드레스로 변경..." style="width:100%;background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;color:var(--t);font-family:var(--sans);font-size:10.5px;padding:8px 10px;outline:none;resize:vertical;min-height:56px;line-height:1.6;"></textarea>
         </div>
-        <div class="enhanced-box show" id="enh-pm-nano-${frame.idx}" style="display:none;">
-          <div class="enhanced-label">✦ MATCH · Nano Banana Pro <button class="cp enhanced-copy">COPY</button></div>
-          <div class="enhanced-text"></div>
+        <!-- 레퍼런스 이미지 첨부 -->
+        <div style="margin-bottom:10px;">
+          <div style="font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">레퍼런스 이미지 첨부 <span style="color:#aaa;">(선택 — 인물·배경·의상 등)</span></div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            <label style="display:inline-flex;align-items:center;gap:5px;background:var(--bg1);border:0.5px solid var(--b2);border-radius:2px;padding:5px 10px;cursor:pointer;font-family:var(--mono);font-size:7.5px;color:var(--t2);">
+              📎 이미지 선택
+              <input type="file" id="pe-img-${frame.idx}" accept="image/*" style="display:none;" onchange="peImgPreview(this,${frame.idx})">
+            </label>
+            <span id="pe-img-name-${frame.idx}" style="font-family:var(--mono);font-size:8px;color:#7a7570;"></span>
+          </div>
+          <div id="pe-img-preview-${frame.idx}" style="margin-top:6px;display:none;">
+            <img style="max-height:80px;max-width:140px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);background:#0a0a0a;"/>
+            <button onclick="peClearImg(${frame.idx})" style="margin-left:6px;background:transparent;border:0.5px solid #d09090;border-radius:2px;color:#8a2020;font-family:var(--mono);font-size:7px;padding:2px 6px;cursor:pointer;">제거</button>
+          </div>
         </div>
-        <div class="enhanced-box" id="enh-pm-gpt-${frame.idx}" style="display:none;">
-          <div class="enhanced-label">✦ MATCH · GPT Image 2 <button class="cp enhanced-copy">COPY</button></div>
-          <div class="enhanced-text"></div>
-        </div>
-        <div class="enhanced-box" id="enh-pa-nano-${frame.idx}" style="display:none;">
-          <div class="enhanced-label">✦ ADAPT · Nano Banana Pro <button class="cp enhanced-copy">COPY</button></div>
-          <div class="enhanced-text"></div>
-        </div>
-        <div class="enhanced-box" id="enh-pa-gpt-${frame.idx}" style="display:none;">
-          <div class="enhanced-label">✦ ADAPT · GPT Image 2 <button class="cp enhanced-copy">COPY</button></div>
-          <div class="enhanced-text"></div>
-        </div>
-        <div id="enh-placeholder-${frame.idx}" style="background:var(--bg2);border:0.5px solid var(--b);border-radius:3px;padding:16px;text-align:center;font-size:10px;color:#7a7570;line-height:1.7;">
-          MATCH 강화 또는 ADAPT 강화 버튼을 누르면<br>현재 선택된 이미지 모델 기준으로 프롬프트를 강화합니다.<br><span style="font-family:var(--mono);font-size:8px;color:#b090d0;">⚙ Claude API KEY 설정 필요</span>
+        <!-- 실행 버튼 -->
+        <button class="enhance-btn" id="pe-run-${frame.idx}" style="font-size:9px;padding:7px 18px;width:100%;"
+          data-nano-match="${escB(stripH(pNanoMatch))}"
+          data-nano-adapt="${escB(stripH(pNanoAdapt))}"
+          data-gpt-match="${escB(stripH(pGPTMatch))}"
+          data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
+          data-frame="${frame.idx}"
+          onclick="runCustomEnhance(${frame.idx})">✦ Claude로 프롬프트 커스터마이징</button>
+        <!-- 결과 -->
+        <div class="enhanced-box" id="enh-custom-${frame.idx}" style="margin-top:8px;display:none;">
+          <div class="enhanced-label">✦ 커스터마이징 결과 <button class="cp enhanced-copy">COPY</button></div>
+          <div class="enhanced-text" style="white-space:pre-wrap;"></div>
         </div>
       </div>
 
@@ -1015,7 +1014,9 @@ function buildVidCard(fromF,toF,segIdx,dur,tech){
 
 function buildResult(){
   document.getElementById('P').style.display='none';
-  document.getElementById('R').style.display='block';
+  const R=document.getElementById('R');
+  R.style.display='block';
+  R.dataset.built='1';
   const CC=document.getElementById('CC');CC.innerHTML='';
   prompts.image=[];prompts.video=[];
   buildAssetPanel();
@@ -1221,20 +1222,24 @@ function switchScreen(screen){
   const isMain=screen==='main';
   document.getElementById('nav-main').classList.toggle('act',isMain);
   document.getElementById('nav-stor').classList.toggle('act',!isMain);
-  // Show/hide screens
   const U=document.getElementById('U');
   const P=document.getElementById('P');
   const R=document.getElementById('R');
   const S=document.getElementById('S');
   if(isMain){
     S.style.display='none';
-    // Restore whichever main screen was active
-    if(frames.length&&document.getElementById('CC').children.length){R.style.display='block';U.style.display='none';}
-    else{U.style.display='flex';R.style.display='none';}
+    // 결과가 있으면 결과화면, 없으면 업로드 화면
+    if(frames.length&&R.dataset.built==='1'){
+      R.style.display='block';U.style.display='none';
+    } else {
+      U.style.display='flex';R.style.display='none';
+    }
   } else {
+    // Library — 기존 화면 숨기되 상태 유지 (display:none만)
+    if(R.style.display!=='none') R.dataset.wasVisible='1';
     U.style.display='none';R.style.display='none';P.style.display='none';
     S.style.display='block';
-    renderStorageList();
+    swLibTab('all');
   }
 }
 
@@ -1250,22 +1255,26 @@ function setProjects(arr){
   catch(e){toast('저장 실패 — 브라우저 용량 초과');}
 }
 
-function saveCurrentProject(silent=false){
+async function saveCurrentProject(silent=false){
   if(!frames.length){if(!silent)toast('저장할 프로젝트가 없습니다');return;}
   const id='proj_'+Date.now();
   const now=new Date();
   const dateStr=now.getFullYear()+'.'+(now.getMonth()+1).toString().padStart(2,'0')+'.'+now.getDate().toString().padStart(2,'0');
   const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
 
-  // Build thumbnails (tiny JPEG, ~60px wide)
-  const thumbs=frames.slice(0,8).map(f=>{
-    const cv=document.createElement('canvas');
-    const ctx=cv.getContext('2d');
-    const img=new Image();img.src=f.dataUrl;
-    cv.width=80;cv.height=Math.round(80*(f.h/f.w));
-    ctx.drawImage(img,0,0,cv.width,cv.height);
-    return cv.toDataURL('image/jpeg',0.6);
-  });
+  // Build thumbnails — dataUrl은 이미 로드된 상태라 직접 canvas에 그림
+  const thumbs=await Promise.all(frames.slice(0,8).map(f=>new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const cv=document.createElement('canvas');
+      const ctx=cv.getContext('2d');
+      cv.width=120;cv.height=Math.round(120*(f.h/f.w));
+      ctx.drawImage(img,0,0,cv.width,cv.height);
+      res(cv.toDataURL('image/jpeg',0.7));
+    };
+    img.onerror=()=>res('');
+    img.src=f.dataUrl;
+  })));
 
   // Collect palette (first frame dominant colors)
   const palette=frames[0]?.colors?.slice(0,6)||[];
@@ -1500,15 +1509,28 @@ function toggleFav(btn){
   const favs=getFavs();
   const idx=favs.findIndex(f=>f.id===id);
   if(idx>=0){
-    // 이미 즐겨찾기 → 제거
     favs.splice(idx,1);
     btn.textContent='☆';btn.classList.remove('starred');
     toast('즐겨찾기 해제');
   } else {
-    // 추가
+    // 썸네일 — fav-id에서 프레임 인덱스 추출해서 frames 배열에서 가져옴
+    let thumb='';
+    try{
+      const parts=id.split('-'); // fav-pm-nano-1 → idx=1
+      const fi=parseInt(parts[parts.length-1])-1;
+      if(frames[fi]&&frames[fi].dataUrl){
+        // 소형 JPEG 썸네일 생성
+        const cv=document.createElement('canvas');
+        const ctx=cv.getContext('2d');
+        const img=new Image();img.src=frames[fi].dataUrl;
+        cv.width=120;cv.height=Math.round(120*(frames[fi].h/frames[fi].w));
+        ctx.drawImage(img,0,0,cv.width,cv.height);
+        thumb=cv.toDataURL('image/jpeg',0.7);
+      }
+    }catch(e){}
     const now=new Date();
     favs.unshift({
-      id,label,prompt,
+      id,label,prompt,thumb,
       project:pname||'',
       date:now.getFullYear()+'.'+(now.getMonth()+1).toString().padStart(2,'0')+'.'+now.getDate().toString().padStart(2,'0'),
       time:now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')
@@ -1541,20 +1563,27 @@ function renderFavList(){
     return;
   }
   el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px;">
-    ${favs.map(f=>`
-    <div style="background:var(--bg1);border:0.5px solid var(--b);border-radius:3px;padding:12px 14px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-        <div>
-          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--t);margin-bottom:2px;">${escHtml(f.label)}</div>
-          <div style="font-family:var(--mono);font-size:8px;color:#7a7570;">${escHtml(f.project)} · ${f.date} ${f.time}</div>
+    ${favs.map(f=>{
+      const thumbHTML=f.thumb?`<img src="${f.thumb}" style="width:auto;height:70px;max-width:110px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);flex-shrink:0;background:#0a0a0a;" loading="lazy"/>`:'';
+      return `<div style="background:var(--bg1);border:0.5px solid var(--b);border-radius:3px;padding:12px 14px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          ${thumbHTML}
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+              <div>
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--t);margin-bottom:2px;">${escHtml(f.label)}</div>
+                <div style="font-family:var(--mono);font-size:8px;color:#7a7570;">${escHtml(f.project)} · ${f.date} ${f.time}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-shrink:0;">
+                <button class="stor-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(f.prompt)}).then(()=>toast('복사됨'))">COPY</button>
+                <button class="stor-btn stor-btn-del" onclick="removeFav('${f.id}')">삭제</button>
+              </div>
+            </div>
+            <div class="spm-prompt-item" style="font-size:9.5px;">${escHtml(f.prompt)}</div>
+          </div>
         </div>
-        <div style="display:flex;gap:6px;">
-          <button class="stor-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(f.prompt)}).then(()=>toast('복사됨'))">COPY</button>
-          <button class="stor-btn stor-btn-del" onclick="removeFav('${f.id}')">삭제</button>
-        </div>
-      </div>
-      <div class="spm-prompt-item" style="font-size:9.5px;">${escHtml(f.prompt)}</div>
-    </div>`).join('')}
+      </div>`;
+    }).join('')}
   </div>`;
 }
 
@@ -1598,6 +1627,147 @@ function handleEnhanceTab(btn){
   // 모든 결과박스 숨기고 해당것만 보이게
   ci.querySelectorAll('.enhanced-box').forEach(b=>b.classList.remove('show'));
   enhancePrompt(btn,rawPrompt,frameData,outputId);
+}
+
+// ── CLAUDE CUSTOMIZE ENHANCE ──
+const peBaseState={}; // {frameIdx: {model:'nano'|'gpt', type:'match'|'adapt'}}
+
+function setPeBase(idx,model,type,btn){
+  peBaseState[idx]={model,type};
+  // 버튼 하이라이트
+  ['nm','na','gm','ga'].forEach(k=>{
+    const b=document.getElementById('pe-base-'+k+'-'+idx);
+    if(b){b.style.background='';b.style.color='';b.style.borderColor='';}
+  });
+  const key=(model==='nano'?'n':'g')+(type==='match'?'m':'a');
+  const active=document.getElementById('pe-base-'+key+'-'+idx);
+  if(active){active.style.background='#ece0f4';active.style.color='#4a1a7a';active.style.borderColor='#b090d0';}
+}
+
+function peImgPreview(input,idx){
+  const file=input.files[0];
+  if(!file)return;
+  const nameEl=document.getElementById('pe-img-name-'+idx);
+  const previewEl=document.getElementById('pe-img-preview-'+idx);
+  const previewImg=previewEl.querySelector('img');
+  const reader=new FileReader();
+  reader.onload=e=>{
+    previewImg.src=e.target.result;
+    previewEl.style.display='block';
+    if(nameEl)nameEl.textContent=file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function peClearImg(idx){
+  const input=document.getElementById('pe-img-'+idx);
+  const nameEl=document.getElementById('pe-img-name-'+idx);
+  const previewEl=document.getElementById('pe-img-preview-'+idx);
+  if(input)input.value='';
+  if(nameEl)nameEl.textContent='';
+  if(previewEl){previewEl.style.display='none';previewEl.querySelector('img').src='';}
+}
+
+async function runCustomEnhance(idx){
+  const key=getApiKey();
+  if(!key){toast('⚙ Claude API KEY를 먼저 설정해주세요');openModal();return;}
+
+  const runBtn=document.getElementById('pe-run-'+idx);
+  const requestTxt=document.getElementById('pe-request-'+idx)?.value?.trim()||'';
+  const imgInput=document.getElementById('pe-img-'+idx);
+  const imgFile=imgInput?.files?.[0]||null;
+
+  // 베이스 프롬프트 결정
+  const base=peBaseState[idx]||{model:'nano',type:'match'};
+  const baseBtn=document.getElementById('pe-run-'+idx);
+  const allData={
+    nanoMatch:baseBtn.dataset.nanoMatch||'',
+    nanoAdapt:baseBtn.dataset.nanoAdapt||'',
+    gptMatch:baseBtn.dataset.gptMatch||'',
+    gptAdapt:baseBtn.dataset.gptAdapt||''
+  };
+  const promptKey=(base.model==='nano'?'nano':'gpt')+(base.type==='match'?'Match':'Adapt');
+  const basePrompt=allData[promptKey]||'';
+
+  if(!basePrompt){toast('베이스 프롬프트를 선택해주세요');return;}
+  if(!requestTxt&&!imgFile){toast('변경사항을 입력하거나 이미지를 첨부해주세요');return;}
+
+  runBtn.disabled=true;runBtn.textContent='Claude 분석 중...';
+
+  // 이미지 있으면 base64 변환
+  let imgBase64='',imgMime='';
+  if(imgFile){
+    imgBase64=await new Promise(res=>{
+      const r=new FileReader();
+      r.onload=e=>res(e.target.result.split(',')[1]);
+      r.readAsDataURL(imgFile);
+    });
+    imgMime=imgFile.type||'image/jpeg';
+  }
+
+  const modelName=base.model==='nano'?'Nano Banana Pro (Higgsfield)':'GPT Image 2 (OpenAI)';
+  const systemPrompt=`You are an expert AI image prompt engineer for fashion photography.
+You receive a base prompt written for ${modelName} and customize it based on the user's change request and optional reference image.
+
+Rules:
+- Keep the overall structure and format of the base prompt intact
+- Apply ONLY the changes the user requests — preserve everything else
+- If a reference image is provided, describe its visual characteristics (colors, style, features) and weave them into the prompt naturally
+- Keep all [bracket] placeholder sections, <<<UUID>>> tags exactly as-is
+- Output ONLY the final customized prompt, no explanation, no preamble`;
+
+  const userContent=[];
+
+  if(imgBase64){
+    userContent.push({type:'image',source:{type:'base64',media_type:imgMime,data:imgBase64}});
+    userContent.push({type:'text',text:`Reference image attached above.\n\nChange request: ${requestTxt||'Apply the reference image style/subject to the prompt'}\n\nBase prompt to customize:\n${basePrompt}`});
+  } else {
+    userContent.push({type:'text',text:`Change request: ${requestTxt}\n\nBase prompt to customize:\n${basePrompt}`});
+  }
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:1200,
+        system:systemPrompt,
+        messages:[{role:'user',content:userContent}]
+      })
+    });
+
+    if(!res.ok){
+      const err=await res.json().catch(()=>({}));
+      if(res.status===401){toast('API 키가 올바르지 않습니다');openModal();}
+      else toast('오류: '+(err?.error?.message||res.status));
+      return;
+    }
+
+    const data=await res.json();
+    const result=data.content?.[0]?.text||'';
+    if(!result){toast('응답이 비어있습니다');return;}
+
+    const box=document.getElementById('enh-custom-'+idx);
+    if(box){
+      box.querySelector('.enhanced-text').textContent=result;
+      box.style.display='block';
+      const copyBtn=box.querySelector('.enhanced-copy');
+      if(copyBtn)copyBtn.onclick=()=>navigator.clipboard.writeText(result).then(()=>toast('복사됨'));
+    }
+    toast('✓ 커스터마이징 완료');
+
+  }catch(e){
+    console.error(e);
+    toast('네트워크 오류. 다시 시도해주세요.');
+  }finally{
+    runBtn.disabled=false;runBtn.textContent='✦ Claude로 프롬프트 커스터마이징';
+  }
 }
 
 function handleEnhance(btn){
