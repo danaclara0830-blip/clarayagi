@@ -8,37 +8,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#0a0a0a;--bg1:#111;--bg2:#161616;--bg3:#1a1a1a;
-  --b:#222;--b2:#2a2a2a;--b3:#333;
-  --t:#e0e0e0;--t2:#888;--t3:#444;
-  --gold:#c8a96e;--green:#6abfa0;--blue:#6a9adf;--red:#df6a6a;--purple:#cf8adf;--orange:#e8904a;
+  --bg:#f5f4f1;--bg1:#ffffff;--bg2:#f0ede8;--bg3:#eae7e2;
+  --b:#d8d4ce;--b2:#a8a4a0;--b3:#888480;
+  --t:#1a1814;--t2:#4a4540;--t3:#2a2520;
+  --gold:#9a7040;--green:#1a5a3a;--blue:#1a3a7a;--red:#8a2020;--purple:#4a1a7a;--orange:#7a4a10;
   --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
 }
 body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100vh;}
 
 /* UPLOAD */
 #U{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
-.logo{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--t3);text-transform:uppercase;margin-bottom:2rem;}
-.dz{width:100%;max-width:620px;border:0.5px solid var(--b2);border-radius:3px;padding:2.5rem 2rem;text-align:center;cursor:pointer;background:var(--bg1);position:relative;transition:border-color 0.2s,background 0.2s;}
-.dz.over{border-color:var(--gold);background:#18140c;}
+.logo{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:#7a7570;text-transform:uppercase;margin-bottom:2rem;}
+.dz{width:100%;max-width:620px;border:0.5px solid var(--b);border-radius:3px;padding:2.5rem 2rem;text-align:center;cursor:pointer;background:var(--bg1);position:relative;transition:border-color 0.2s,background 0.2s;}
+.dz.over{border-color:var(--gold);background:#fdf8ee;}
 .dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.dz-icon{font-size:24px;margin-bottom:0.9rem;opacity:0.28;}
+.dz-icon{font-size:24px;margin-bottom:0.9rem;opacity:0.35;}
 .dz-t{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;color:var(--t2);margin-bottom:0.35rem;}
-.dz-s{font-size:11px;color:var(--t3);}
+.dz-s{font-size:11px;color:#7a7570;}
 .fsel{font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-top:0.6rem;}
 .sets{width:100%;max-width:620px;margin-top:1.1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.65rem;}
 .sg{display:flex;flex-direction:column;gap:4px;}
-.sl{font-family:var(--mono);font-size:7.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;}
-.sg input,.sg select{background:var(--bg1);border:0.5px solid var(--b2);border-radius:2px;color:var(--t);font-family:var(--sans);font-size:11.5px;padding:6px 8px;outline:none;transition:border-color 0.18s;width:100%;}
+.sl{font-family:var(--mono);font-size:7.5px;letter-spacing:0.15em;color:#7a7570;text-transform:uppercase;}
+.sg input,.sg select{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;color:var(--t);font-family:var(--sans);font-size:11.5px;padding:6px 8px;outline:none;transition:border-color 0.18s;width:100%;}
 .sg input:focus,.sg select:focus{border-color:var(--gold);}
-.sg select option{background:#1a1a1a;}
-.gbtn{width:100%;max-width:620px;margin-top:0.8rem;background:var(--gold);color:#0a0a0a;border:none;border-radius:2px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.18em;padding:12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.18s;}
+.sg select option{background:#ffffff;}
+.gbtn{width:100%;max-width:620px;margin-top:0.8rem;background:var(--gold);color:#ffffff;border:none;border-radius:2px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.18em;padding:12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.18s;}
 .gbtn:hover{opacity:0.85;}
-.gbtn:disabled{opacity:0.3;cursor:not-allowed;}
+.gbtn:disabled{opacity:0.35;cursor:not-allowed;}
 
 /* PROGRESS */
 #P{min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.25rem;}
-.pt{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--t3);text-transform:uppercase;}
+.pt{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:#7a7570;text-transform:uppercase;}
 .pb-w{width:440px;height:1px;background:var(--b);}
 .pb{height:100%;background:var(--gold);width:0%;transition:width 0.18s;}
 .ps{font-family:var(--mono);font-size:9.5px;color:var(--t2);letter-spacing:0.05em;}
@@ -49,134 +49,138 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 /* RESULT */
 #R{display:none;padding:2rem;max-width:1200px;margin:0 auto;}
 .rh{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:0.5px solid var(--b);padding-bottom:1.1rem;margin-bottom:1.25rem;}
-.rt{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--t3);text-transform:uppercase;}
-.rm{font-family:var(--mono);font-size:8.5px;color:var(--t3);text-align:right;line-height:1.8;}
+.rt{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:#7a7570;text-transform:uppercase;}
+.rm{font-family:var(--mono);font-size:8.5px;color:#7a7570;text-align:right;line-height:1.8;}
 
 /* ASSET PANEL */
-.ap{background:var(--bg1);border:0.5px solid var(--b2);border-radius:3px;padding:1rem 1.35rem;margin-bottom:1.25rem;}
+.ap{background:var(--bg1);border:0.5px solid var(--b);border-radius:3px;padding:1rem 1.35rem;margin-bottom:1.25rem;}
 .aph{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.5rem;}
-.apt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:#ccc;text-transform:uppercase;}
+.apt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:var(--t);text-transform:uppercase;}
 .apc{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 .stog{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7.5px;padding:3px 8px;cursor:pointer;letter-spacing:0.08em;transition:color 0.12s,border-color 0.12s;}
-.stog:hover{color:var(--t2);border-color:var(--b3);}
-.acnt{font-family:var(--mono);font-size:8.5px;color:var(--t3);}
-.fmts{background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:8px;padding:4px 7px;outline:none;cursor:pointer;}
-.dlb{background:var(--gold);color:#0a0a0a;border:none;border-radius:2px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:5px 12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s;white-space:nowrap;}
+.stog:hover{color:var(--t);border-color:var(--b3);}
+.acnt{font-family:var(--mono);font-size:8.5px;color:var(--t2);}
+.fmts{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:8px;padding:4px 7px;outline:none;cursor:pointer;}
+.dlb{background:var(--gold);color:#fff;border:none;border-radius:2px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:5px 12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s;white-space:nowrap;}
 .dlb:hover{opacity:0.85;}
-.dlb:disabled{opacity:0.3;cursor:not-allowed;}
+.dlb:disabled{opacity:0.35;cursor:not-allowed;}
 .dlbo{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;padding:5px 11px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;white-space:nowrap;}
 .dlbo:hover{border-color:var(--gold);color:var(--gold);}
 .agr{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:4px;margin-top:0.8rem;}
 .atw{position:relative;cursor:pointer;border-radius:2px;overflow:hidden;border:0.5px solid var(--b);transition:border-color 0.12s;}
-.atw.sel{border-color:var(--gold);}
-.atw img{width:100%;height:54px;object-fit:cover;display:block;opacity:0.7;transition:opacity 0.12s;}
+.atw.sel{border-color:var(--gold);border-width:1px;}
+.atw img{width:100%;height:54px;object-fit:cover;display:block;opacity:0.85;transition:opacity 0.12s;}
 .atw:hover img,.atw.sel img{opacity:1;}
 .atchk{position:absolute;top:3px;right:3px;width:13px;height:13px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;}
 .atw.sel .atchk{display:flex;}
-.atchk-i{width:4px;height:4px;background:#0a0a0a;border-radius:50%;}
-.attc{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);font-family:var(--mono);font-size:6px;color:#aaa;padding:1px 3px;text-align:center;}
+.atchk-i{width:4px;height:4px;background:#fff;border-radius:50%;}
+.attc{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.65);font-family:var(--mono);font-size:6px;color:#ddd;padding:1px 3px;text-align:center;}
 .dlp{font-family:var(--mono);font-size:8px;color:var(--green);display:none;margin-left:4px;}
 
 /* TOP CTRL */
 .tc{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;}
-.tbar{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;}
-.tbtn{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:6px 13px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;}
+.tbar{display:flex;gap:0;border:0.5px solid var(--b2);border-radius:3px;overflow:hidden;width:fit-content;}
+.tbtn{background:transparent;border:none;border-right:0.5px solid var(--b2);color:var(--t3);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:6px 13px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;}
 .tbtn:last-child{border-right:none;}
 .tbtn.act{background:var(--bg2);color:var(--t);}
-.tbtn:hover:not(.act){color:var(--t2);}
+.tbtn:hover:not(.act){color:var(--t);}
 .abtns{display:flex;gap:4px;flex-wrap:wrap;}
-.bsm{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:0.07em;padding:5px 10px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;}
+.bsm{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:0.07em;padding:5px 10px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;}
 .bsm:hover{border-color:var(--gold);color:var(--gold);}
 
 /* LEGEND */
 .leg{display:flex;gap:0.85rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
-.li{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:7px;color:var(--t3);}
+.li{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:7px;color:var(--t2);}
 
 /* CARD */
 .card{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;margin-bottom:0.9rem;overflow:hidden;}
 .ch{display:flex;justify-content:space-between;align-items:center;padding:5px 11px;background:var(--bg2);border-bottom:0.5px solid var(--b);}
 .cl{display:flex;align-items:center;gap:8px;}
-.cid{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#ccc;letter-spacing:0.1em;}
-.ctc{font-family:var(--mono);font-size:9px;color:var(--t3);}
+.cid{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--t);letter-spacing:0.1em;}
+.ctc{font-family:var(--mono);font-size:9px;color:#7a7570;}
 .cbdg{display:flex;gap:4px;align-items:center;}
 .bdg{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.07em;padding:1px 6px;border-radius:2px;border:0.5px solid;}
-.bc{background:#8a6a3a18;color:var(--gold);border-color:#8a6a3a40;}
-.bb{background:#3a5a4a18;color:var(--green);border-color:#3a5a4a40;}
-.bi{background:#1e2a4a18;color:var(--blue);border-color:#1e2a4a40;}
-.bv{background:#3a1e4a18;color:var(--purple);border-color:#3a1e4a40;}
-.bct{background:#4a1e1e18;color:var(--red);border-color:#4a1e1e30;}
-.bcam{background:#0e1a1418;color:var(--green);border-color:#1a3a1a40;}
-.vd{font-family:var(--mono);font-size:8px;color:var(--t3);background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:1px 5px;}
+.bc{background:#f0e8d8;color:#7a4a10;border-color:#d0a870;}
+.bb{background:#daf0e4;color:#1a5a3a;border-color:#90c8a8;}
+.bi{background:#e0e8f4;color:#1a3a7a;border-color:#90a8d8;}
+.bv{background:#ece0f4;color:#4a1a7a;border-color:#b090d0;}
+.bct{background:#f4e0e0;color:#7a1a1a;border-color:#d09090;}
+.bcam{background:#daf0e4;color:#1a5a3a;border-color:#90c8a8;}
+.vd{font-family:var(--mono);font-size:8px;color:var(--t2);background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:1px 5px;}
 
 .cbody{display:grid;grid-template-columns:280px 1fr;}
-.iw{position:relative;overflow:hidden;background:#000;min-height:165px;}
-.iw img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.88;}
-.iov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.86));padding:14px 8px 6px;}
-.iov-t{font-family:var(--mono);font-size:7px;color:#aaa;line-height:1.8;}
+.iw{position:relative;overflow:hidden;background:#0a0a0a;min-height:165px;}
+.iw img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.92;}
+.iov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.88));padding:14px 8px 6px;}
+.iov-t{font-family:var(--mono);font-size:7px;color:#ccc;line-height:1.8;}
 .hexw{position:absolute;top:5px;left:5px;display:flex;flex-direction:column;gap:2px;}
 .hw{display:flex;align-items:center;gap:3px;cursor:pointer;}
-.hd{width:11px;height:11px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.15);flex-shrink:0;}
-.hc{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.55);padding:1px 2px;border-radius:1px;}
-.cdl{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.65);border:0.5px solid rgba(255,255,255,0.1);border-radius:2px;color:#bbb;font-family:var(--mono);font-size:6.5px;padding:2px 5px;cursor:pointer;transition:background 0.12s;}
-.cdl:hover{background:rgba(200,169,110,0.25);color:var(--gold);}
-
-/* MOTION BADGE on image */
-.mbdg{position:absolute;bottom:6px;left:6px;font-family:var(--mono);font-size:6.5px;color:var(--green);background:rgba(10,26,16,0.82);border:0.5px solid rgba(106,191,160,0.3);border-radius:2px;padding:2px 5px;letter-spacing:0.06em;}
+.hd{width:11px;height:11px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.2);flex-shrink:0;}
+.hc{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.55);padding:1px 2px;border-radius:1px;}
+.cdl{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.6);border:0.5px solid rgba(255,255,255,0.15);border-radius:2px;color:#ddd;font-family:var(--mono);font-size:6.5px;padding:2px 5px;cursor:pointer;transition:background 0.12s;}
+.cdl:hover{background:rgba(154,112,64,0.5);color:#fff;}
 
 .ci{padding:11px 15px;display:flex;flex-direction:column;gap:8px;}
-.clbl{font-size:11.5px;font-weight:500;color:#ddd;}
+.clbl{font-size:11.5px;font-weight:500;color:var(--t);}
+
+/* IMAGE MODEL TOGGLE */
+.imrow{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.imlbl{font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;}
+.imtog{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7px;padding:3px 8px;cursor:pointer;letter-spacing:0.07em;transition:all 0.12s;}
+.imtog.an{background:#f5edd8;color:#7a4a10;border-color:#d0a870;}
+.imtog.ag{background:#e8e0f8;color:#4a1a7a;border-color:#b090d0;}
 
 /* PROMPT TABS */
-.ptabs{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
-.ptab{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
+.ptabs{display:flex;gap:0;border:0.5px solid var(--b2);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
+.ptab{background:transparent;border:none;border-right:0.5px solid var(--b2);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
 .ptab:last-child{border-right:none;}
-.ptab.act{background:var(--bg3);color:var(--t);}
-.ptab.pm.act{color:#f0c060;}
-.ptab.pa.act{color:var(--blue);}
-.ptab.ps.act{color:var(--green);}
-.ptab.pgpt.act{color:#aa88ff;}
-.ptab:hover:not(.act){color:var(--t2);}
+.ptab.act{background:var(--bg2);color:var(--t);}
+.ptab.pm.act{background:#f0e4c8;color:#6a3a08;}
+.ptab.pa.act{background:#d8e8f8;color:#1a3a7a;}
+.ptab.ps.act{background:#d4ece0;color:#1a5a3a;}
+.ptab.pc.act{background:#ece0f4;color:#4a1a7a;}
+.ptab:hover:not(.act){color:var(--t);}
 .pnl{display:none;}
 .pnl.act{display:block;}
 
 /* VIDEO MODEL TOGGLE */
 .mrow{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
-.mlbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;}
+.mlbl{font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;}
 .mtog{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7px;padding:3px 8px;cursor:pointer;letter-spacing:0.07em;transition:all 0.12s;}
-.mtog.ak{background:#3a1e4a18;color:var(--purple);border-color:#3a1e4a50;}
-.mtog.as{background:#1e3a1e18;color:var(--green);border-color:#1e3a1e50;}
-.mtog.ac{background:#1e1e3a18;color:var(--blue);border-color:#1e1e3a50;}
+.mtog.ak{background:#ece0f4;color:#4a1a7a;border-color:#b090d0;}
+.mtog.as{background:#daf0e4;color:#1a5a3a;border-color:#90c8a8;}
+.mtog.ac{background:#dce8f8;color:#1a3a7a;border-color:#90a8d8;}
 
 /* VIDEO TABS */
-.vtabs{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
-.vtab{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
+.vtabs{display:flex;gap:0;border:0.5px solid var(--b2);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
+.vtab{background:transparent;border:none;border-right:0.5px solid var(--b2);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
 .vtab:last-child{border-right:none;}
-.vtab.act{background:var(--bg3);color:var(--t);}
-.vtab.vf.act{color:var(--purple);}
-.vtab.vk.act{color:var(--orange);}
-.vtab:hover:not(.act){color:var(--t2);}
+.vtab.act{background:var(--bg2);color:var(--t);}
+.vtab.vf.act{background:#ece0f4;color:#4a1a7a;}
+.vtab.vk.act{background:#f5edd8;color:#7a4a10;}
+.vtab:hover:not(.act){color:var(--t);}
 .vnl{display:none;}
 .vnl.act{display:block;}
 .vmn{display:none;}
 
 /* PROMPT BLOCK */
 .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
-.ptlbl{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;}
-.src-badge{font-family:var(--mono);font-size:6px;color:var(--t3);border:0.5px solid var(--b2);border-radius:2px;padding:1px 5px;margin-left:6px;}
+.ptlbl{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:#7a7570;text-transform:uppercase;}
+.src-badge{font-family:var(--mono);font-size:6px;color:#7a7570;border:0.5px solid var(--b);border-radius:2px;padding:1px 5px;margin-left:6px;}
 .cp{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:6.5px;padding:1px 5px;cursor:pointer;letter-spacing:0.06em;transition:color 0.12s,border-color 0.12s;}
 .cp:hover{color:var(--gold);border-color:var(--gold);}
-.cp.cpd{color:var(--green);border-color:#3a5a4a;}
+.cp.cpd{color:var(--green);border-color:#90c8a8;}
 .pt{font-size:10px;line-height:1.85;color:var(--t2);background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:8px 10px;font-family:var(--sans);}
-.v{color:#fff;background:#2a2418;border-radius:2px;padding:0 2px;font-weight:500;}
-.r{color:var(--blue);background:#0e1a2a;border-radius:2px;padding:0 2px;font-weight:500;}
-.cm{color:var(--green);background:#0e1a14;border-radius:2px;padding:0 2px;font-weight:500;}
+.v{color:#5a3800;background:#f0e0b8;border-radius:2px;padding:0 2px;font-weight:500;}
+.r{color:#1a3a7a;background:#d8e4f4;border-radius:2px;padding:0 2px;font-weight:500;}
+.cm{color:#1a5a3a;background:#d4eee0;border-radius:2px;padding:0 2px;font-weight:500;}
 .hx{font-family:var(--mono);font-size:8.5px;padding:0 2px;border-radius:2px;}
-.kw{color:var(--orange);background:#2a1a0a;border-radius:2px;padding:0 2px;font-weight:500;font-family:var(--mono);font-size:8.5px;}
+.kw{color:#7a4a10;background:#f5edd8;border-radius:2px;padding:0 2px;font-weight:500;font-family:var(--mono);font-size:8.5px;}
 
 /* STYLE SECTION */
 .ss{display:flex;flex-direction:column;gap:5px;}
 .srow{display:flex;gap:5px;align-items:flex-start;}
-.sk{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;width:64px;flex-shrink:0;padding-top:2px;}
+.sk{font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.07em;text-transform:uppercase;width:64px;flex-shrink:0;padding-top:2px;}
 .sv{font-size:10px;color:var(--t2);line-height:1.6;flex:1;}
 .pr{display:flex;gap:3px;flex-wrap:wrap;}
 .pc{display:flex;align-items:center;gap:3px;background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:2px 5px;cursor:pointer;}
@@ -186,51 +190,200 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100v
 /* KEYWORD GRID */
 .kwg{display:flex;flex-direction:column;gap:5px;}
 .krow{display:flex;gap:5px;align-items:flex-start;}
-.kk{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;width:76px;flex-shrink:0;padding-top:2px;}
+.kk{font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.07em;text-transform:uppercase;width:76px;flex-shrink:0;padding-top:2px;}
 .kv{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
 .kc{font-family:var(--mono);font-size:7.5px;padding:2px 6px;border-radius:2px;border:0.5px solid;cursor:pointer;transition:opacity 0.1s;}
 .kc:hover{opacity:0.7;}
-.kca{background:#0e1a1418;color:var(--green);border-color:#1a3a1a40;}
-.kcs{background:#0e1a2a18;color:var(--blue);border-color:#1a2a4a40;}
-.kcl{background:#2a1a0a18;color:var(--orange);border-color:#3a2a0a40;}
-.kcy{background:#2a2a0a18;color:#d4c860;border-color:#3a3a0a40;}
-.kcm{background:#2a0a1a18;color:var(--purple);border-color:#3a0a2a40;}
-.kcq{background:#1a1a2a18;color:#aaa;border-color:#2a2a3a40;}
+.kca{background:#daf0e4;color:#1a5a3a;border-color:#90c8a8;}
+.kcs{background:#dce8f8;color:#1a3a7a;border-color:#90a8d8;}
+.kcl{background:#f5edd8;color:#7a4a10;border-color:#d0a870;}
+.kcy{background:#f4f0d8;color:#5a5010;border-color:#c8c088;}
+.kcm{background:#ece0f4;color:#4a1a7a;border-color:#b090d0;}
+.kcq{background:#eeecea;color:#3a3530;border-color:#c8c4be;}
 .model-rule{margin-top:4px;padding:6px 8px;background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;}
-.mr-t{font-family:var(--mono);font-size:6.5px;color:var(--t3);letter-spacing:0.1em;margin-bottom:2px;}
+.mr-t{font-family:var(--mono);font-size:6.5px;color:#7a7570;letter-spacing:0.1em;margin-bottom:2px;}
 .mr-v{font-size:9px;color:var(--t2);line-height:1.6;}
 
 /* REF BLOCK */
 .rb{background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:7px 9px;}
-.rbt{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;margin-bottom:5px;}
+.rbt{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:#7a7570;text-transform:uppercase;margin-bottom:5px;}
 .ri{display:flex;gap:6px;margin-bottom:4px;font-size:9px;line-height:1.5;color:var(--t2);}
-.rn{font-family:var(--mono);font-size:7.5px;color:var(--t3);flex-shrink:0;padding-top:1px;}
-.rnm{font-family:var(--mono);font-size:7px;color:var(--blue);font-weight:700;display:block;margin-bottom:1px;}
-.rnm.req{color:var(--red);}
+.rn{font-family:var(--mono);font-size:7.5px;color:#7a7570;flex-shrink:0;padding-top:1px;}
+.rnm{font-family:var(--mono);font-size:7px;color:#1a3a7a;font-weight:700;display:block;margin-bottom:1px;}
+.rnm.req{color:#8a2020;}
+code{font-family:var(--mono);font-size:8px;background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:1px 3px;color:#7a4a10;}
 
 /* VIDEO CARD */
-.cpair{display:flex;gap:5px;padding:8px;align-items:center;}
+.cpair{display:flex;gap:5px;padding:8px;align-items:center;background:var(--bg2);}
 .cth{flex:1;}
-.cth img{width:100%;height:65px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.78;}
-.ctl{font-family:var(--mono);font-size:6.5px;color:var(--t3);text-align:center;margin-top:2px;}
-.cdv{font-size:12px;color:var(--t3);flex-shrink:0;}
+.cth img{width:100%;height:65px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.88;}
+.ctl{font-family:var(--mono);font-size:6.5px;color:#7a7570;text-align:center;margin-top:2px;}
+.cdv{font-size:12px;color:#c8c4be;flex-shrink:0;}
 
 /* GUIDE */
 .gs{margin-top:2rem;padding-top:1.25rem;border-top:0.5px solid var(--b);}
-.gtit{font-family:var(--mono);font-size:8.5px;letter-spacing:0.18em;color:var(--t3);text-transform:uppercase;margin-bottom:1rem;}
+.gtit{font-family:var(--mono);font-size:8.5px;letter-spacing:0.18em;color:#7a7570;text-transform:uppercase;margin-bottom:1rem;}
 .gg{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;}
 .gc{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;padding:0.9rem;}
-.gct{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;color:#ccc;margin-bottom:0.6rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--b);}
+.gct{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;color:var(--t);margin-bottom:0.6rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--b);text-transform:uppercase;}
 .gst{display:flex;gap:7px;margin-bottom:5px;font-size:9.5px;line-height:1.6;color:var(--t2);}
-.gsn{font-family:var(--mono);font-size:7px;color:var(--t3);flex-shrink:0;padding-top:2px;}
-code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;padding:1px 3px;color:var(--gold);}
+.gsn{font-family:var(--mono);font-size:7px;color:#7a7570;flex-shrink:0;padding-top:2px;}
 
-.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--bg2);border:0.5px solid var(--b2);border-radius:2px;padding:7px 12px;font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:0.07em;opacity:0;transition:opacity 0.18s;pointer-events:none;z-index:999;}
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;padding:7px 12px;font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:0.07em;opacity:0;transition:opacity 0.18s;pointer-events:none;z-index:999;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
 .toast.sh{opacity:1;}
-@media print{.ap,.abtns,.gs,.tc{display:none;}.card{break-inside:avoid;}}
+
+/* MAIN NAV TABS (Shot Sheet / 저장소) */
+#app-nav{position:fixed;top:0;left:0;right:0;height:40px;background:var(--bg1);border-bottom:0.5px solid var(--b);display:flex;align-items:center;padding:0 1.5rem;gap:0;z-index:80;}
+.nav-logo{font-family:var(--mono);font-size:9px;letter-spacing:0.25em;color:#7a7570;text-transform:uppercase;margin-right:1.5rem;}
+.nav-tab{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.1em;padding:0 14px;height:40px;border:none;background:transparent;color:var(--t3);cursor:pointer;text-transform:uppercase;border-bottom:2px solid transparent;transition:color 0.12s,border-color 0.12s;}
+.nav-tab.act{color:var(--t);border-bottom-color:var(--gold);}
+.nav-tab:hover:not(.act){color:var(--t);}
+body{padding-top:40px;}
+#U{min-height:calc(100vh - 40px);}
+#P{min-height:calc(100vh - 40px);}
+
+/* STORAGE SCREEN */
+#S{display:none;padding:2rem;max-width:1200px;margin:0 auto;}
+.sh2{display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid var(--b);padding-bottom:1rem;margin-bottom:1.5rem;}
+.sh2-title{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:#7a7570;text-transform:uppercase;}
+.sh2-meta{font-family:var(--mono);font-size:9px;color:#7a7570;}
+.save-now-btn{background:var(--gold);color:#fff;border:none;border-radius:2px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.12em;padding:7px 16px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s;}
+.save-now-btn:hover{opacity:0.85;}
+.save-now-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.stor-empty{text-align:center;padding:4rem 2rem;color:#7a7570;font-size:13px;line-height:2;}
+.stor-empty-icon{font-size:32px;margin-bottom:1rem;opacity:0.3;}
+.stor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;}
+.stor-card{background:var(--bg1);border:0.5px solid var(--b);border-radius:3px;overflow:hidden;transition:border-color 0.12s;}
+.stor-card:hover{border-color:var(--b2);}
+.stor-card-header{padding:10px 14px;background:var(--bg2);border-bottom:0.5px solid var(--b);display:flex;justify-content:space-between;align-items:center;}
+.stor-card-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--t);letter-spacing:0.05em;}
+.stor-card-date{font-family:var(--mono);font-size:8px;color:#7a7570;}
+.stor-card-body{padding:10px 14px;}
+.stor-thumbs{display:flex;gap:3px;margin-bottom:10px;flex-wrap:wrap;}
+.stor-thumb{width:52px;height:33px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.85;}
+.stor-meta-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.stor-meta-item{font-family:var(--mono);font-size:7.5px;color:#7a7570;}
+.stor-meta-item span{color:var(--t2);}
+.stor-palette{display:flex;gap:3px;margin-bottom:10px;}
+.stor-pal-dot{width:14px;height:14px;border-radius:2px;border:0.5px solid var(--b);}
+.stor-card-footer{padding:8px 14px;border-top:0.5px solid var(--b);display:flex;gap:6px;justify-content:flex-end;align-items:center;}
+.stor-btn{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:0.08em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;}
+.stor-btn:hover{border-color:var(--gold);color:var(--gold);}
+.stor-btn-del{border-color:#d09090;color:#8a2020;}
+.stor-btn-del:hover{border-color:#8a2020;color:#8a2020;background:#fdf0f0;}
+.stor-prompt-modal-bg{position:fixed;inset:0;background:rgba(245,244,241,0.9);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem;}
+.stor-prompt-modal-bg.show{display:flex;}
+.stor-prompt-modal{background:var(--bg1);border:0.5px solid var(--b2);border-radius:4px;width:100%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:0 4px 32px rgba(0,0,0,0.1);}
+.spm-header{padding:1rem 1.5rem;border-bottom:0.5px solid var(--b);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg1);z-index:1;}
+.spm-title{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--t);letter-spacing:0.08em;}
+.spm-close{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:8px;padding:4px 10px;cursor:pointer;}
+.spm-body{padding:1.25rem 1.5rem;}
+.spm-section{margin-bottom:1.25rem;}
+.spm-section-title{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:#7a7570;text-transform:uppercase;margin-bottom:0.6rem;padding-bottom:0.5rem;border-bottom:0.5px solid var(--b);}
+.spm-prompt-item{background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:8px 10px;margin-bottom:6px;font-size:10px;line-height:1.75;color:var(--t2);white-space:pre-wrap;}
+.spm-prompt-label{font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+
+/* TOOLTIP */
+.tip-wrap{position:relative;display:inline-flex;align-items:center;}
+.tip-btn{width:14px;height:14px;border-radius:50%;border:0.5px solid var(--b2);background:transparent;color:#7a7570;font-size:8px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;flex-shrink:0;line-height:1;padding:0;}
+.tip-btn:hover{border-color:var(--gold);color:var(--gold);}
+.tip-box{position:absolute;left:20px;top:50%;transform:translateY(-50%);background:#1a1814;color:#f0ede8;border-radius:3px;padding:8px 10px;font-size:10px;line-height:1.65;width:220px;z-index:200;pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:normal;font-family:var(--sans);}
+.tip-box b{color:#c8a96e;display:block;margin-bottom:3px;font-size:9px;font-family:var(--mono);letter-spacing:0.05em;}
+.tip-wrap:hover .tip-box{opacity:1;}
+
+/* API SETTINGS BUTTON — nav에 통합됨 */
+.api-btn{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;padding:5px 10px;cursor:pointer;margin-left:auto;transition:border-color 0.12s,color 0.12s;}
+.api-btn:hover{border-color:var(--gold);color:var(--gold);}
+.api-btn.has-key{color:var(--green);border-color:#90c8a8;}
+
+/* API SETTINGS MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(245,244,241,0.88);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;}
+.modal-bg.show{display:flex;}
+.modal{background:var(--bg1);border:0.5px solid var(--b2);border-radius:4px;padding:1.75rem 2rem;width:100%;max-width:480px;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+.modal-title{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.15em;color:var(--t);text-transform:uppercase;margin-bottom:0.35rem;}
+.modal-sub{font-size:11px;color:#7a7570;margin-bottom:1.25rem;line-height:1.6;}
+.modal-label{font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:#7a7570;text-transform:uppercase;margin-bottom:4px;display:block;}
+.modal-input{width:100%;background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;color:var(--t);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;transition:border-color 0.18s;margin-bottom:0.75rem;}
+.modal-input:focus{border-color:var(--gold);}
+.modal-hint{font-size:10px;color:#7a7570;margin-bottom:1.25rem;line-height:1.65;}
+.modal-hint a{color:var(--blue);text-decoration:none;}
+.modal-hint a:hover{text-decoration:underline;}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+.modal-save{background:var(--gold);color:#fff;border:none;border-radius:2px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.12em;padding:8px 18px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s;}
+.modal-save:hover{opacity:0.85;}
+.modal-cancel{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:8px 14px;cursor:pointer;text-transform:uppercase;}
+.modal-del{background:transparent;border:0.5px solid #d09090;border-radius:2px;color:#8a2020;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:8px 14px;cursor:pointer;text-transform:uppercase;margin-right:auto;}
+.modal-status{font-family:var(--mono);font-size:9px;margin-bottom:1rem;padding:7px 10px;border-radius:2px;display:none;}
+.modal-status.ok{background:#daf0e4;color:#1a5a3a;border:0.5px solid #90c8a8;display:block;}
+.modal-status.err{background:#f4e0e0;color:#8a2020;border:0.5px solid #d09090;display:block;}
+
+/* CLAUDE ENHANCE BUTTON on prompt */
+.enhance-btn{background:#ece0f4;border:0.5px solid #b090d0;border-radius:2px;color:#4a1a7a;font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.08em;padding:2px 7px;cursor:pointer;transition:all 0.12s;white-space:nowrap;}
+.enhance-btn:hover{background:#ddc8f4;border-color:#8050c0;}
+.enhance-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.enhance-btn.loading{background:var(--bg2);color:#7a7570;border-color:var(--b2);}
+
+/* ENHANCED PROMPT RESULT */
+.enhanced-box{margin-top:6px;background:#f3eef8;border:0.5px solid #b090d0;border-radius:3px;padding:8px 10px;display:none;}
+.enhanced-box.show{display:block;}
+.enhanced-label{font-family:var(--mono);font-size:7px;color:#4a1a7a;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;}
+.enhanced-text{font-size:10px;line-height:1.85;color:#2a1a3a;}
+
+@media print{.ap,.abtns,.gs,.tc,.api-btn{display:none;}.card{break-inside:avoid;}}
 </style>
 </head>
 <body>
+
+<!-- TOP NAV -->
+<div id="app-nav">
+  <span class="nav-logo">YAGI WORKSHOP</span>
+  <button class="nav-tab act" id="nav-main" onclick="switchScreen('main')">Shot Sheet</button>
+  <button class="nav-tab" id="nav-stor" onclick="switchScreen('storage')">Library <span id="stor-count"></span></button>
+  <button class="api-btn" id="api-btn" onclick="openModal()">⚙ Claude API KEY</button>
+</div>
+
+<!-- STORAGE SCREEN -->
+<div id="S">
+  <div class="sh2">
+    <div>
+      <div class="sh2-title">Library</div>
+      <div style="font-family:var(--mono);font-size:9px;color:#7a7570;margin-top:3px;" id="stor-sub">프로젝트별 프롬프트 · 팔레트 · 썸네일 보관</div>
+    </div>
+    <button class="save-now-btn" id="save-now-btn" onclick="saveCurrentProject()" disabled>현재 프로젝트 저장</button>
+  </div>
+  <div id="stor-list"></div>
+</div>
+
+<!-- STORAGE PROMPT MODAL -->
+<div class="stor-prompt-modal-bg" id="spm-bg">
+  <div class="stor-prompt-modal">
+    <div class="spm-header">
+      <div class="spm-title" id="spm-title">프롬프트 보기</div>
+      <button class="spm-close" onclick="closeSPM()">닫기</button>
+    </div>
+    <div class="spm-body" id="spm-body"></div>
+  </div>
+</div>
+
+<!-- API SETTINGS MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-title">Claude API 설정</div>
+    <div class="modal-sub">API 키는 본인 브라우저 로컬스토리지에만 저장됩니다. 타인에게 노출되지 않습니다.</div>
+    <div class="modal-status" id="modal-status"></div>
+    <label class="modal-label">Anthropic API Key</label>
+    <input class="modal-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
+    <div class="modal-hint">
+      키가 없으신가요? <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 에서 무료 발급.<br>
+      신규 가입 시 $5 크레딧 제공 · 프롬프트 강화 1회 ≈ $0.0001 (Claude Haiku) · 공용 PC에서는 사용 후 키 삭제 권장.
+    </div>
+    <div class="modal-btns">
+      <button class="modal-del" id="modal-del" onclick="deleteKey()">키 삭제</button>
+      <button class="modal-cancel" onclick="closeModal()">취소</button>
+      <button class="modal-save" onclick="saveKey()">저장</button>
+    </div>
+  </div>
+</div>
 
 <div id="U">
   <div class="logo">YAGI WORKSHOP — Shot Sheet v6</div>
@@ -249,10 +402,18 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px sol
     <div class="sg"><div class="sl">영상 모델</div>
       <select id="vm"><option value="kling">Kling 3.0</option><option value="seedance">Seedance 2.0</option><option value="cinematic">Cinema Studio 3.0</option></select>
     </div>
-    <div class="sg"><div class="sl">이미지 모델</div>
-      <select id="im"><option value="nano">Nano Banana Pro</option><option value="gpt">GPT Image 2</option><option value="seedream">Seedream 4.5</option></select>
-    </div>
-    <div class="sg"><div class="sl">레퍼런스</div>
+    <div class="sg">
+      <div style="display:flex;align-items:center;">
+        <div class="sl">레퍼런스</div>
+        <div class="tip-wrap">
+          <button class="tip-btn">?</button>
+          <div class="tip-box">
+            <b>ELEMENT ★ 권장</b>모델 사진 1장으로 즉시 생성. Higgsfield → Elements 업로드 후 UUID를 프롬프트에 삽입. 빠르고 대부분 모델 지원.<br><br>
+            <b>SOUL</b>사진 5~20장 학습 (약 10분). 얼굴 일관성 가장 높음. soul_2 / Cinema Studio 전용.<br><br>
+            <b>없음</b>텍스트만으로 생성. 매번 모델 얼굴이 달라질 수 있음.
+          </div>
+        </div>
+      </div>
       <select id="rt"><option value="element">Element</option><option value="soul">Soul</option><option value="none">없음</option></select>
     </div>
     <div class="sg"><div class="sl">HEX 색상 수</div>
@@ -263,7 +424,7 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px sol
 </div>
 
 <div id="P">
-  <div class="pt" id="ptitle">프레임 추출 중</div>
+  <div class="pt">프레임 추출 중</div>
   <div class="pb-w"><div class="pb" id="pb"></div></div>
   <div class="ps" id="ps">준비 중...</div>
   <div class="pths" id="pths"></div>
@@ -273,9 +434,10 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px sol
   <div class="rh">
     <div>
       <div class="rt" id="rt2">Shot Sheet</div>
-      <div style="font-family:var(--mono);font-size:8.5px;color:var(--t3);margin-top:3px;" id="rsub"></div>
+      <div style="font-family:var(--mono);font-size:8.5px;color:#7a7570;margin-top:3px;" id="rsub"></div>
     </div>
     <div class="rm" id="rmeta"></div>
+    <button class="save-now-btn" onclick="saveCurrentProject()" id="save-result-btn" style="font-size:8px;padding:6px 14px;">이 프로젝트 저장</button>
   </div>
 
   <div class="ap">
@@ -313,11 +475,11 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px sol
   </div>
 
   <div class="leg">
-    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#2a2418;color:#fff;">바꿀 텍스트</span>
-    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#0e1a2a;color:var(--blue);">레퍼런스</span>
-    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#0e1a14;color:var(--green);">카메라 무브</span>
-    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#2a1a0a;color:var(--orange);font-family:var(--mono);">KEYWORD</span>
-    <span class="li" style="margin-left:4px;">ffmpeg YDIF 기반 카메라 무브 감지 · 이미지: Nano Banana Pro / GPT Image 2 가이드 적용</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#f0e0b8;color:#5a3800;">바꿀 텍스트</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#d8e4f4;color:#1a3a7a;">레퍼런스</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#d4eee0;color:#1a5a3a;">카메라 무브</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#f5edd8;color:#7a4a10;">KEYWORD</span>
+    <span class="li" style="margin-left:4px;">ffmpeg YDIF 카메라 무브 감지 · Nano Banana Pro / GPT Image 2 가이드 적용</span>
   </div>
 
   <div id="CC"></div>
@@ -327,13 +489,11 @@ code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px sol
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-// ─── STATE ───
 let vf=null,frames=[],cuts=[],pname='';
-let svm='kling',sim='nano',sref='element',nclr=8;
+let svm='kling',sref='element',nclr=8;
 const prompts={image:[],video:[]};
-let motionData={}; // from ffmpeg-style analysis
+let motionData={};
 
-// ─── UPLOAD ───
 const dz=document.getElementById('dz'),vi=document.getElementById('vi'),gb=document.getElementById('gb');
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
@@ -344,13 +504,11 @@ gb.addEventListener('click',()=>{
   if(!vf)return;
   pname=document.getElementById('pn').value||vf.name.replace(/\.[^.]+$/,'');
   svm=document.getElementById('vm').value;
-  sim=document.getElementById('im').value;
   sref=document.getElementById('rt').value;
   nclr=parseInt(document.getElementById('cc').value);
   startProc();
 });
 
-// ─── PROCESSING ───
 function startProc(){
   document.getElementById('U').style.display='none';
   document.getElementById('P').style.display='flex';
@@ -360,21 +518,19 @@ function startProc(){
   vid.addEventListener('loadedmetadata',()=>{
     const dur=vid.duration;
     const times=[];
-    for(let t=iv*0.4;t<dur;t+=iv) times.push(Math.round(t*10)/10);
+    for(let t=iv*0.4;t<dur;t+=iv)times.push(Math.round(t*10)/10);
     document.getElementById('rmeta').innerHTML=Math.round(dur)+'초 · '+vid.videoWidth+'×'+vid.videoHeight+'<br>'+times.length+' frames · PNG 최대화질';
-    document.getElementById('rsub').textContent=pname+' · '+mLbl(svm)+' · '+iLbl(sim);
+    document.getElementById('rsub').textContent=pname+' · '+mLbl(svm);
     document.getElementById('rt2').textContent=pname+' — Shot Sheet';
-    extractFrames(vid,times,dur);
+    extractFrames(vid,times);
   });
   vid.load();
 }
 
-function extractFrames(vid,times,dur){
+function extractFrames(vid,times){
   const cv=document.createElement('canvas'),ctx=cv.getContext('2d');
   const pths=document.getElementById('pths');
-  frames=[];let idx=0;
-  let prevBright=null,prevSample=null;
-
+  frames=[];let idx=0;let prevSample=null;
   function next(){
     if(idx>=times.length){analyzeMotion();return;}
     const t=times[idx];
@@ -389,18 +545,14 @@ function extractFrames(vid,times,dur){
     ctx.drawImage(vid,0,0);
     const dataUrl=cv.toDataURL('image/png');
     const colors=exColors(ctx,cv.width,cv.height,nclr);
-    const style=anaStyle(ctx,cv.width,cv.height,colors);
-
-    // YDIF simulation via canvas pixel diff (browser-side fallback)
+    const style=anaStyle(ctx,cv.width,cv.height);
     const sm=ctx.getImageData(0,0,Math.min(cv.width,320),Math.min(cv.height,180)).data;
     const sample=[];
     for(let i=0;i<sm.length;i+=sm.length/200*4){const ii=Math.floor(i);sample.push((sm[ii]+sm[ii+1]+sm[ii+2])/3);}
     let ydif=0;
     if(prevSample){for(let i=0;i<Math.min(sample.length,prevSample.length);i++)ydif+=Math.abs(sample[i]-(prevSample[i]||0));ydif=ydif/sample.length;}
     prevSample=sample;
-
     frames.push({tc:t,dataUrl,idx:idx+1,ydif,colors,style,w:vid.videoWidth,h:vid.videoHeight});
-
     const th=document.createElement('img');th.src=dataUrl;th.className='pth';
     pths.appendChild(th);setTimeout(()=>th.classList.add('ld'),35);
     idx++;setTimeout(next,18);
@@ -408,209 +560,98 @@ function extractFrames(vid,times,dur){
   next();
 }
 
-// ─── MOTION ANALYSIS (ffmpeg-style YDIF classification) ───
 function analyzeMotion(){
   document.getElementById('ps').textContent='카메라 무브 분석 중...';
-
-  // Group frames into 2s windows and classify
-  const WIN=Math.max(1,Math.round(2/(frames[1]?.tc-frames[0]?.tc||2)));
+  const WIN=Math.max(1,Math.round(2/((frames[1]?.tc-frames[0]?.tc)||2)));
   motionData={};
-
   for(let i=0;i<frames.length;i+=WIN){
-    const window_frames=frames.slice(i,i+WIN);
-    if(!window_frames.length)continue;
-    const ydifs=window_frames.map(f=>f.ydif||0);
-    const yavgs=window_frames.map(f=>f.style?.avgLuma||0);
-    const avg_ydif=ydifs.reduce((a,b)=>a+b,0)/ydifs.length;
-    const max_ydif=Math.max(...ydifs);
-    const yavg_trend=yavgs.length>1?yavgs[yavgs.length-1]-yavgs[0]:0;
-    const variance=ydifs.reduce((a,b)=>a+(b-avg_ydif)**2,0)/ydifs.length;
-
+    const wf=frames.slice(i,i+WIN);
+    if(!wf.length)continue;
+    const ydifs=wf.map(f=>f.ydif||0);
+    const yavgs=wf.map(f=>f.style?.avgLuma||0);
+    const avg=ydifs.reduce((a,b)=>a+b,0)/ydifs.length;
+    const mx=Math.max(...ydifs);
+    const trend=yavgs.length>1?yavgs[yavgs.length-1]-yavgs[0]:0;
+    const vr=ydifs.reduce((a,b)=>a+(b-avg)**2,0)/ydifs.length;
     let move,pace,shotType;
-    if(max_ydif>35){
-      move='cut transition';pace='cut';shotType='wide establishing shot';
-    } else if(avg_ydif<1.5){
-      move='locked-off / static tripod';pace='static';shotType='static medium shot';
-    } else if(avg_ydif<4){
-      if(yavg_trend>4){move='slow dolly push-in';shotType='medium to close-up';}
-      else if(yavg_trend<-4){move='slow pull-out';shotType='close-up to medium';}
+    if(mx>35){move='cut transition';pace='cut';shotType='wide establishing shot';}
+    else if(avg<1.5){move='locked-off / static tripod';pace='static';shotType='static medium shot';}
+    else if(avg<4){
+      if(trend>4){move='slow dolly push-in';shotType='medium to close-up';}
+      else if(trend<-4){move='slow pull-out';shotType='close-up to medium';}
       else{move='subtle ambient drift';shotType='medium shot';}
       pace='slow';
-    } else if(avg_ydif<10){
-      if(variance<5){move='smooth pan left' ;shotType='wide pan';}
+    }else if(avg<10){
+      if(vr<5){move='smooth pan';shotType='wide pan';}
       else{move='tracking shot';shotType='medium tracking';}
       pace='slow';
-    } else if(avg_ydif<20){
-      if(variance>15){move='handheld tracking';shotType='medium handheld';}
+    }else if(avg<20){
+      if(vr>15){move='handheld tracking';shotType='medium handheld';}
       else{move='moderate pan or dolly';shotType='medium moving shot';}
       pace='moderate';
-    } else {
-      move='dynamic handheld / fast pan';pace='dynamic';shotType='wide dynamic';
-    }
-
-    for(let j=i;j<Math.min(i+WIN,frames.length);j++){
-      motionData[j]={move,pace,shotType,ydif_avg:Math.round(avg_ydif*10)/10};
-    }
+    }else{move='dynamic handheld / fast pan';pace='dynamic';shotType='wide dynamic';}
+    for(let j=i;j<Math.min(i+WIN,frames.length);j++)
+      motionData[j]={move,pace,shotType,ydif_avg:Math.round(avg*10)/10};
   }
-
   detectCuts();
 }
 
 function detectCuts(){
   cuts=[];
   for(let i=1;i<frames.length;i++){
-    if((frames[i].ydif||0)>28) cuts.push({from:frames[i-1],to:frames[i],idx:cuts.length+1});
+    if((frames[i].ydif||0)>28)cuts.push({from:frames[i-1],to:frames[i],idx:cuts.length+1});
   }
   document.getElementById('pb').style.width='100%';
   setTimeout(buildResult,300);
 }
 
-// ─── PROMPT BUILDERS ───
-
-// === NANO BANANA PRO (Higgsfield/Gemini 3 Pro Image) ===
-// Source: Higgsfield official blog, Head of Prompt Engineering guide
-// Key: reasoning engine = structured logical prompts, spatial constraints, multi-step instructions
-function buildNanoMatchPrompt(frame,type){
+// ── NANO BANANA PRO PROMPTS ──
+// Source: Higgsfield official blog (Head of Prompt Engineering, Nov 2025)
+// Structure: [SCENE BLUEPRINT] → [SUBJECT] → [LIGHTING] → [CAMERA/LENS] → [STYLE] → [CONSTRAINTS]
+function buildNanoMatch(frame,type){
   const s=frame.style,c=frame.colors;
-  const cam=motionData[frame.idx-1]||{};
-  // Nano Banana Pro: long structured logical prompts work best (reasoning engine)
-  // Format: Scene blueprint → Subject definition → Lighting spec → Camera/Lens → Style → Constraints
-  if(type==='CAMPAIGN'){
-    return `[SCENE BLUEPRINT] Interior room: walnut wood panel walls (floor-to-ceiling), round dining table (mid-century modern, solid walnut), barrel chair (wood slat back, cream cushion pad), sideboard (walnut veneer, 2-door), cylindrical stone table lamp (warm incandescent, shade casting upward glow), travertine stone column (right edge). Sage green wool rug on terracotta tile floor.
-
-[SUBJECT] A slender female fashion model. Posture: upright, weight on left leg. Expression: composed, direct. Wearing black sleeveless halter draped top (silk or viscose, minimal sheen), wide-leg black trousers (fluid drape), black strappy heeled sandals.
-
-[LIGHTING] Warm amber tungsten only — wall sconce (left) + table lamp (right). No fill light, no strobe, no ring light. Color temperature: ${s.tempK}. Exposure: ${s.bLabel} (avg luma ${s.avgLuma}/255). Contrast: ${s.cLabel}.
-
-[CAMERA/LENS] 50mm or 85mm equivalent. f/2.0–f/2.8. Shallow depth of field — background panels soft-bokeh.
-
-[STYLE] 35mm analog film aesthetic. Grain: fine (ISO 400 equivalent). Color palette dominant: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span> ${c[1]?`<span class="hx" style="background:${c[1]}20;color:${c[1]};border:0.5px solid ${c[1]}40;">${c[1]}</span>`:''}.
-
-[CONSTRAINTS] No digital retouching artifacts. No background distortion. No extra objects. No watermark. Photorealistic.`;
-  }
-  return `[SCENE BLUEPRINT] Raw studio space. Plywood flat panels (2400mm height). Fresnel spotlight on C-stand (top right). Clothing rack (black rail, garments hanging). White seamless paper floor. Metal folding chairs (stacked). Cables on floor.
-
-[SUBJECT] A slender female fashion model walking left to right. Wearing black sleeveless halter top, wide-leg black trousers.
-
-[LIGHTING] Warm tungsten practical only (${s.tempK}). ${s.bLabel}. No on-camera flash.
-
-[CAMERA/LENS] 35mm lens. f/2.8–f/4. Wide angle.
-
-[STYLE] 35mm documentary aesthetic. Color: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>. Fine grain.
-
-[CONSTRAINTS] No digital retouching. No background distortion. Photorealistic.`;
+  const h0=`<span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>`;
+  const h1=c[1]?`<span class="hx" style="background:${c[1]}20;color:${c[1]};border:0.5px solid ${c[1]}40;">${c[1]}</span>`:'';
+  if(type==='CAMPAIGN')return `[SCENE BLUEPRINT] Interior room: walnut wood panel walls (floor-to-ceiling), round dining table (mid-century modern, solid walnut), barrel chair (wood slat back, cream cushion pad), sideboard (walnut veneer, 2-door), cylindrical stone table lamp (warm incandescent), travertine stone column (right edge). Sage green wool rug on terracotta tile floor.\n\n[SUBJECT] A slender female fashion model. Posture: upright, weight on left leg. Expression: composed, direct. Wearing black sleeveless halter draped top (silk or viscose), wide-leg black trousers (fluid drape), black strappy heeled sandals.\n\n[LIGHTING] Warm amber tungsten only — wall sconce (left) + table lamp (right). No fill light, no strobe, no ring light. Color temperature: ${s.tempK}. Exposure: ${s.bLabel} (avg luma ${s.avgLuma}/255). ${s.cLabel}.\n\n[CAMERA/LENS] 50mm or 85mm equivalent. f/2.0–f/2.8. Shallow depth of field — background panels soft-bokeh.\n\n[STYLE] 35mm analog film. Fine grain (ISO 400 equivalent). Dominant palette: ${h0} ${h1}.\n\n[CONSTRAINTS] No digital retouching. No background distortion. No extra objects. No watermark. Photorealistic.`;
+  return `[SCENE BLUEPRINT] Raw studio space. Plywood flat panels (2400mm height). Fresnel spotlight on C-stand (top right). Clothing rack (black rail). White seamless paper floor. Metal folding chairs. Cables on floor.\n\n[SUBJECT] A slender female fashion model walking left to right. Black sleeveless halter top, wide-leg black trousers.\n\n[LIGHTING] Warm tungsten practical only (${s.tempK}). ${s.bLabel}. No on-camera flash.\n\n[CAMERA/LENS] 35mm lens. f/2.8–f/4. Wide angle.\n\n[STYLE] 35mm documentary. Color: ${h0}. Fine grain.\n\n[CONSTRAINTS] No digital retouching. No background distortion. Photorealistic.`;
 }
 
-function buildNanoAdaptPrompt(frame,type){
-  const r=rTag();
-  const cam=motionData[frame.idx-1]||{};
+function buildNanoAdapt(frame,type){
+  const r=rTag();const c=frame.colors;
   const o='<span class="v">[의상: 예 — black silk halter top, wide-leg crepe trousers]</span>';
   const p='<span class="v">[포즈: 예 — standing 3/4 angle, weight on left leg, direct gaze]</span>';
   const bg='<span class="v">[배경 유지 / 변경: 예 — same walnut interior OR change to...]</span>';
-  if(type==='CAMPAIGN'){
-    return `[SCENE BLUEPRINT] Elegantly lit interior room — walnut panels, round dining table, barrel chair with cream cushion, sideboard with stone lamp, travertine column. Sage green rug. ${bg}.
-
-[SUBJECT] ${r} Fashion model. Posture: ${p}. Wearing: ${o}.
-
-[LIGHTING] Warm amber tungsten interior (${frame.style.tempK}). No strobe or fill.
-
-[CAMERA] 85mm f/2.4, shallow DOF. <span class="cm">[static / slow dolly push-in / pan right]</span>.
-
-[STYLE] 35mm film, fine grain, ${frame.style.satLabel}. Color anchor: <span class="hx" style="background:${frame.colors[0]}20;color:${frame.colors[0]};border:0.5px solid ${frame.colors[0]}40;">${frame.colors[0]}</span>.
-
-[CONSTRAINTS] Face stable, no deformation. No watermark. Photorealistic.`;
-  }
-  return `[SCENE BLUEPRINT] Raw fashion shoot studio — plywood panels, Fresnel spot, garment rack, seamless floor. ${bg}.
-
-[SUBJECT] ${r} Model. ${p}. Wearing: ${o}.
-
-[LIGHTING] Warm tungsten (${frame.style.tempK}). ${frame.style.bLabel}.
-
-[CAMERA] 35mm f/2.8. <span class="cm">[wide static / handheld drift]</span>.
-
-[STYLE] 35mm documentary. Grain. ${frame.style.satLabel}.
-
-[CONSTRAINTS] No digital artifacts. Photorealistic.`;
+  if(type==='CAMPAIGN')return `[SCENE BLUEPRINT] Elegantly lit interior — walnut panels, round table, barrel chair, sideboard with stone lamp, travertine column. Sage rug. ${bg}.\n\n[SUBJECT] ${r} Fashion model. ${p}. Wearing: ${o}.\n\n[LIGHTING] Warm amber tungsten (${frame.style.tempK}). No strobe.\n\n[CAMERA] 85mm f/2.4, shallow DOF. <span class="cm">[static / slow dolly push-in / pan right]</span>.\n\n[STYLE] 35mm film, fine grain, ${frame.style.satLabel}. Color: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>.\n\n[CONSTRAINTS] Face stable, no deformation. No watermark. Photorealistic.`;
+  return `[SCENE BLUEPRINT] Raw fashion shoot studio — plywood panels, Fresnel spot, garment rack, seamless floor. ${bg}.\n\n[SUBJECT] ${r} Model. ${p}. Wearing: ${o}.\n\n[LIGHTING] Warm tungsten (${frame.style.tempK}). ${frame.style.bLabel}.\n\n[CAMERA] 35mm f/2.8. <span class="cm">[wide static / handheld drift]</span>.\n\n[STYLE] 35mm documentary. Grain.\n\n[CONSTRAINTS] No digital artifacts. Photorealistic.`;
 }
 
-// === GPT IMAGE 2 (OpenAI) ===
+// ── GPT IMAGE 2 PROMPTS ──
 // Source: OpenAI official prompting guide (April 2026), fal.ai guide, atlabs.ai guide
-// Key: Subject→Action→Scene→Composition→Lighting→Style→Text Constraint (Golden Order)
-// Rewards specificity, native reasoning, include "photorealistic" for photo mode
-// Preserve list critical for edits
-function buildGPTMatchPrompt(frame,type){
+// Golden Order: Subject → Action → Scene → Composition → Lighting → Style → Text Constraint
+// Key: "photorealistic" keyword required. Preserve list for edits.
+function buildGPTMatch(frame,type){
   const s=frame.style,c=frame.colors;
-  if(type==='CAMPAIGN'){
-    return `[Subject] A tall, slender female fashion model, early-to-mid twenties, standing in a composed posture.
-
-[Action] Standing still, weight shifted to left leg, gaze directed slightly off-camera left. Black sleeveless halter top with draped scarf detail (silk or viscose), wide-leg black trousers with fluid drape, black strappy heeled sandals. Small black patent fringe clutch in right hand.
-
-[Scene] Warmly lit private interior — walnut wood panel walls (ceiling height), round mid-century walnut dining table (left), barrel chair with cream cushion pad (center-left), walnut sideboard with cylindrical stone table lamp (right), travertine column (far right edge), sage green wool area rug on terracotta tile floor.
-
-[Composition] 50–85mm lens equivalent. Three-quarter body view. Subject occupies center-left of frame. Shallow depth of field — background panels in soft bokeh. Rule of thirds composition. Eye level.
-
-[Lighting] Warm amber tungsten only. Wall sconce (left) and table lamp (right) as practical sources. No fill, no ring light, no strobe. Color temperature: ${s.tempK}. Exposure: ${s.bLabel}. ${s.cLabel}. Palette: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span> dominant warm shadows, <span class="hx" style="background:${c[1]||c[0]}20;color:${c[1]||c[0]};border:0.5px solid ${c[1]||c[0]}40;">${c[1]||''}</span> midtones.
-
-[Style] Photorealistic. 35mm analog film grain (ISO 400 equivalent). Halation on lamp highlights. Editorial fashion photography. No commercial retouching.
-
-[Constraints] No watermark. No extra people. No background objects not described. No heavy retouching.`;
-  }
-  return `[Subject] A tall slender female fashion model in motion.
-
-[Action] Walking left across frame, head slightly upward, expression neutral. Black halter top, wide-leg black trousers. Stride natural and unhurried.
-
-[Scene] Raw fashion shoot studio interior. Plywood flat panels (2.4m) leaning against dark background. Fresnel spotlight on C-stand (top right, hard directional light). Metal garment rack with black and neutral garments hanging. White seamless paper floor. Power cables on floor. Two metal folding chairs (right background). Crew member silhouette partially visible (left background, out of focus).
-
-[Composition] 35mm wide-angle. Full body. Low to mid eye level. Documentary framing — slightly off-center subject, environmental context visible.
-
-[Lighting] Warm tungsten overhead. ${s.tempK}. ${s.bLabel}. Raw production lighting — no beauty setup.
-
-[Style] Photorealistic. 35mm film documentary texture. Fine grain. ${s.satLabel}. Behind-the-scenes fashion editorial aesthetic.
-
-[Constraints] No watermark. No distortion. No artificial smoothing.`;
+  const h0=`<span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>`;
+  const h1=c[1]?`<span class="hx" style="background:${c[1]}20;color:${c[1]};border:0.5px solid ${c[1]}40;">${c[1]}</span>`:'';
+  if(type==='CAMPAIGN')return `[Subject] A tall, slender female fashion model, early-to-mid twenties, standing in a composed posture.\n\n[Action] Standing still, weight shifted to left leg, gaze directed slightly off-camera left. Wearing black sleeveless halter top with draped scarf detail (silk or viscose), wide-leg black trousers with fluid drape, black strappy heeled sandals. Small black patent fringe clutch in right hand.\n\n[Scene] Warmly lit private interior — walnut wood panel walls (ceiling height), round mid-century walnut dining table (left), barrel chair with cream cushion pad (center-left), walnut sideboard with cylindrical stone table lamp (right), travertine column (far right edge), sage green wool area rug on terracotta tile floor.\n\n[Composition] 50–85mm lens equivalent. Three-quarter body view. Subject occupies center-left of frame. Shallow depth of field — background panels in soft bokeh. Rule of thirds. Eye level.\n\n[Lighting] Warm amber tungsten only. Wall sconce (left) and table lamp (right) as practical sources. No fill, no ring light, no strobe. Color temperature: ${s.tempK}. Exposure: ${s.bLabel}. ${s.cLabel}. Palette: ${h0} dominant, ${h1} midtones.\n\n[Style] Photorealistic. 35mm analog film grain (ISO 400 equivalent). Halation on lamp highlights. Editorial fashion photography. No commercial retouching.\n\n[Constraints] No watermark. No extra people. No background objects not described. No heavy retouching.`;
+  return `[Subject] A tall slender female fashion model in motion.\n\n[Action] Walking left across frame, head slightly upward, expression neutral. Black halter top, wide-leg black trousers. Stride natural.\n\n[Scene] Raw fashion shoot studio interior. Plywood flat panels (2.4m) leaning against dark background. Fresnel spotlight on C-stand (top right). Metal garment rack with black garments. White seamless paper floor. Power cables on floor.\n\n[Composition] 35mm wide-angle. Full body. Documentary framing — slightly off-center, environmental context visible.\n\n[Lighting] Warm tungsten overhead. ${s.tempK}. ${s.bLabel}. Raw production lighting — no beauty setup.\n\n[Style] Photorealistic. 35mm film documentary texture. Fine grain. ${s.satLabel}. Behind-the-scenes fashion editorial.\n\n[Constraints] No watermark. No distortion. No artificial smoothing.`;
 }
 
-function buildGPTAdaptPrompt(frame,type){
-  const r=rTag();
-  const o='<span class="v">[의상 설명: e.g. — ivory silk halter gown, backless]</span>';
+function buildGPTAdapt(frame,type){
+  const r=rTag();const c=frame.colors;
+  const o='<span class="v">[의상: e.g. — ivory silk halter gown, backless]</span>';
   const a='<span class="v">[동작: e.g. — standing, weight on left leg, gaze toward camera]</span>';
   const bg='<span class="v">[배경: keep same interior / change to — ...]</span>';
-  const pres='Preserve: face identity from reference, pose structure, lighting direction, background architecture.';
-  return `[Subject] ${r} Fashion model. ${a}.
-
-[Action] Wearing ${o}. Natural posture, expression composed.
-
-[Scene] ${bg}.
-
-[Composition] 85mm f/2.4. Three-quarter view. Shallow DOF. <span class="cm">[static / pan / dolly push-in]</span>.
-
-[Lighting] ${frame.style.temp} (${frame.style.tempK}). ${frame.style.bLabel}. Practical sources only.
-
-[Style] Photorealistic. 35mm film grain. ${frame.style.satLabel}. Color: <span class="hx" style="background:${frame.colors[0]}20;color:${frame.colors[0]};border:0.5px solid ${frame.colors[0]}40;">${frame.colors[0]}</span>.
-
-[Change] <span class="v">[변경할 내용 명시]</span>. ${pres}
-
-[Constraints] No watermark. No extra objects. No over-retouching. Photorealistic.`;
+  return `[Subject] ${r} Fashion model. ${a}.\n\n[Action] Wearing ${o}. Natural posture, expression composed.\n\n[Scene] ${bg}.\n\n[Composition] 85mm f/2.4. Three-quarter view. Shallow DOF. <span class="cm">[static / pan / dolly push-in]</span>.\n\n[Lighting] ${frame.style.temp} (${frame.style.tempK}). ${frame.style.bLabel}. Practical sources only.\n\n[Style] Photorealistic. 35mm film grain. ${frame.style.satLabel}. Color: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>.\n\n[Change] <span class="v">[변경할 내용 명시]</span>.\nPreserve: face identity from reference, pose structure, lighting direction, background architecture.\n\n[Constraints] No watermark. No extra objects. No over-retouching. Photorealistic.`;
 }
 
-// STYLE PROMPT (shared)
 function buildStylePrompt(frame,type){
   const s=frame.style,c=frame.colors;
   const hl=c.map(h=>`<span class="hx" style="background:${h}20;color:${h};border:0.5px solid ${h}40;">${h}</span>`).join(' ');
-  return `[STYLE REFERENCE — ${type}]
-PALETTE: ${hl}
-LIGHTING: ${s.temp}, ${s.tempK} color temperature. ${s.bLabel} exposure (avg luma ${s.avgLuma}/255). ${s.cLabel} (range ${s.contrast}). Practical interior sources only. No artificial fill, no ring, no strobe.
-FILM LOOK: 35mm analog. Halation on highlights. Fine grain (ISO 400–800). Shadow lift toward ${c[c.length-1]||'#1a1a1a'}. Organic vignette.
-SATURATION: ${s.satLabel}. Lifted blacks. Textured highlights.
-LENS: 50–85mm equiv. f/2.0–2.8. Shallow DOF. Organic bokeh.
-COMPOSITION: Rule of thirds. Model 1/3–2/3 frame height. Negative space toward light source.`;
+  return `[STYLE REFERENCE — ${type}]\nPALETTE: ${hl}\nLIGHTING: ${s.temp}, ${s.tempK}. ${s.bLabel} (avg luma ${s.avgLuma}/255). ${s.cLabel} (contrast ${s.contrast}). Practical sources only. No artificial fill.\nFILM LOOK: 35mm analog. Halation on highlights. Fine grain (ISO 400–800). Shadow lift toward ${c[c.length-1]||'#1a1a1a'}. Organic vignette.\nSATURATION: ${s.satLabel}. Lifted blacks. Textured highlights.\nLENS: 50–85mm equiv. f/2.0–2.8. Shallow DOF.\nCOMPOSITION: Rule of thirds. Model 1/3–2/3 frame height. Negative space toward light source.`;
 }
 
-// === VIDEO PROMPTS ===
-
-// KLING 3.0 — Source: magichour.ai, fal.ai, videoai.me, stevenvideo.com guides
-// Rules: Camera term FIRST (first 8-10 words). One motion per shot. pace+verb.
-// Exact terms: dolly / truck / pedestal / pan / tilt / orbit / crane / steadicam / handheld / whip-pan
+// ── VIDEO PROMPTS ──
 function buildKlingPrompt(fromF,toF,seg,dur,tech){
   const r=rTag('kling');
   const o='<span class="v">[의상: e.g. — black silk halter top, wide-leg trousers]</span>';
@@ -618,33 +659,10 @@ function buildKlingPrompt(fromF,toF,seg,dur,tech){
   const bg='<span class="v">[공간: e.g. — warmly lit walnut interior with round table]</span>';
   const s=fromF.style,c=fromF.colors[0]||'#c8a096';
   const dur_s=Math.min(Math.max(Math.round(dur),3),10);
-  const move=tech.move,pace=tech.pace,shotType=tech.shotType;
-  // Camera FIRST per Kling 3.0 guide
-  const kMove=toKlingMove(move,pace);
-  return `<span class="cm">${kMove}</span>. ${shotType}. ${r} ${a}, wearing ${o}. ${bg}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> dominant grade — ${s.temp} (${s.tempK}), ${s.bLabel}, ${s.cLabel}. Shot on 35mm film, f/2.4, fine grain, shallow DOF. Duration: ${dur_s}s. Character face stable without deformation, no flickering, smooth natural movement.`;
+  const kMove=toKlingMove(tech.move,tech.pace);
+  return `<span class="cm">${kMove}</span>. ${tech.shotType}. ${r} ${a}, wearing ${o}. ${bg}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> dominant — ${s.temp} (${s.tempK}), ${s.bLabel}. 35mm film, f/2.4, grain, shallow DOF. ${dur_s}s. Character face stable without deformation, no flickering, smooth natural movement.`;
 }
 
-function toKlingMove(move,pace){
-  const map={
-    'locked-off / static tripod':'Static tripod, locked-off',
-    'subtle ambient drift':'Static tripod, minimal ambient drift',
-    'slow dolly push-in':`Slow dolly push-in`,
-    'slow pull-out':'Slow dolly pull-out',
-    'smooth pan left':'Slow smooth pan left',
-    'smooth pan / slow dolly':'Slow steady-cam dolly',
-    'tracking shot':'Moderate tracking shot',
-    'handheld tracking':'Moderate handheld tracking',
-    'moderate pan or dolly':'Moderate dolly',
-    'moderate pan or tracking':'Moderate tracking',
-    'dynamic handheld / fast pan':'Fast handheld pan',
-    'cut transition':'Static tripod, locked-off'
-  };
-  return map[move]||`${pace} ${move}`;
-}
-
-// SEEDANCE 2.0 — Source: seedance.tv, wavespeed.ai, apiyi.com, imagine.art guides
-// Rules: Subject+Action+Camera+Scene+Style+Quality+Constraints (7-part)
-// Single present-tense verb. Constraint keywords at END. 50-70 words optimal.
 function buildSeedancePrompt(fromF,toF,seg,dur,tech){
   const r=rTag('seedance');
   const o='<span class="v">[의상]</span>';
@@ -656,21 +674,6 @@ function buildSeedancePrompt(fromF,toF,seg,dur,tech){
   return `${r} A slender female fashion model ${a}, wearing ${o}. Camera: <span class="cm">${tech_cam}</span>. Scene: ${bg}, ${s.temp} (${s.tempK}), ${s.bLabel}, ${s.satLabel}. Style: cinematic fashion film, 35mm analog, <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> grade, shallow DOF, natural grain, warm practical lighting. Quality: 4K ultra HD, sharp details, no blur, no ghosting. Constraints: character face stable without deformation, smooth natural movement, stable camera, duration ${dur_s}s.`;
 }
 
-function toSeedanceCam(move,pace){
-  const map={
-    'locked-off / static tripod':'static locked-off, medium shot',
-    'subtle ambient drift':'static with subtle ambient motion',
-    'slow dolly push-in':'slow push-in, medium to close-up',
-    'slow pull-out':'slow pull-out, close-up to medium',
-    'smooth pan left':'slow smooth pan left, wide shot',
-    'tracking shot':'moderate tracking shot, medium',
-    'handheld tracking':'moderate handheld tracking, medium',
-    'moderate pan or dolly':'moderate dolly, medium shot',
-    'dynamic handheld / fast pan':'handheld dynamic, wide shot'
-  };
-  return map[move]||`${pace} ${move}, medium shot`;
-}
-
 function buildCinematicPrompt(fromF,toF,seg,dur,tech){
   const r=rTag('cinematic');
   const o='<span class="v">[의상]</span>';
@@ -678,14 +681,22 @@ function buildCinematicPrompt(fromF,toF,seg,dur,tech){
   const bg='<span class="v">[배경]</span>';
   const s=fromF.style,c=fromF.colors[0]||'#c8a096';
   const dur_s=Math.min(Math.max(Math.round(dur),3),10);
-  const kMove=toKlingMove(tech.move,tech.pace);
-  return `${r} Cinematic fashion film — ${a}, wearing ${o}. <span class="cm">${kMove}</span>. ${bg}. ${s.temp} (${s.tempK}), ${s.bLabel}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> grade. 35mm, f/2.4, grain. ${dur_s}s. Stable, no artifacts.`;
+  return `${r} Cinematic fashion film — ${a}, wearing ${o}. <span class="cm">${toKlingMove(tech.move,tech.pace)}</span>. ${bg}. ${s.temp} (${s.tempK}), ${s.bLabel}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> grade. 35mm, f/2.4, grain. ${dur_s}s. Stable, no artifacts.`;
 }
 
-function buildVideoKW(fromF,tech,seg){
+function toKlingMove(move,pace){
+  const map={'locked-off / static tripod':'Static tripod, locked-off','subtle ambient drift':'Static tripod, minimal ambient drift','slow dolly push-in':'Slow dolly push-in','slow pull-out':'Slow dolly pull-out','smooth pan':'Slow smooth pan left','tracking shot':'Moderate tracking shot','handheld tracking':'Moderate handheld tracking','moderate pan or dolly':'Moderate dolly','dynamic handheld / fast pan':'Fast handheld pan','cut transition':'Static tripod, locked-off'};
+  return map[move]||`${pace} ${move}`;
+}
+function toSeedanceCam(move,pace){
+  const map={'locked-off / static tripod':'static locked-off, medium shot','subtle ambient drift':'static with subtle ambient motion','slow dolly push-in':'slow push-in, medium to close-up','slow pull-out':'slow pull-out, close-up to medium','smooth pan':'slow smooth pan left, wide shot','tracking shot':'moderate tracking shot, medium','handheld tracking':'moderate handheld tracking, medium','moderate pan or dolly':'moderate dolly, medium shot','dynamic handheld / fast pan':'handheld dynamic, wide shot'};
+  return map[move]||`${pace} ${move}, medium shot`;
+}
+
+function buildVideoKW(fromF,tech){
   const s=fromF.style,c=fromF.colors;
   return {
-    camera:[toKlingMove(tech.move,tech.pace), tech.shotType],
+    camera:[toKlingMove(tech.move,tech.pace),tech.shotType],
     seedance_cam:[toSeedanceCam(tech.move,tech.pace)],
     lighting:[s.temp,s.tempK+' color temp',s.bLabel,s.cLabel],
     style:['cinematic fashion film','35mm analog film','shallow depth of field','natural grain','warm practical lighting only'],
@@ -697,18 +708,20 @@ function buildVideoKW(fromF,tech,seg){
   };
 }
 
-// ─── CARD BUILDERS ───
+// ── CARD BUILDERS ──
 function buildImgCard(frame,st){
   const mIdx=frame.idx-1;
   const tech=motionData[mIdx]||{move:'locked-off / static tripod',pace:'static',shotType:'medium shot',ydif_avg:0};
   const isCut=cuts.some(c=>c.to===frame);
 
-  const pMatch=sim==='gpt'?buildGPTMatchPrompt(frame,st):buildNanoMatchPrompt(frame,st);
-  const pAdapt=sim==='gpt'?buildGPTAdaptPrompt(frame,st):buildNanoAdaptPrompt(frame,st);
+  // Both model prompts pre-built
+  const pNanoMatch=buildNanoMatch(frame,st);
+  const pNanoAdapt=buildNanoAdapt(frame,st);
+  const pGPTMatch=buildGPTMatch(frame,st);
+  const pGPTAdapt=buildGPTAdapt(frame,st);
   const pStyle=buildStylePrompt(frame,st);
-  prompts.image.push('[SC.'+pad(frame.idx)+' TC '+ftc(frame.tc)+']\n'+stripH(pMatch));
 
-  const modelSrc=sim==='gpt'?'GPT Image 2 (OpenAI Apr2026 guide)':sim==='nano'?'Nano Banana Pro (Higgsfield official guide)':'Seedream 4.5';
+  prompts.image.push('[SC.'+pad(frame.idx)+' TC '+ftc(frame.tc)+']\n'+stripH(pNanoMatch));
 
   const div=document.createElement('div');
   div.className='card';div.dataset.type='image';
@@ -734,31 +747,129 @@ function buildImgCard(frame,st){
     </div>
     <div class="ci">
       <div class="clbl">Scene ${frame.idx} — ${st==='BTS'?'BTS 현장':'캠페인 컷'}</div>
-      <div class="ptabs">
-        <button class="ptab pm act" onclick="swPTab(this,'pm-${frame.idx}')">MATCH</button>
-        <button class="ptab pa" onclick="swPTab(this,'pa-${frame.idx}')">ADAPT</button>
-        <button class="ptab ps" onclick="swPTab(this,'ps-${frame.idx}')">STYLE</button>
+
+      <div class="imrow">
+        <span class="imlbl">이미지 모델</span>
+        <button class="imtog an" data-im="nano" onclick="swIM(this,${frame.idx})">Nano Banana Pro</button>
+        <button class="imtog" data-im="gpt" onclick="swIM(this,${frame.idx})">GPT Image 2</button>
       </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div class="ptabs" style="margin-bottom:0;">
+          <button class="ptab pm act" onclick="swPTab(this,'pm-${frame.idx}')">MATCH</button>
+          <button class="ptab pa" onclick="swPTab(this,'pa-${frame.idx}')">ADAPT</button>
+          <button class="ptab ps" onclick="swPTab(this,'ps-${frame.idx}')">STYLE</button>
+          <button class="ptab" style="color:#4a1a7a;border-left:0.5px solid var(--b2);" onclick="swPTabEnhance(this,'pe-${frame.idx}')">✦ CLAUDE</button>
+        </div>
+      </div>
+
+      <div id="pe-${frame.idx}" class="pnl">
+        <div style="padding:8px 0 4px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-family:var(--mono);font-size:7px;letter-spacing:0.15em;color:#4a1a7a;text-transform:uppercase;">✦ Claude로 강화 — 현재 모델+탭 기준 자동 선택</span>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+          <button class="enhance-btn" style="font-size:8px;padding:5px 12px;"
+            data-nano-match="${escB(stripH(pNanoMatch))}"
+            data-nano-adapt="${escB(stripH(pNanoAdapt))}"
+            data-gpt-match="${escB(stripH(pGPTMatch))}"
+            data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
+            data-fd="${escB(JSON.stringify({colors:frame.colors.slice(0,6),style:frame.style,tech}))}"
+            data-frame="${frame.idx}"
+            data-target="match"
+            onclick="handleEnhanceTab(this)">MATCH 강화</button>
+          <button class="enhance-btn" style="font-size:8px;padding:5px 12px;"
+            data-nano-match="${escB(stripH(pNanoMatch))}"
+            data-nano-adapt="${escB(stripH(pNanoAdapt))}"
+            data-gpt-match="${escB(stripH(pGPTMatch))}"
+            data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
+            data-fd="${escB(JSON.stringify({colors:frame.colors.slice(0,6),style:frame.style,tech}))}"
+            data-frame="${frame.idx}"
+            data-target="adapt"
+            onclick="handleEnhanceTab(this)">ADAPT 강화</button>
+        </div>
+        <div class="enhanced-box show" id="enh-pm-nano-${frame.idx}" style="display:none;">
+          <div class="enhanced-label">✦ MATCH · Nano Banana Pro <button class="cp enhanced-copy">COPY</button></div>
+          <div class="enhanced-text"></div>
+        </div>
+        <div class="enhanced-box" id="enh-pm-gpt-${frame.idx}" style="display:none;">
+          <div class="enhanced-label">✦ MATCH · GPT Image 2 <button class="cp enhanced-copy">COPY</button></div>
+          <div class="enhanced-text"></div>
+        </div>
+        <div class="enhanced-box" id="enh-pa-nano-${frame.idx}" style="display:none;">
+          <div class="enhanced-label">✦ ADAPT · Nano Banana Pro <button class="cp enhanced-copy">COPY</button></div>
+          <div class="enhanced-text"></div>
+        </div>
+        <div class="enhanced-box" id="enh-pa-gpt-${frame.idx}" style="display:none;">
+          <div class="enhanced-label">✦ ADAPT · GPT Image 2 <button class="cp enhanced-copy">COPY</button></div>
+          <div class="enhanced-text"></div>
+        </div>
+        <div id="enh-placeholder-${frame.idx}" style="background:var(--bg2);border:0.5px solid var(--b);border-radius:3px;padding:16px;text-align:center;font-size:10px;color:#7a7570;line-height:1.7;">
+          MATCH 강화 또는 ADAPT 강화 버튼을 누르면<br>현재 선택된 이미지 모델 기준으로 프롬프트를 강화합니다.<br><span style="font-family:var(--mono);font-size:8px;color:#b090d0;">⚙ Claude API KEY 설정 필요</span>
+        </div>
+      </div>
+
       <div id="pm-${frame.idx}" class="pnl act">
-        <div class="ph">
-          <div style="display:flex;align-items:center;">
-            <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
-            <span class="src-badge">${modelSrc}</span>
+        <div id="pm-nano-${frame.idx}">
+          <div class="ph">
+            <div style="display:flex;align-items:center;">
+              <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
+              <span class="src-badge">Nano Banana Pro · Higgsfield 공식 가이드</span>
+            </div>
+            <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoMatch))}\`)">COPY</button>
           </div>
-          <button class="cp" onclick="cpt(this,\`${escB(stripH(pMatch))}\`)">COPY</button>
+          <div class="pt">${pNanoMatch}</div>
+          <div class="enhanced-box" id="enh-pm-nano-${frame.idx}">
+            <div class="enhanced-label">✦ Claude 강화 프롬프트 <button class="cp enhanced-copy">COPY</button></div>
+            <div class="enhanced-text"></div>
+          </div>
         </div>
-        <div class="pt">${pMatch}</div>
+        <div id="pm-gpt-${frame.idx}" style="display:none;">
+          <div class="ph">
+            <div style="display:flex;align-items:center;">
+              <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
+              <span class="src-badge">GPT Image 2 · OpenAI 공식 가이드 Apr2026</span>
+            </div>
+            <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTMatch))}\`)">COPY</button>
+          </div>
+          <div class="pt">${pGPTMatch}</div>
+          <div class="enhanced-box" id="enh-pm-gpt-${frame.idx}">
+            <div class="enhanced-label">✦ Claude 강화 프롬프트 <button class="cp enhanced-copy">COPY</button></div>
+            <div class="enhanced-text"></div>
+          </div>
+        </div>
       </div>
+
       <div id="pa-${frame.idx}" class="pnl">
-        <div class="ph">
-          <div style="display:flex;align-items:center;">
-            <span class="ptlbl">✏️ 내 모델로 변형</span>
-            <span class="src-badge">${modelSrc}</span>
+        <div id="pa-nano-${frame.idx}">
+          <div class="ph">
+            <div style="display:flex;align-items:center;">
+              <span class="ptlbl">✏️ 내 모델로 변형</span>
+              <span class="src-badge">Nano Banana Pro</span>
+            </div>
+            <button class="cp" onclick="cpt(this,\`${escB(stripH(pNanoAdapt))}\`)">COPY</button>
           </div>
-          <button class="cp" onclick="cpt(this,\`${escB(stripH(pAdapt))}\`)">COPY</button>
+          <div class="pt">${pNanoAdapt}</div>
+          <div class="enhanced-box" id="enh-pa-nano-${frame.idx}">
+            <div class="enhanced-label">✦ Claude 강화 프롬프트 <button class="cp enhanced-copy">COPY</button></div>
+            <div class="enhanced-text"></div>
+          </div>
         </div>
-        <div class="pt">${pAdapt}</div>
+        <div id="pa-gpt-${frame.idx}" style="display:none;">
+          <div class="ph">
+            <div style="display:flex;align-items:center;">
+              <span class="ptlbl">✏️ 내 모델로 변형</span>
+              <span class="src-badge">GPT Image 2</span>
+            </div>
+            <button class="cp" onclick="cpt(this,\`${escB(stripH(pGPTAdapt))}\`)">COPY</button>
+          </div>
+          <div class="pt">${pGPTAdapt}</div>
+          <div class="enhanced-box" id="enh-pa-gpt-${frame.idx}">
+            <div class="enhanced-label">✦ Claude 강화 프롬프트 <button class="cp enhanced-copy">COPY</button></div>
+            <div class="enhanced-text"></div>
+          </div>
+        </div>
       </div>
+
       <div id="ps-${frame.idx}" class="pnl">
         <div class="ph">
           <span class="ptlbl">🎨 스타일 시트</span>
@@ -771,6 +882,7 @@ function buildImgCard(frame,st){
           <div style="margin-top:4px;"><div class="pt">${pStyle}</div></div>
         </div>
       </div>
+
       <div class="rb">
         <div class="rbt">첨부 레퍼런스</div>${imgRefs(st)}
       </div>
@@ -779,24 +891,37 @@ function buildImgCard(frame,st){
   return div;
 }
 
+function swIM(btn,idx){
+  const m=btn.dataset.im;
+  const ci=btn.closest('.ci');
+  ci.querySelectorAll('.imtog').forEach(b=>b.className='imtog');
+  btn.className='imtog '+(m==='nano'?'an':'ag');
+  // swap MATCH & ADAPT panels
+  ['pm','pa'].forEach(tab=>{
+    const nano=document.getElementById(tab+'-nano-'+idx);
+    const gpt=document.getElementById(tab+'-gpt-'+idx);
+    if(nano&&gpt){nano.style.display=m==='nano'?'':'none';gpt.style.display=m==='gpt'?'':'none';}
+  });
+}
+
 function buildVidCard(fromF,toF,segIdx,dur,tech){
   const pk=buildKlingPrompt(fromF,toF,segIdx,dur,tech);
   const ps=buildSeedancePrompt(fromF,toF,segIdx,dur,tech);
   const pc=buildCinematicPrompt(fromF,toF,segIdx,dur,tech);
-  const kw=buildVideoKW(fromF,tech,segIdx);
+  const kw=buildVideoKW(fromF,tech);
   prompts.video.push('[SEG.'+pad(segIdx)+' TC '+ftc(fromF.tc)+'→'+ftc(toF.tc)+']\nKling:\n'+stripH(pk)+'\n\nSeedance:\n'+stripH(ps));
 
   const kwHtml=(model)=>`<div class="kwg">
-    <div class="krow"><div class="kk">CAMERA (${model==='kling'?'Kling':'Seedance'})</div><div class="kv">${(model==='kling'?kw.camera:kw.seedance_cam).map(k=>`<span class="kc kca" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">CAMERA</div><div class="kv">${(model==='kling'?kw.camera:kw.seedance_cam).map(k=>`<span class="kc kca" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
     <div class="krow"><div class="kk">LIGHTING</div><div class="kv">${kw.lighting.map(k=>`<span class="kc kcl" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
     <div class="krow"><div class="kk">STYLE</div><div class="kv">${kw.style.map(k=>`<span class="kc kcy" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
     <div class="krow"><div class="kk">MOTION</div><div class="kv">${kw.motion.map(k=>`<span class="kc kcm" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
-    <div class="krow"><div class="kk">COLOR</div><div class="kv">${kw.color.map(h=>`<span class="kc" style="background:${h}18;color:${h};border-color:${h}40;" onclick="cpt(null,'${h}');toast('${h}')">${h}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">COLOR</div><div class="kv">${kw.color.map(h=>`<span class="kc" style="background:${h}18;color:${h};border-color:${h}80;" onclick="cpt(null,'${h}');toast('${h}')">${h}</span>`).join('')}</div></div>
     <div class="krow"><div class="kk">QUALITY</div><div class="kv">${kw.quality.map(k=>`<span class="kc kcq" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
     <div class="krow"><div class="kk">CONSTRAINT</div><div class="kv">${kw.constraint.map(k=>`<span class="kc kcq" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
     <div class="model-rule">
       <div class="mr-t">MODEL RULE — ${model.toUpperCase()}</div>
-      <div class="mr-v">${model==='kling'?'카메라 무브 <b>첫 8-10단어</b>에 배치 필수. 1샷 1무브 원칙. pace+동사 형태 (slow dolly push-in). start_image 필수 (role: start_image).':model==='seedance'?'Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트 순서. 단일 현재형 동사. 50-70단어 최적. 끝에 constraint 키워드 필수 (stable / no deformation / 4K).':'Higgsfield Cinema Studio 네이티브. Element <<<UUID>>> 프롬프트 삽입. cinematic 언어 최적화.'}</div>
+      <div class="mr-v">${model==='kling'?'카메라 무브 <b>첫 8-10단어</b>에 배치 필수. 1샷 1무브 원칙. pace+동사 (slow dolly push-in). start_image 필수.':model==='seedance'?'Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트. 단일 현재형 동사. 50-70단어 최적. 끝 constraint 필수 (stable / no deformation / 4K).':'Higgsfield Cinema Studio 네이티브. Element <<<UUID>>> 삽입. cinematic 언어 최적화.'}</div>
     </div>
   </div>`;
 
@@ -808,7 +933,7 @@ function buildVidCard(fromF,toF,segIdx,dur,tech){
       <span class="cid">SEG.${pad(segIdx)}</span>
       <span class="ctc">TC ${ftc(fromF.tc)} → ${ftc(toF.tc)}</span>
       <span class="bdg bcam">${tech.move}</span>
-      <span style="font-family:var(--mono);font-size:7px;color:var(--t3);">YDIF ${tech.ydif_avg}</span>
+      <span style="font-family:var(--mono);font-size:7px;color:#7a7570;">YDIF ${tech.ydif_avg}</span>
     </div>
     <div class="cbdg"><span class="bdg bv">VIDEO</span><span class="vd">${dur}초</span></div>
   </div>
@@ -860,19 +985,13 @@ function buildVidCard(fromF,toF,segIdx,dur,tech){
   return div;
 }
 
-// ─── BUILD RESULT ───
 function buildResult(){
   document.getElementById('P').style.display='none';
   document.getElementById('R').style.display='block';
   const CC=document.getElementById('CC');CC.innerHTML='';
   prompts.image=[];prompts.video=[];
   buildAssetPanel();
-
-  frames.forEach((f,i)=>{
-    const st=guessST(i,frames.length);
-    CC.appendChild(buildImgCard(f,st));
-  });
-
+  frames.forEach((f,i)=>{CC.appendChild(buildImgCard(f,guessST(i,frames.length)));});
   const segs=[];
   if(cuts.length===0){segs.push({from:frames[0],to:frames[frames.length-1]});}
   else{
@@ -884,41 +1003,46 @@ function buildResult(){
     const tech=motionData[frames.indexOf(seg.from)]||{move:'locked-off / static tripod',pace:'static',shotType:'medium shot',ydif_avg:0};
     CC.appendChild(buildVidCard(seg.from,seg.to,i+1,dur,tech));
   });
-
   buildGuide();
+  updateSaveBtn();
+  updateStorCount();
+  // 자동 저장 — 카드 빌드 완료 후 (prompts 배열 채워진 다음)
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      saveCurrentProject(true);
+      toast('✓ Library 저장 · ZIP 다운로드 중...');
+      setTimeout(()=>dlZip(true), 300);
+    });
+  });
 }
 
-// ─── GUIDE ───
 function buildGuide(){
   document.getElementById('GG').innerHTML=`
   <div class="gc">
-    <div class="gct">이미지 프롬프트 구조 기반</div>
-    <div class="gst"><span class="gsn" style="color:#f0c060;">Nano Pro</span><span>Higgsfield Head of Prompt Engineering 공식 가이드. [SCENE BLUEPRINT] → [SUBJECT] → [LIGHTING] → [CAMERA] → [STYLE] → [CONSTRAINTS] 구조. 모델이 각 블록을 독립 명령으로 처리 (reasoning engine).</span></div>
-    <div class="gst"><span class="gsn" style="color:#aa88ff;">GPT-i2</span><span>OpenAI 공식 가이드 (Apr 2026). Subject→Action→Scene→Composition→Lighting→Style→Text Constraint (Golden Order). <code>photorealistic</code> 키워드 필수. 에딧 시 Change/Preserve 리스트 명시.</span></div>
-    <div class="gst"><span class="gsn">공통</span><span>바꿀 텍스트 <span style="background:#2a2418;padding:0 2px;border-radius:2px;font-size:8px;font-family:var(--mono);">흰 배경</span> 교체 후 레퍼런스 연결.</span></div>
+    <div class="gct">이미지 프롬프트 구조</div>
+    <div class="gst"><span class="gsn" style="color:#9a7040;">Nano Pro</span><span>Higgsfield 공식 가이드 (Head of Prompt Engineering). [SCENE BLUEPRINT] → [SUBJECT] → [LIGHTING] → [CAMERA] → [STYLE] → [CONSTRAINTS] 블록 구조. Reasoning engine이 각 블록을 독립 명령으로 처리.</span></div>
+    <div class="gst"><span class="gsn" style="color:#4a1a7a;">GPT-i2</span><span>OpenAI 공식 가이드 (Apr 2026). Subject→Action→Scene→Composition→Lighting→Style→Constraints (Golden Order). <code>photorealistic</code> 키워드 필수. ADAPT 탭: Change/Preserve 리스트 명시.</span></div>
   </div>
   <div class="gc">
-    <div class="gct">영상 프롬프트 구조 기반</div>
-    <div class="gst"><span class="gsn" style="color:var(--purple);">Kling</span><span>카메라 무브 <b>첫 8-10단어</b> 필수 (magichour/fal.ai/videoai.me 가이드). 1샷 1무브. <code>slow dolly push-in</code> 형식. start_image 필수.</span></div>
-    <div class="gst"><span class="gsn" style="color:var(--green);">Seedance</span><span>Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트 (seedance.tv/wavespeed.ai 공식 가이드). 단일 현재형 동사. 50-70단어. 끝 constraint 필수.</span></div>
-    <div class="gst"><span class="gsn">YDIF</span><span>ffmpeg signalstats 기반 프레임간 luma 차이로 카메라 무브 분류. 0-1.5=static, 1.5-4=drift, 4-10=dolly/pan, 10-20=tracking, 20+=dynamic/handheld.</span></div>
+    <div class="gct">영상 프롬프트 구조</div>
+    <div class="gst"><span class="gsn" style="color:#4a1a7a;">Kling</span><span>카메라 무브 <b>첫 8-10단어</b> 필수 (magichour/fal.ai 가이드). 1샷 1무브. <code>slow dolly push-in</code> 형식. start_image 필수.</span></div>
+    <div class="gst"><span class="gsn" style="color:#1a5a3a;">Seedance</span><span>Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트 (seedance.tv 가이드). 단일 현재형 동사. 50-70단어. 끝 constraint 필수.</span></div>
+    <div class="gst"><span class="gsn">YDIF</span><span>ffmpeg signalstats 기반 luma 차이로 카메라 무브 분류. 0-1.5=static, 1.5-4=drift, 4-10=pan/dolly, 10-20=tracking, 20+=handheld.</span></div>
   </div>
   <div class="gc">
     <div class="gct">레퍼런스 (${sref==='element'?'Element':sref==='soul'?'Soul':'없음'})</div>
     ${sref==='element'?`
     <div class="gst"><span class="gsn">01</span><span>Higgsfield → Elements → 모델 사진 1장</span></div>
     <div class="gst"><span class="gsn">02</span><span>element_id 복사 → <code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code> 삽입</span></div>
-    <div class="gst"><span class="gsn">이미지</span><span><code>nano_banana_2</code> 권장 (Kling start_image용)</span></div>
+    <div class="gst"><span class="gsn">이미지</span><span><code>nano_banana_2</code> 권장</span></div>
     <div class="gst"><span class="gsn">영상</span><span>Kling: <code>kling3_0</code> + start_image · Seedance: <code>seedance_2_0</code></span></div>
     `:sref==='soul'?`
     <div class="gst"><span class="gsn">01</span><span>Higgsfield → Souls → 5–20장 학습</span></div>
-    <div class="gst"><span class="gsn">02</span><span>soul_id → params에 추가</span></div>
-    <div class="gst"><span class="gsn">03</span><span>model: <code>soul_2</code> 또는 <code>soul_cinema_studio</code></span></div>
+    <div class="gst"><span class="gsn">02</span><span>soul_id → params에 추가. model: <code>soul_2</code></span></div>
     `:`<div class="gst"><span class="gsn">—</span><span>레퍼런스 없음. 일관성 필요 시 Element 권장.</span></div>`}
   </div>`;
 }
 
-// ─── ASSET PANEL ───
 function buildAssetPanel(){
   const g=document.getElementById('agr');g.innerHTML='';
   frames.forEach((f,i)=>{
@@ -936,26 +1060,32 @@ function getFmt(){const f=document.getElementById('dlf').value;return f==='png'?
 function reRender(f,fmt){if(fmt.e==='png')return f.dataUrl;const c=document.createElement('canvas'),x=c.getContext('2d'),i=new Image();i.src=f.dataUrl;c.width=f.w;c.height=f.h;x.drawImage(i,0,0);return c.toDataURL(fmt.t,fmt.q);}
 function dlOne(i){const f=frames[i],fmt=getFmt();tDL(reRender(f,fmt),slug(pname)+'_SC'+pad(f.idx)+'_'+f.w+'x'+f.h+'.'+fmt.e);}
 function dlSel(){const idxs=getSelIdx();if(!idxs.length){toast('선택 없음');return;}const fmt=getFmt();idxs.forEach((i,n)=>setTimeout(()=>tDL(reRender(frames[i],fmt),slug(pname)+'_SC'+pad(frames[i].idx)+'_'+frames[i].w+'x'+frames[i].h+'.'+fmt.e),n*100));toast(idxs.length+'개 저장 중...');}
-async function dlZip(){
-  const idxs=getSelIdx();if(!idxs.length){toast('선택 없음');return;}
+async function dlZip(auto=false){
+  // auto=true 이면 전체 프레임 선택해서 자동 다운로드
+  const idxs=auto?frames.map((_,i)=>i):getSelIdx();
+  if(!idxs.length){if(!auto)toast('선택 없음');return;}
   if(!window.JSZip){toast('JSZip 로딩 중...');return;}
   const zb=document.getElementById('zb'),dp=document.getElementById('dlp');
-  zb.disabled=true;dp.style.display='inline';
-  const fmt=getFmt(),zip=new JSZip(),fld=zip.folder(slug(pname)+'_frames');
+  if(zb)zb.disabled=true;
+  if(dp){dp.style.display='inline';dp.textContent='ZIP 생성 중...';}
+  const fmt={t:'image/png',q:1,e:'png'}; // 자동저장은 항상 PNG 무손실
+  const zip=new JSZip(),fld=zip.folder(slug(pname)+'_frames');
   for(let n=0;n<idxs.length;n++){
-    const f=frames[idxs[n]];dp.textContent='패킹 '+(n+1)+'/'+idxs.length+'...';
+    const f=frames[idxs[n]];
+    if(dp)dp.textContent='패킹 '+(n+1)+'/'+idxs.length+'...';
     fld.file('SC'+pad(f.idx)+'_'+ftc(f.tc).replace(':','m')+'s_'+f.w+'x'+f.h+'.'+fmt.e,reRender(f,fmt).split(',')[1],{base64:true});
     await sleep(6);
   }
-  dp.textContent='ZIP...';
+  if(dp)dp.textContent='ZIP...';
   const blob=await zip.generateAsync({type:'blob',compression:'STORE'});
   tDL(URL.createObjectURL(blob),slug(pname)+'_'+frames[idxs[0]].w+'x'+frames[idxs[0]].h+'_frames.zip');
-  zb.disabled=false;dp.style.display='none';toast('ZIP 완료 — '+idxs.length+'장');
+  if(zb)zb.disabled=false;
+  if(dp)dp.style.display='none';
+  toast('✓ ZIP 저장 완료 — '+idxs.length+'장 PNG 무손실');
 }
 function tDL(url,fn){const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
-// ─── TABS / TOGGLES ───
 function swTab(t,btn){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('#CC .card').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'':'none';});}
 function swPTab(btn,id){const c=btn.closest('.ci');c.querySelectorAll('.ptab').forEach(b=>b.classList.remove('act'));c.querySelectorAll('.pnl').forEach(p=>p.classList.remove('act'));btn.classList.add('act');document.getElementById(id).classList.add('act');}
 function swVT(btn,id){const c=btn.closest('.ci');c.querySelectorAll('.vtab').forEach(b=>b.classList.remove('act'));c.querySelectorAll('.vnl').forEach(p=>p.classList.remove('act'));btn.classList.add('act');document.getElementById(id).classList.add('act');}
@@ -968,53 +1098,439 @@ function swVM(btn,seg){
   c.querySelectorAll('[id^="vp-'+m+'-"],[id^="vkw-'+m+'-"]').forEach(p=>p.style.display='block');
 }
 
-// ─── REFS ───
 function imgRefs(t){
   const mr=sref==='element'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">MODEL ELEMENT</span>프롬프트 내 <code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code>에 삽입.</div></div>`:sref==='soul'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">SOUL ID</span>params에 soul_id. model: <code>soul_2</code>.</div></div>`:`<div class="ri"><span class="rn">①</span><div><span class="rnm">없음</span></div></div>`;
-  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm">BG REF (선택)</span>배경 이미지. role: <code>"image"</code>. Nano Pro / GPT-i2 모두 지원.</div></div>`;
+  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm">BG REF (선택)</span>배경 이미지. role: <code>"image"</code>.</div></div>`;
 }
 function vidRefs(){
   const mr=sref==='element'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">MODEL ELEMENT</span><code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code>에 삽입.</div></div>`:sref==='soul'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">SOUL ID</span>params에 soul_id.</div></div>`:`<div class="ri"><span class="rn">①</span><div><span class="rnm">없음</span></div></div>`;
-  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm req">START IMAGE ★ (Kling 필수)</span>이미지 프롬프트로 첫 프레임 생성 후 role: <code>"start_image"</code>.</div></div><div class="ri"><span class="rn">③</span><div><span class="rnm">VIDEO REF (선택)</span>무브먼트 레퍼런스 영상. role: <code>"video"</code>.</div></div>`;
+  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm req">START IMAGE ★ (Kling 필수)</span>이미지 프롬프트로 첫 프레임 생성 후 role: <code>"start_image"</code>.</div></div><div class="ri"><span class="rn">③</span><div><span class="rnm">VIDEO REF (선택)</span>무브먼트 레퍼런스. role: <code>"video"</code>.</div></div>`;
 }
 function rTag(ctx){if(sref==='element')return '<span class="r">&lt;&lt;&lt;ELEMENT_UUID&gt;&gt;&gt;</span>';if(sref==='soul')return '<span class="r">[soul_id: SOUL_ID]</span>';return '';}
 
-// ─── COLOR / STYLE ANALYSIS ───
 function exColors(ctx,w,h,n){
   const step=Math.max(1,Math.floor(w*h/2000));
   const d=ctx.getImageData(0,0,w,h).data;const bkts={};
   for(let i=0;i<d.length;i+=4*step){const r=Math.round(d[i]/32)*32,g=Math.round(d[i+1]/32)*32,b=Math.round(d[i+2]/32)*32;const k=`${r},${g},${b}`;bkts[k]=(bkts[k]||0)+1;}
   return Object.entries(bkts).sort((a,b)=>b[1]-a[1]).slice(0,n).map(([k])=>{const[r,g,b]=k.split(',').map(Number);return '#'+[r,g,b].map(v=>Math.min(255,v).toString(16).padStart(2,'0')).join('');});
 }
-function anaStyle(ctx,w,h,cols){
+function anaStyle(ctx,w,h){
   const d=ctx.getImageData(0,0,w,h).data;let rS=0,gS=0,bS=0,lS=0;const n=d.length/4;const cv=[];
   for(let i=0;i<d.length;i+=4){rS+=d[i];gS+=d[i+1];bS+=d[i+2];const l=d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114;lS+=l;cv.push(l);}
-  const aR=rS/n,aG=gS/n,aB=bS/n,aL=lS/n;cv.sort((a,b)=>a-b);
+  const aR=rS/n,aB=bS/n,aL=lS/n;cv.sort((a,b)=>a-b);
   const con=cv[Math.floor(n*0.95)]-cv[Math.floor(n*0.05)];
   const temp=aR>aB?'warm amber tungsten':'cool daylight';
   const tempK=aR>aB?Math.round(2800+((aR-aB)/255)*600)+'K':Math.round(5500-((aB-aR)/255)*500)+'K';
-  const bLbl=aL<60?'very dark / low-key':aL<120?'dark / moody':aL<180?'mid-tone':aL<210?'bright':'high-key';
-  const cLbl=con>150?'high contrast':con>90?'medium contrast':'low contrast / flat';
-  const mx=Math.max(aR,aG,aB),mn=Math.min(aR,aG,aB);
+  const bLabel=aL<60?'very dark / low-key':aL<120?'dark / moody':aL<180?'mid-tone':aL<210?'bright':'high-key';
+  const cLabel=con>150?'high contrast':con>90?'medium contrast':'low contrast / flat';
+  const mx=Math.max(aR,gS/n,aB),mn=Math.min(aR,gS/n,aB);
   const sat=mx>0?(mx-mn)/mx*100:0;
-  const sLbl=sat<15?'desaturated / muted':sat<35?'low saturation':sat<60?'natural saturation':'vivid';
-  return{temp,tempK,bLabel:bLbl,cLabel:cLbl,satLabel:sLbl,avgLuma:Math.round(aL),contrast:Math.round(con)};
+  const satLabel=sat<15?'desaturated / muted':sat<35?'low saturation':sat<60?'natural saturation':'vivid';
+  return{temp,tempK,bLabel,cLabel,satLabel,avgLuma:Math.round(aL),contrast:Math.round(con)};
 }
 
-// ─── UTILS ───
 function guessST(i,total){return i/total>0.68?'BTS':'CAMPAIGN';}
 function mLbl(m){return{kling:'Kling 3.0',seedance:'Seedance 2.0',cinematic:'Cinema Studio 3.0'}[m]||m;}
-function iLbl(m){return{nano:'Nano Banana Pro',gpt:'GPT Image 2',seedream:'Seedream 4.5'}[m]||m;}
 function ftc(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+Math.floor(s%60).toString().padStart(2,'0');}
 function pad(n){return String(n).padStart(2,'0');}
 function slug(s){return s.replace(/[^\w가-힣]/g,'_').replace(/_+/g,'_');}
 function escB(s){return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');}
 function stripH(s){return s.replace(/<[^>]+>/g,'');}
-function swTab(t,btn){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('#CC .card').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'':'none';});}
 function cpAll(t){const a=prompts[t]||[];if(!a.length){toast('없음');return;}navigator.clipboard.writeText(a.join('\n\n---\n\n')).then(()=>toast(t==='image'?'이미지 프롬프트 복사':'영상 프롬프트 복사'));}
 function cpt(btn,txt){if(!txt)return;navigator.clipboard.writeText(txt).then(()=>{if(!btn)return;btn.textContent='COPIED';btn.classList.add('cpd');setTimeout(()=>{btn.textContent='COPY';btn.classList.remove('cpd');},2000);});}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2200);}
 function resetApp(){vf=null;frames=[];cuts=[];prompts.image=[];prompts.video=[];motionData={};document.getElementById('R').style.display='none';document.getElementById('U').style.display='flex';document.getElementById('vi').value='';document.getElementById('fsel').textContent='';gb.disabled=true;gb.textContent='영상 업로드 후 시작';dz.style.borderColor='';document.getElementById('pths').innerHTML='';document.getElementById('pb').style.width='0%';document.getElementById('CC').innerHTML='';document.getElementById('agr').innerHTML='';}
+
+// ── API KEY MANAGEMENT ──
+const LS_KEY='yagi_claude_api_key';
+
+function getApiKey(){return localStorage.getItem(LS_KEY)||'';}
+
+function updateApiBtn(){
+  const btn=document.getElementById('api-btn');
+  if(!btn)return;
+  if(getApiKey()){btn.classList.add('has-key');btn.textContent='⚙ Claude API ✓';}
+  else{btn.classList.remove('has-key');btn.textContent='⚙ Claude API KEY';}
+}
+
+function openModal(){
+  const key=getApiKey();
+  const inp=document.getElementById('api-key-input');
+  inp.value=key?'••••••••••••••••••••••••':'';
+  inp.placeholder=key?'저장된 키가 있습니다 — 새로 입력하면 교체됩니다':'sk-ant-api03-...';
+  document.getElementById('modal-del').style.display=key?'block':'none';
+  document.getElementById('modal-status').className='modal-status';
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+function closeModal(){document.getElementById('modal-bg').classList.remove('show');}
+
+function saveKey(){
+  const val=document.getElementById('api-key-input').value.trim();
+  const st=document.getElementById('modal-status');
+  if(!val||val.startsWith('•')){st.className='modal-status err';st.textContent='API 키를 입력해주세요.';return;}
+  if(!val.startsWith('sk-ant-')){st.className='modal-status err';st.textContent='올바른 Anthropic API 키 형식이 아닙니다. (sk-ant-로 시작)';return;}
+  localStorage.setItem(LS_KEY,val);
+  st.className='modal-status ok';st.textContent='저장되었습니다. 본인 브라우저에만 저장됩니다.';
+  updateApiBtn();
+  setTimeout(closeModal,1200);
+}
+
+function deleteKey(){
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('api-key-input').value='';
+  document.getElementById('modal-del').style.display='none';
+  const st=document.getElementById('modal-status');
+  st.className='modal-status ok';st.textContent='키가 삭제되었습니다.';
+  updateApiBtn();
+}
+
+// Close modal on bg click
+document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// ── SCREEN SWITCHING ──
+function switchScreen(screen){
+  const isMain=screen==='main';
+  document.getElementById('nav-main').classList.toggle('act',isMain);
+  document.getElementById('nav-stor').classList.toggle('act',!isMain);
+  // Show/hide screens
+  const U=document.getElementById('U');
+  const P=document.getElementById('P');
+  const R=document.getElementById('R');
+  const S=document.getElementById('S');
+  if(isMain){
+    S.style.display='none';
+    // Restore whichever main screen was active
+    if(frames.length&&document.getElementById('CC').children.length){R.style.display='block';U.style.display='none';}
+    else{U.style.display='flex';R.style.display='none';}
+  } else {
+    U.style.display='none';R.style.display='none';P.style.display='none';
+    S.style.display='block';
+    renderStorageList();
+  }
+}
+
+// ── STORAGE: SAVE / LOAD / DELETE ──
+const STOR_KEY='yagi_projects';
+
+function getProjects(){
+  try{return JSON.parse(localStorage.getItem(STOR_KEY)||'[]');}
+  catch{return [];}
+}
+function setProjects(arr){
+  try{localStorage.setItem(STOR_KEY,JSON.stringify(arr));}
+  catch(e){toast('저장 실패 — 브라우저 용량 초과');}
+}
+
+function saveCurrentProject(silent=false){
+  if(!frames.length){if(!silent)toast('저장할 프로젝트가 없습니다');return;}
+  const id='proj_'+Date.now();
+  const now=new Date();
+  const dateStr=now.getFullYear()+'.'+(now.getMonth()+1).toString().padStart(2,'0')+'.'+now.getDate().toString().padStart(2,'0');
+  const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+
+  // Build thumbnails (tiny JPEG, ~60px wide)
+  const thumbs=frames.slice(0,8).map(f=>{
+    const cv=document.createElement('canvas');
+    const ctx=cv.getContext('2d');
+    const img=new Image();img.src=f.dataUrl;
+    cv.width=80;cv.height=Math.round(80*(f.h/f.w));
+    ctx.drawImage(img,0,0,cv.width,cv.height);
+    return cv.toDataURL('image/jpeg',0.6);
+  });
+
+  // Collect palette (first frame dominant colors)
+  const palette=frames[0]?.colors?.slice(0,6)||[];
+
+  // Collect all prompts
+  const imgPrompts=prompts.image.slice();
+  const vidPrompts=prompts.video.slice();
+
+  // Frame meta (no full dataUrl — too large)
+  const frameMeta=frames.map(f=>({
+    idx:f.idx,tc:f.tc,w:f.w,h:f.h,
+    colors:f.colors?.slice(0,5)||[],
+    style:{temp:f.style?.temp,tempK:f.style?.tempK,bLabel:f.style?.bLabel,satLabel:f.style?.satLabel,avgLuma:f.style?.avgLuma},
+    motion:motionData[f.idx-1]||{}
+  }));
+
+  const project={
+    id,name:pname||'Untitled',date:dateStr,time:timeStr,
+    frameCount:frames.length,resolution:frames[0]?.w+'×'+frames[0]?.h,
+    videoModel:svm,refType:sref,
+    thumbs,palette,imgPrompts,vidPrompts,frameMeta
+  };
+
+  const projects=getProjects();
+  // Replace if same name exists today
+  const existIdx=projects.findIndex(p=>p.name===project.name&&p.date===dateStr);
+  if(existIdx>=0){projects[existIdx]=project;}
+  else{projects.unshift(project);}
+
+  setProjects(projects);
+  updateStorCount();
+  if(!silent) toast('✓ "'+project.name+'" 저장됨');
+  updateSaveBtn();
+}
+
+function deleteProject(id){
+  if(!confirm('이 프로젝트를 삭제할까요?'))return;
+  const projects=getProjects().filter(p=>p.id!==id);
+  setProjects(projects);
+  updateStorCount();
+  renderStorageList();
+  toast('삭제됨');
+}
+
+function updateStorCount(){
+  const n=getProjects().length;
+  const el=document.getElementById('stor-count');
+  if(el)el.textContent=n?'('+n+')':'';
+}
+
+function updateSaveBtn(){
+  const btn=document.getElementById('save-now-btn');
+  if(btn)btn.disabled=!frames.length;
+}
+
+function renderStorageList(){
+  const projects=getProjects();
+  const el=document.getElementById('stor-list');
+  if(!projects.length){
+    el.innerHTML=`<div class="stor-empty"><div class="stor-empty-icon">📁</div>저장된 프로젝트가 없습니다.<br>영상을 분석한 후 <b>현재 프로젝트 저장</b> 버튼을 눌러주세요.<br><br><span style="font-size:11px;color:#aaa;">이미지 원본은 ZIP으로 별도 저장 · 프롬프트·팔레트·썸네일이 여기 보관됩니다</span></div>`;
+    return;
+  }
+  el.innerHTML='<div class="stor-grid">'+projects.map(p=>storCardHTML(p)).join('')+'</div>';
+}
+
+function storCardHTML(p){
+  const thumbsHTML=p.thumbs.map(t=>`<img class="stor-thumb" src="${t}" loading="lazy"/>`).join('');
+  const palHTML=(p.palette||[]).map(c=>`<div class="stor-pal-dot" style="background:${c};" title="${c}"></div>`).join('');
+  return `<div class="stor-card">
+    <div class="stor-card-header">
+      <div>
+        <div class="stor-card-name">${escHtml(p.name)}</div>
+        <div class="stor-card-date">${p.date} ${p.time}</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:8px;color:#7a7570;text-align:right;">${p.frameCount}프레임<br>${p.resolution||''}</div>
+    </div>
+    <div class="stor-card-body">
+      <div class="stor-thumbs">${thumbsHTML}</div>
+      <div class="stor-meta-row">
+        <div class="stor-meta-item">영상모델 <span>${p.videoModel||'-'}</span></div>
+        <div class="stor-meta-item">레퍼런스 <span>${p.refType||'-'}</span></div>
+        <div class="stor-meta-item">이미지 <span>${p.imgPrompts?.length||0}개</span></div>
+        <div class="stor-meta-item">영상 <span>${p.vidPrompts?.length||0}개</span></div>
+      </div>
+      <div class="stor-palette">${palHTML}</div>
+    </div>
+    <div class="stor-card-footer">
+      <button class="stor-btn stor-btn-del" onclick="deleteProject('${p.id}')">삭제</button>
+      <button class="stor-btn" onclick="exportProjectJSON('${p.id}')">JSON 내보내기</button>
+      <button class="stor-btn" onclick="openSPM('${p.id}')">프롬프트 보기</button>
+    </div>
+  </div>`;
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── STORAGE PROMPT MODAL ──
+function openSPM(id){
+  const p=getProjects().find(x=>x.id===id);
+  if(!p)return;
+  document.getElementById('spm-title').textContent=p.name+' — '+p.date;
+  const body=document.getElementById('spm-body');
+
+  const palHTML=(p.palette||[]).map(c=>`<span style="display:inline-block;width:16px;height:16px;background:${c};border-radius:2px;border:0.5px solid #d8d4ce;margin-right:3px;" title="${c}"></span>`).join('');
+
+  let html=`<div class="spm-section">
+    <div class="spm-section-title">팔레트</div>
+    <div style="margin-bottom:4px;">${palHTML}</div>
+    <div style="font-family:var(--mono);font-size:8.5px;color:#7a7570;">${(p.palette||[]).join(' · ')}</div>
+  </div>`;
+
+  if(p.imgPrompts?.length){
+    html+=`<div class="spm-section"><div class="spm-section-title">이미지 프롬프트 (${p.imgPrompts.length}개)</div>`;
+    p.imgPrompts.forEach((pt,i)=>{
+      html+=`<div class="spm-prompt-label">SC.${String(i+1).padStart(2,'0')}</div>
+      <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:8px;">
+        <div class="spm-prompt-item" style="flex:1;">${escHtml(pt)}</div>
+        <button class="stor-btn" style="flex-shrink:0;" onclick="navigator.clipboard.writeText(${JSON.stringify(pt)}).then(()=>toast('복사됨'))">COPY</button>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+
+  if(p.vidPrompts?.length){
+    html+=`<div class="spm-section"><div class="spm-section-title">영상 프롬프트 (${p.vidPrompts.length}개)</div>`;
+    p.vidPrompts.forEach((pt,i)=>{
+      html+=`<div class="spm-prompt-label">SEG.${String(i+1).padStart(2,'0')}</div>
+      <div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:8px;">
+        <div class="spm-prompt-item" style="flex:1;">${escHtml(pt)}</div>
+        <button class="stor-btn" style="flex-shrink:0;" onclick="navigator.clipboard.writeText(${JSON.stringify(pt)}).then(()=>toast('복사됨'))">COPY</button>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+
+  if(p.frameMeta?.length){
+    html+=`<div class="spm-section"><div class="spm-section-title">프레임 분석 데이터</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;">`;
+    p.frameMeta.forEach(f=>{
+      const colDots=(f.colors||[]).map(c=>`<span style="display:inline-block;width:10px;height:10px;background:${c};border-radius:1px;margin-right:2px;"></span>`).join('');
+      html+=`<div style="background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:7px 9px;font-size:9.5px;color:var(--t2);line-height:1.7;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--t);margin-bottom:4px;">SC.${String(f.idx).padStart(2,'0')} · TC ${ftc(f.tc)}</div>
+        <div>${colDots}</div>
+        <div>${f.style?.temp||''} · ${f.style?.tempK||''}</div>
+        <div>${f.style?.bLabel||''} · ${f.style?.satLabel||''}</div>
+        <div style="color:#7a7570;font-family:var(--mono);font-size:7.5px;">${f.motion?.move||''}</div>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  }
+
+  body.innerHTML=html;
+  document.getElementById('spm-bg').classList.add('show');
+}
+
+function closeSPM(){document.getElementById('spm-bg').classList.remove('show');}
+document.getElementById('spm-bg').addEventListener('click',function(e){if(e.target===this)closeSPM();});
+
+// ── EXPORT PROJECT JSON ──
+function exportProjectJSON(id){
+  const p=getProjects().find(x=>x.id===id);
+  if(!p)return;
+  const blob=new Blob([JSON.stringify(p,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=slug(p.name)+'_'+p.date.replace(/\./g,'')+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  toast('JSON 내보내기 완료');
+}
+
+// Init storage count on load
+updateStorCount();
+
+// ── CLAUDE PROMPT ENHANCE ──
+function swPTabEnhance(btn,id){
+  const ci=btn.closest('.ci');
+  ci.querySelectorAll('.ptab').forEach(b=>b.classList.remove('act'));
+  ci.querySelectorAll('.pnl').forEach(p=>p.classList.remove('act'));
+  btn.classList.add('act');
+  btn.style.background='#ece0f4';btn.style.color='#4a1a7a';
+  document.getElementById(id).classList.add('act');
+}
+
+function handleEnhanceTab(btn){
+  const idx=btn.dataset.frame;
+  const target=btn.dataset.target||'match'; // 'match' or 'adapt'
+  const ci=btn.closest('.ci');
+  // 현재 선택된 이미지 모델
+  const activeImTog=ci.querySelector('.imtog.an,.imtog.ag');
+  const isGPT=activeImTog?.dataset?.im==='gpt';
+  const modelKey=isGPT?'gpt':'nano';
+  const promptKey=modelKey+(target==='match'?'Match':'Adapt');
+  const rawPrompt=btn.dataset[promptKey]||'';
+  const outputId=`enh-p${target==='match'?'m':'a'}-${modelKey}-${idx}`;
+  // 플레이스홀더 숨기기
+  const ph=document.getElementById('enh-placeholder-'+idx);
+  if(ph)ph.style.display='none';
+  let frameData={};
+  try{frameData=JSON.parse(btn.dataset.fd||'{}');}catch(e){}
+  // 모든 결과박스 숨기고 해당것만 보이게
+  ci.querySelectorAll('.enhanced-box').forEach(b=>b.classList.remove('show'));
+  enhancePrompt(btn,rawPrompt,frameData,outputId);
+}
+
+function handleEnhance(btn){
+  const rawPrompt=btn.dataset.prompt||'';
+  const outputId=btn.dataset.out||'';
+  let frameData={};
+  try{frameData=JSON.parse(btn.dataset.fd||'{}');}catch(e){}
+  enhancePrompt(btn,rawPrompt,frameData,outputId);
+}
+
+async function enhancePrompt(btn,rawPrompt,frameData,outputId){
+  const key=getApiKey();
+  if(!key){
+    toast('⚙ API KEY 버튼에서 키를 먼저 입력해주세요');
+    openModal();
+    return;
+  }
+  btn.disabled=true;btn.classList.add('loading');btn.textContent='강화 중...';
+
+  const systemPrompt=`You are an expert AI image prompt engineer specializing in fashion photography. 
+You receive a base prompt generated from video frame analysis (color palette, lighting, camera data) and enhance it into a precise, production-ready prompt.
+
+Rules:
+- Keep all [bracket] placeholder sections exactly as-is — they are for the user to fill in
+- Keep all <<<UUID>>> and [soul_id] reference tags exactly as-is  
+- Keep the structural format (SCENE BLUEPRINT, SUBJECT, LIGHTING etc blocks) intact
+- Enhance specificity: add texture details, material descriptions, spatial relationships
+- Strengthen lighting descriptions with more precise photographic terminology
+- Add film/lens characteristics that match the detected color temperature and exposure
+- Output ONLY the enhanced prompt text, no preamble, no explanation`;
+
+  const userMsg=`Enhance this fashion film prompt based on the frame analysis data:
+
+FRAME DATA:
+- Color palette: ${frameData.colors?.join(', ')||''}
+- Lighting: ${frameData.style?.temp||''}, ${frameData.style?.tempK||''}, ${frameData.style?.bLabel||''}
+- Contrast: ${frameData.style?.cLabel||''}, range ${frameData.style?.contrast||''}
+- Saturation: ${frameData.style?.satLabel||''}
+- Average luma: ${frameData.style?.avgLuma||''}/255
+- Camera move: ${frameData.tech?.move||''}
+- Shot type: ${frameData.tech?.shotType||''}
+
+BASE PROMPT:
+${rawPrompt}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:1000,
+        system:systemPrompt,
+        messages:[{role:'user',content:userMsg}]
+      })
+    });
+
+    if(!res.ok){
+      const err=await res.json().catch(()=>({}));
+      const msg=err?.error?.message||'API 오류 ('+res.status+')';
+      if(res.status===401){toast('API 키가 올바르지 않습니다. 키를 확인해주세요.');openModal();}
+      else toast('오류: '+msg);
+      return;
+    }
+
+    const data=await res.json();
+    const enhanced=data.content?.[0]?.text||'';
+    if(!enhanced){toast('응답이 비어있습니다. 다시 시도해주세요.');return;}
+
+    const box=document.getElementById(outputId);
+    if(box){
+      box.querySelector('.enhanced-text').textContent=enhanced;
+      box.classList.add('show');
+      // Update copy button
+      const copyBtn=box.querySelector('.enhanced-copy');
+      if(copyBtn)copyBtn.onclick=()=>{navigator.clipboard.writeText(enhanced).then(()=>toast('강화된 프롬프트 복사됨'));};
+    }
+    toast('✓ 프롬프트 강화 완료');
+
+  }catch(e){
+    console.error(e);
+    toast('네트워크 오류. 다시 시도해주세요.');
+  }finally{
+    btn.disabled=false;btn.classList.remove('loading');btn.textContent='✦ Claude 강화';
+  }
+}
 </script>
 </body>
 </html>
