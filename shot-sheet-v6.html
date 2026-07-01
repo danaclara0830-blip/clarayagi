@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shot Sheet v6 — YAGI WORKSHOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0a;--bg1:#111;--bg2:#161616;--bg3:#1a1a1a;
+  --b:#222;--b2:#2a2a2a;--b3:#333;
+  --t:#e0e0e0;--t2:#888;--t3:#444;
+  --gold:#c8a96e;--green:#6abfa0;--blue:#6a9adf;--red:#df6a6a;--purple:#cf8adf;--orange:#e8904a;
+  --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--t);font-family:var(--sans);min-height:100vh;}
+
+/* UPLOAD */
+#U{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
+.logo{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;color:var(--t3);text-transform:uppercase;margin-bottom:2rem;}
+.dz{width:100%;max-width:620px;border:0.5px solid var(--b2);border-radius:3px;padding:2.5rem 2rem;text-align:center;cursor:pointer;background:var(--bg1);position:relative;transition:border-color 0.2s,background 0.2s;}
+.dz.over{border-color:var(--gold);background:#18140c;}
+.dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.dz-icon{font-size:24px;margin-bottom:0.9rem;opacity:0.28;}
+.dz-t{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;color:var(--t2);margin-bottom:0.35rem;}
+.dz-s{font-size:11px;color:var(--t3);}
+.fsel{font-family:var(--mono);font-size:9.5px;color:var(--gold);margin-top:0.6rem;}
+.sets{width:100%;max-width:620px;margin-top:1.1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.65rem;}
+.sg{display:flex;flex-direction:column;gap:4px;}
+.sl{font-family:var(--mono);font-size:7.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;}
+.sg input,.sg select{background:var(--bg1);border:0.5px solid var(--b2);border-radius:2px;color:var(--t);font-family:var(--sans);font-size:11.5px;padding:6px 8px;outline:none;transition:border-color 0.18s;width:100%;}
+.sg input:focus,.sg select:focus{border-color:var(--gold);}
+.sg select option{background:#1a1a1a;}
+.gbtn{width:100%;max-width:620px;margin-top:0.8rem;background:var(--gold);color:#0a0a0a;border:none;border-radius:2px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.18em;padding:12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.18s;}
+.gbtn:hover{opacity:0.85;}
+.gbtn:disabled{opacity:0.3;cursor:not-allowed;}
+
+/* PROGRESS */
+#P{min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.25rem;}
+.pt{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--t3);text-transform:uppercase;}
+.pb-w{width:440px;height:1px;background:var(--b);}
+.pb{height:100%;background:var(--gold);width:0%;transition:width 0.18s;}
+.ps{font-family:var(--mono);font-size:9.5px;color:var(--t2);letter-spacing:0.05em;}
+.pths{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:660px;}
+.pth{width:68px;height:43px;object-fit:cover;border-radius:1px;opacity:0;transition:opacity 0.22s;border:0.5px solid var(--b);}
+.pth.ld{opacity:1;}
+
+/* RESULT */
+#R{display:none;padding:2rem;max-width:1200px;margin:0 auto;}
+.rh{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:0.5px solid var(--b);padding-bottom:1.1rem;margin-bottom:1.25rem;}
+.rt{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--t3);text-transform:uppercase;}
+.rm{font-family:var(--mono);font-size:8.5px;color:var(--t3);text-align:right;line-height:1.8;}
+
+/* ASSET PANEL */
+.ap{background:var(--bg1);border:0.5px solid var(--b2);border-radius:3px;padding:1rem 1.35rem;margin-bottom:1.25rem;}
+.aph{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.5rem;}
+.apt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:#ccc;text-transform:uppercase;}
+.apc{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.stog{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7.5px;padding:3px 8px;cursor:pointer;letter-spacing:0.08em;transition:color 0.12s,border-color 0.12s;}
+.stog:hover{color:var(--t2);border-color:var(--b3);}
+.acnt{font-family:var(--mono);font-size:8.5px;color:var(--t3);}
+.fmts{background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:8px;padding:4px 7px;outline:none;cursor:pointer;}
+.dlb{background:var(--gold);color:#0a0a0a;border:none;border-radius:2px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:5px 12px;cursor:pointer;text-transform:uppercase;transition:opacity 0.15s;white-space:nowrap;}
+.dlb:hover{opacity:0.85;}
+.dlb:disabled{opacity:0.3;cursor:not-allowed;}
+.dlbo{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;padding:5px 11px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;white-space:nowrap;}
+.dlbo:hover{border-color:var(--gold);color:var(--gold);}
+.agr{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:4px;margin-top:0.8rem;}
+.atw{position:relative;cursor:pointer;border-radius:2px;overflow:hidden;border:0.5px solid var(--b);transition:border-color 0.12s;}
+.atw.sel{border-color:var(--gold);}
+.atw img{width:100%;height:54px;object-fit:cover;display:block;opacity:0.7;transition:opacity 0.12s;}
+.atw:hover img,.atw.sel img{opacity:1;}
+.atchk{position:absolute;top:3px;right:3px;width:13px;height:13px;background:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;}
+.atw.sel .atchk{display:flex;}
+.atchk-i{width:4px;height:4px;background:#0a0a0a;border-radius:50%;}
+.attc{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);font-family:var(--mono);font-size:6px;color:#aaa;padding:1px 3px;text-align:center;}
+.dlp{font-family:var(--mono);font-size:8px;color:var(--green);display:none;margin-left:4px;}
+
+/* TOP CTRL */
+.tc{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;}
+.tbar{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;}
+.tbtn{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;padding:6px 13px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;}
+.tbtn:last-child{border-right:none;}
+.tbtn.act{background:var(--bg2);color:var(--t);}
+.tbtn:hover:not(.act){color:var(--t2);}
+.abtns{display:flex;gap:4px;flex-wrap:wrap;}
+.bsm{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t2);font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:0.07em;padding:5px 10px;cursor:pointer;text-transform:uppercase;transition:border-color 0.12s,color 0.12s;}
+.bsm:hover{border-color:var(--gold);color:var(--gold);}
+
+/* LEGEND */
+.leg{display:flex;gap:0.85rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
+.li{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:7px;color:var(--t3);}
+
+/* CARD */
+.card{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;margin-bottom:0.9rem;overflow:hidden;}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:5px 11px;background:var(--bg2);border-bottom:0.5px solid var(--b);}
+.cl{display:flex;align-items:center;gap:8px;}
+.cid{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#ccc;letter-spacing:0.1em;}
+.ctc{font-family:var(--mono);font-size:9px;color:var(--t3);}
+.cbdg{display:flex;gap:4px;align-items:center;}
+.bdg{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.07em;padding:1px 6px;border-radius:2px;border:0.5px solid;}
+.bc{background:#8a6a3a18;color:var(--gold);border-color:#8a6a3a40;}
+.bb{background:#3a5a4a18;color:var(--green);border-color:#3a5a4a40;}
+.bi{background:#1e2a4a18;color:var(--blue);border-color:#1e2a4a40;}
+.bv{background:#3a1e4a18;color:var(--purple);border-color:#3a1e4a40;}
+.bct{background:#4a1e1e18;color:var(--red);border-color:#4a1e1e30;}
+.bcam{background:#0e1a1418;color:var(--green);border-color:#1a3a1a40;}
+.vd{font-family:var(--mono);font-size:8px;color:var(--t3);background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:1px 5px;}
+
+.cbody{display:grid;grid-template-columns:280px 1fr;}
+.iw{position:relative;overflow:hidden;background:#000;min-height:165px;}
+.iw img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.88;}
+.iov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.86));padding:14px 8px 6px;}
+.iov-t{font-family:var(--mono);font-size:7px;color:#aaa;line-height:1.8;}
+.hexw{position:absolute;top:5px;left:5px;display:flex;flex-direction:column;gap:2px;}
+.hw{display:flex;align-items:center;gap:3px;cursor:pointer;}
+.hd{width:11px;height:11px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.15);flex-shrink:0;}
+.hc{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.55);padding:1px 2px;border-radius:1px;}
+.cdl{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.65);border:0.5px solid rgba(255,255,255,0.1);border-radius:2px;color:#bbb;font-family:var(--mono);font-size:6.5px;padding:2px 5px;cursor:pointer;transition:background 0.12s;}
+.cdl:hover{background:rgba(200,169,110,0.25);color:var(--gold);}
+
+/* MOTION BADGE on image */
+.mbdg{position:absolute;bottom:6px;left:6px;font-family:var(--mono);font-size:6.5px;color:var(--green);background:rgba(10,26,16,0.82);border:0.5px solid rgba(106,191,160,0.3);border-radius:2px;padding:2px 5px;letter-spacing:0.06em;}
+
+.ci{padding:11px 15px;display:flex;flex-direction:column;gap:8px;}
+.clbl{font-size:11.5px;font-weight:500;color:#ddd;}
+
+/* PROMPT TABS */
+.ptabs{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
+.ptab{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
+.ptab:last-child{border-right:none;}
+.ptab.act{background:var(--bg3);color:var(--t);}
+.ptab.pm.act{color:#f0c060;}
+.ptab.pa.act{color:var(--blue);}
+.ptab.ps.act{color:var(--green);}
+.ptab.pgpt.act{color:#aa88ff;}
+.ptab:hover:not(.act){color:var(--t2);}
+.pnl{display:none;}
+.pnl.act{display:block;}
+
+/* VIDEO MODEL TOGGLE */
+.mrow{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.mlbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;}
+.mtog{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:7px;padding:3px 8px;cursor:pointer;letter-spacing:0.07em;transition:all 0.12s;}
+.mtog.ak{background:#3a1e4a18;color:var(--purple);border-color:#3a1e4a50;}
+.mtog.as{background:#1e3a1e18;color:var(--green);border-color:#1e3a1e50;}
+.mtog.ac{background:#1e1e3a18;color:var(--blue);border-color:#1e1e3a50;}
+
+/* VIDEO TABS */
+.vtabs{display:flex;gap:0;border:0.5px solid var(--b);border-radius:3px;overflow:hidden;width:fit-content;margin-bottom:6px;}
+.vtab{background:transparent;border:none;border-right:0.5px solid var(--b);color:var(--t3);font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:background 0.12s,color 0.12s;white-space:nowrap;}
+.vtab:last-child{border-right:none;}
+.vtab.act{background:var(--bg3);color:var(--t);}
+.vtab.vf.act{color:var(--purple);}
+.vtab.vk.act{color:var(--orange);}
+.vtab:hover:not(.act){color:var(--t2);}
+.vnl{display:none;}
+.vnl.act{display:block;}
+.vmn{display:none;}
+
+/* PROMPT BLOCK */
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.ptlbl{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;}
+.src-badge{font-family:var(--mono);font-size:6px;color:var(--t3);border:0.5px solid var(--b2);border-radius:2px;padding:1px 5px;margin-left:6px;}
+.cp{background:transparent;border:0.5px solid var(--b2);border-radius:2px;color:var(--t3);font-family:var(--mono);font-size:6.5px;padding:1px 5px;cursor:pointer;letter-spacing:0.06em;transition:color 0.12s,border-color 0.12s;}
+.cp:hover{color:var(--gold);border-color:var(--gold);}
+.cp.cpd{color:var(--green);border-color:#3a5a4a;}
+.pt{font-size:10px;line-height:1.85;color:var(--t2);background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:8px 10px;font-family:var(--sans);}
+.v{color:#fff;background:#2a2418;border-radius:2px;padding:0 2px;font-weight:500;}
+.r{color:var(--blue);background:#0e1a2a;border-radius:2px;padding:0 2px;font-weight:500;}
+.cm{color:var(--green);background:#0e1a14;border-radius:2px;padding:0 2px;font-weight:500;}
+.hx{font-family:var(--mono);font-size:8.5px;padding:0 2px;border-radius:2px;}
+.kw{color:var(--orange);background:#2a1a0a;border-radius:2px;padding:0 2px;font-weight:500;font-family:var(--mono);font-size:8.5px;}
+
+/* STYLE SECTION */
+.ss{display:flex;flex-direction:column;gap:5px;}
+.srow{display:flex;gap:5px;align-items:flex-start;}
+.sk{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;width:64px;flex-shrink:0;padding-top:2px;}
+.sv{font-size:10px;color:var(--t2);line-height:1.6;flex:1;}
+.pr{display:flex;gap:3px;flex-wrap:wrap;}
+.pc{display:flex;align-items:center;gap:3px;background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;padding:2px 5px;cursor:pointer;}
+.pd{width:10px;height:10px;border-radius:1px;}
+.ph2{font-family:var(--mono);font-size:7.5px;color:var(--t2);}
+
+/* KEYWORD GRID */
+.kwg{display:flex;flex-direction:column;gap:5px;}
+.krow{display:flex;gap:5px;align-items:flex-start;}
+.kk{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;width:76px;flex-shrink:0;padding-top:2px;}
+.kv{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+.kc{font-family:var(--mono);font-size:7.5px;padding:2px 6px;border-radius:2px;border:0.5px solid;cursor:pointer;transition:opacity 0.1s;}
+.kc:hover{opacity:0.7;}
+.kca{background:#0e1a1418;color:var(--green);border-color:#1a3a1a40;}
+.kcs{background:#0e1a2a18;color:var(--blue);border-color:#1a2a4a40;}
+.kcl{background:#2a1a0a18;color:var(--orange);border-color:#3a2a0a40;}
+.kcy{background:#2a2a0a18;color:#d4c860;border-color:#3a3a0a40;}
+.kcm{background:#2a0a1a18;color:var(--purple);border-color:#3a0a2a40;}
+.kcq{background:#1a1a2a18;color:#aaa;border-color:#2a2a3a40;}
+.model-rule{margin-top:4px;padding:6px 8px;background:var(--bg2);border:0.5px solid var(--b);border-radius:2px;}
+.mr-t{font-family:var(--mono);font-size:6.5px;color:var(--t3);letter-spacing:0.1em;margin-bottom:2px;}
+.mr-v{font-size:9px;color:var(--t2);line-height:1.6;}
+
+/* REF BLOCK */
+.rb{background:var(--bg);border:0.5px solid var(--b);border-radius:2px;padding:7px 9px;}
+.rbt{font-family:var(--mono);font-size:6.5px;letter-spacing:0.15em;color:var(--t3);text-transform:uppercase;margin-bottom:5px;}
+.ri{display:flex;gap:6px;margin-bottom:4px;font-size:9px;line-height:1.5;color:var(--t2);}
+.rn{font-family:var(--mono);font-size:7.5px;color:var(--t3);flex-shrink:0;padding-top:1px;}
+.rnm{font-family:var(--mono);font-size:7px;color:var(--blue);font-weight:700;display:block;margin-bottom:1px;}
+.rnm.req{color:var(--red);}
+
+/* VIDEO CARD */
+.cpair{display:flex;gap:5px;padding:8px;align-items:center;}
+.cth{flex:1;}
+.cth img{width:100%;height:65px;object-fit:cover;border-radius:1px;border:0.5px solid var(--b);opacity:0.78;}
+.ctl{font-family:var(--mono);font-size:6.5px;color:var(--t3);text-align:center;margin-top:2px;}
+.cdv{font-size:12px;color:var(--t3);flex-shrink:0;}
+
+/* GUIDE */
+.gs{margin-top:2rem;padding-top:1.25rem;border-top:0.5px solid var(--b);}
+.gtit{font-family:var(--mono);font-size:8.5px;letter-spacing:0.18em;color:var(--t3);text-transform:uppercase;margin-bottom:1rem;}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;}
+.gc{background:var(--bg1);border:0.5px solid var(--b);border-radius:2px;padding:0.9rem;}
+.gct{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.08em;color:#ccc;margin-bottom:0.6rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--b);}
+.gst{display:flex;gap:7px;margin-bottom:5px;font-size:9.5px;line-height:1.6;color:var(--t2);}
+.gsn{font-family:var(--mono);font-size:7px;color:var(--t3);flex-shrink:0;padding-top:2px;}
+code{font-family:var(--mono);font-size:8px;background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;padding:1px 3px;color:var(--gold);}
+
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--bg2);border:0.5px solid var(--b2);border-radius:2px;padding:7px 12px;font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:0.07em;opacity:0;transition:opacity 0.18s;pointer-events:none;z-index:999;}
+.toast.sh{opacity:1;}
+@media print{.ap,.abtns,.gs,.tc{display:none;}.card{break-inside:avoid;}}
+</style>
+</head>
+<body>
+
+<div id="U">
+  <div class="logo">YAGI WORKSHOP — Shot Sheet v6</div>
+  <div class="dz" id="dz">
+    <input type="file" id="vi" accept="video/*">
+    <div class="dz-icon">▶</div>
+    <div class="dz-t">영상 드래그 or 클릭</div>
+    <div class="dz-s">MP4 · MOV · WebM · 원본 해상도 PNG 최대화질 · ffmpeg 카메라 분석</div>
+    <div class="fsel" id="fsel"></div>
+  </div>
+  <div class="sets">
+    <div class="sg"><div class="sl">프로젝트명</div><input type="text" id="pn" placeholder="Project name"></div>
+    <div class="sg"><div class="sl">추출 간격</div>
+      <select id="iv"><option value="2">2초</option><option value="1">1초</option><option value="3">3초</option><option value="5">5초</option></select>
+    </div>
+    <div class="sg"><div class="sl">영상 모델</div>
+      <select id="vm"><option value="kling">Kling 3.0</option><option value="seedance">Seedance 2.0</option><option value="cinematic">Cinema Studio 3.0</option></select>
+    </div>
+    <div class="sg"><div class="sl">이미지 모델</div>
+      <select id="im"><option value="nano">Nano Banana Pro</option><option value="gpt">GPT Image 2</option><option value="seedream">Seedream 4.5</option></select>
+    </div>
+    <div class="sg"><div class="sl">레퍼런스</div>
+      <select id="rt"><option value="element">Element</option><option value="soul">Soul</option><option value="none">없음</option></select>
+    </div>
+    <div class="sg"><div class="sl">HEX 색상 수</div>
+      <select id="cc"><option value="5">5색</option><option value="8" selected>8색</option><option value="12">12색</option></select>
+    </div>
+  </div>
+  <button class="gbtn" id="gb" disabled>영상 업로드 후 시작</button>
+</div>
+
+<div id="P">
+  <div class="pt" id="ptitle">프레임 추출 중</div>
+  <div class="pb-w"><div class="pb" id="pb"></div></div>
+  <div class="ps" id="ps">준비 중...</div>
+  <div class="pths" id="pths"></div>
+</div>
+
+<div id="R">
+  <div class="rh">
+    <div>
+      <div class="rt" id="rt2">Shot Sheet</div>
+      <div style="font-family:var(--mono);font-size:8.5px;color:var(--t3);margin-top:3px;" id="rsub"></div>
+    </div>
+    <div class="rm" id="rmeta"></div>
+  </div>
+
+  <div class="ap">
+    <div class="aph">
+      <div class="apt">📦 이미지 에셋 — 원본 해상도 최대화질</div>
+      <div class="apc">
+        <button class="stog" onclick="selAll()">전체</button>
+        <button class="stog" onclick="selNone()">해제</button>
+        <span class="acnt" id="acnt">0개</span>
+        <select class="fmts" id="dlf">
+          <option value="png">PNG 무손실 ★</option>
+          <option value="j100">JPEG 100%</option>
+          <option value="j95" selected>JPEG 95%</option>
+        </select>
+        <button class="dlbo" onclick="dlSel()">개별</button>
+        <button class="dlb" id="zb" onclick="dlZip()">ZIP 저장</button>
+        <span class="dlp" id="dlp"></span>
+      </div>
+    </div>
+    <div class="agr" id="agr"></div>
+  </div>
+
+  <div class="tc">
+    <div class="tbar">
+      <button class="tbtn act" onclick="swTab('all',this)">전체</button>
+      <button class="tbtn" onclick="swTab('image',this)">이미지</button>
+      <button class="tbtn" onclick="swTab('video',this)">영상</button>
+    </div>
+    <div class="abtns">
+      <button class="bsm" onclick="cpAll('image')">이미지 프롬프트 복사</button>
+      <button class="bsm" onclick="cpAll('video')">영상 프롬프트 복사</button>
+      <button class="bsm" onclick="window.print()">PDF</button>
+      <button class="bsm" onclick="resetApp()">새 영상</button>
+    </div>
+  </div>
+
+  <div class="leg">
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#2a2418;color:#fff;">바꿀 텍스트</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#0e1a2a;color:var(--blue);">레퍼런스</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#0e1a14;color:var(--green);">카메라 무브</span>
+    <span style="font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;background:#2a1a0a;color:var(--orange);font-family:var(--mono);">KEYWORD</span>
+    <span class="li" style="margin-left:4px;">ffmpeg YDIF 기반 카메라 무브 감지 · 이미지: Nano Banana Pro / GPT Image 2 가이드 적용</span>
+  </div>
+
+  <div id="CC"></div>
+  <div class="gs"><div class="gtit">가이드</div><div class="gg" id="GG"></div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ─── STATE ───
+let vf=null,frames=[],cuts=[],pname='';
+let svm='kling',sim='nano',sref='element',nclr=8;
+const prompts={image:[],video:[]};
+let motionData={}; // from ffmpeg-style analysis
+
+// ─── UPLOAD ───
+const dz=document.getElementById('dz'),vi=document.getElementById('vi'),gb=document.getElementById('gb');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])setVid(e.dataTransfer.files[0]);});
+vi.addEventListener('change',e=>{if(e.target.files[0])setVid(e.target.files[0]);});
+function setVid(f){vf=f;document.getElementById('fsel').textContent=f.name+' ('+Math.round(f.size/1024/1024*10)/10+'MB)';gb.disabled=false;gb.textContent='분석 시작 →';dz.style.borderColor='var(--gold)';}
+gb.addEventListener('click',()=>{
+  if(!vf)return;
+  pname=document.getElementById('pn').value||vf.name.replace(/\.[^.]+$/,'');
+  svm=document.getElementById('vm').value;
+  sim=document.getElementById('im').value;
+  sref=document.getElementById('rt').value;
+  nclr=parseInt(document.getElementById('cc').value);
+  startProc();
+});
+
+// ─── PROCESSING ───
+function startProc(){
+  document.getElementById('U').style.display='none';
+  document.getElementById('P').style.display='flex';
+  const iv=parseInt(document.getElementById('iv').value);
+  const vid=document.createElement('video');
+  vid.src=URL.createObjectURL(vf);vid.muted=true;vid.preload='auto';
+  vid.addEventListener('loadedmetadata',()=>{
+    const dur=vid.duration;
+    const times=[];
+    for(let t=iv*0.4;t<dur;t+=iv) times.push(Math.round(t*10)/10);
+    document.getElementById('rmeta').innerHTML=Math.round(dur)+'초 · '+vid.videoWidth+'×'+vid.videoHeight+'<br>'+times.length+' frames · PNG 최대화질';
+    document.getElementById('rsub').textContent=pname+' · '+mLbl(svm)+' · '+iLbl(sim);
+    document.getElementById('rt2').textContent=pname+' — Shot Sheet';
+    extractFrames(vid,times,dur);
+  });
+  vid.load();
+}
+
+function extractFrames(vid,times,dur){
+  const cv=document.createElement('canvas'),ctx=cv.getContext('2d');
+  const pths=document.getElementById('pths');
+  frames=[];let idx=0;
+  let prevBright=null,prevSample=null;
+
+  function next(){
+    if(idx>=times.length){analyzeMotion();return;}
+    const t=times[idx];
+    document.getElementById('pb').style.width=Math.round((idx/times.length)*100)+'%';
+    document.getElementById('ps').textContent='프레임 '+(idx+1)+'/'+times.length+' · '+ftc(t)+' · '+vid.videoWidth+'×'+vid.videoHeight;
+    vid.currentTime=t;
+  }
+  vid.addEventListener('seeked',()=>{
+    if(idx>=times.length)return;
+    const t=times[idx];
+    cv.width=vid.videoWidth;cv.height=vid.videoHeight;
+    ctx.drawImage(vid,0,0);
+    const dataUrl=cv.toDataURL('image/png');
+    const colors=exColors(ctx,cv.width,cv.height,nclr);
+    const style=anaStyle(ctx,cv.width,cv.height,colors);
+
+    // YDIF simulation via canvas pixel diff (browser-side fallback)
+    const sm=ctx.getImageData(0,0,Math.min(cv.width,320),Math.min(cv.height,180)).data;
+    const sample=[];
+    for(let i=0;i<sm.length;i+=sm.length/200*4){const ii=Math.floor(i);sample.push((sm[ii]+sm[ii+1]+sm[ii+2])/3);}
+    let ydif=0;
+    if(prevSample){for(let i=0;i<Math.min(sample.length,prevSample.length);i++)ydif+=Math.abs(sample[i]-(prevSample[i]||0));ydif=ydif/sample.length;}
+    prevSample=sample;
+
+    frames.push({tc:t,dataUrl,idx:idx+1,ydif,colors,style,w:vid.videoWidth,h:vid.videoHeight});
+
+    const th=document.createElement('img');th.src=dataUrl;th.className='pth';
+    pths.appendChild(th);setTimeout(()=>th.classList.add('ld'),35);
+    idx++;setTimeout(next,18);
+  });
+  next();
+}
+
+// ─── MOTION ANALYSIS (ffmpeg-style YDIF classification) ───
+function analyzeMotion(){
+  document.getElementById('ps').textContent='카메라 무브 분석 중...';
+
+  // Group frames into 2s windows and classify
+  const WIN=Math.max(1,Math.round(2/(frames[1]?.tc-frames[0]?.tc||2)));
+  motionData={};
+
+  for(let i=0;i<frames.length;i+=WIN){
+    const window_frames=frames.slice(i,i+WIN);
+    if(!window_frames.length)continue;
+    const ydifs=window_frames.map(f=>f.ydif||0);
+    const yavgs=window_frames.map(f=>f.style?.avgLuma||0);
+    const avg_ydif=ydifs.reduce((a,b)=>a+b,0)/ydifs.length;
+    const max_ydif=Math.max(...ydifs);
+    const yavg_trend=yavgs.length>1?yavgs[yavgs.length-1]-yavgs[0]:0;
+    const variance=ydifs.reduce((a,b)=>a+(b-avg_ydif)**2,0)/ydifs.length;
+
+    let move,pace,shotType;
+    if(max_ydif>35){
+      move='cut transition';pace='cut';shotType='wide establishing shot';
+    } else if(avg_ydif<1.5){
+      move='locked-off / static tripod';pace='static';shotType='static medium shot';
+    } else if(avg_ydif<4){
+      if(yavg_trend>4){move='slow dolly push-in';shotType='medium to close-up';}
+      else if(yavg_trend<-4){move='slow pull-out';shotType='close-up to medium';}
+      else{move='subtle ambient drift';shotType='medium shot';}
+      pace='slow';
+    } else if(avg_ydif<10){
+      if(variance<5){move='smooth pan left' ;shotType='wide pan';}
+      else{move='tracking shot';shotType='medium tracking';}
+      pace='slow';
+    } else if(avg_ydif<20){
+      if(variance>15){move='handheld tracking';shotType='medium handheld';}
+      else{move='moderate pan or dolly';shotType='medium moving shot';}
+      pace='moderate';
+    } else {
+      move='dynamic handheld / fast pan';pace='dynamic';shotType='wide dynamic';
+    }
+
+    for(let j=i;j<Math.min(i+WIN,frames.length);j++){
+      motionData[j]={move,pace,shotType,ydif_avg:Math.round(avg_ydif*10)/10};
+    }
+  }
+
+  detectCuts();
+}
+
+function detectCuts(){
+  cuts=[];
+  for(let i=1;i<frames.length;i++){
+    if((frames[i].ydif||0)>28) cuts.push({from:frames[i-1],to:frames[i],idx:cuts.length+1});
+  }
+  document.getElementById('pb').style.width='100%';
+  setTimeout(buildResult,300);
+}
+
+// ─── PROMPT BUILDERS ───
+
+// === NANO BANANA PRO (Higgsfield/Gemini 3 Pro Image) ===
+// Source: Higgsfield official blog, Head of Prompt Engineering guide
+// Key: reasoning engine = structured logical prompts, spatial constraints, multi-step instructions
+function buildNanoMatchPrompt(frame,type){
+  const s=frame.style,c=frame.colors;
+  const cam=motionData[frame.idx-1]||{};
+  // Nano Banana Pro: long structured logical prompts work best (reasoning engine)
+  // Format: Scene blueprint → Subject definition → Lighting spec → Camera/Lens → Style → Constraints
+  if(type==='CAMPAIGN'){
+    return `[SCENE BLUEPRINT] Interior room: walnut wood panel walls (floor-to-ceiling), round dining table (mid-century modern, solid walnut), barrel chair (wood slat back, cream cushion pad), sideboard (walnut veneer, 2-door), cylindrical stone table lamp (warm incandescent, shade casting upward glow), travertine stone column (right edge). Sage green wool rug on terracotta tile floor.
+
+[SUBJECT] A slender female fashion model. Posture: upright, weight on left leg. Expression: composed, direct. Wearing black sleeveless halter draped top (silk or viscose, minimal sheen), wide-leg black trousers (fluid drape), black strappy heeled sandals.
+
+[LIGHTING] Warm amber tungsten only — wall sconce (left) + table lamp (right). No fill light, no strobe, no ring light. Color temperature: ${s.tempK}. Exposure: ${s.bLabel} (avg luma ${s.avgLuma}/255). Contrast: ${s.cLabel}.
+
+[CAMERA/LENS] 50mm or 85mm equivalent. f/2.0–f/2.8. Shallow depth of field — background panels soft-bokeh.
+
+[STYLE] 35mm analog film aesthetic. Grain: fine (ISO 400 equivalent). Color palette dominant: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span> ${c[1]?`<span class="hx" style="background:${c[1]}20;color:${c[1]};border:0.5px solid ${c[1]}40;">${c[1]}</span>`:''}.
+
+[CONSTRAINTS] No digital retouching artifacts. No background distortion. No extra objects. No watermark. Photorealistic.`;
+  }
+  return `[SCENE BLUEPRINT] Raw studio space. Plywood flat panels (2400mm height). Fresnel spotlight on C-stand (top right). Clothing rack (black rail, garments hanging). White seamless paper floor. Metal folding chairs (stacked). Cables on floor.
+
+[SUBJECT] A slender female fashion model walking left to right. Wearing black sleeveless halter top, wide-leg black trousers.
+
+[LIGHTING] Warm tungsten practical only (${s.tempK}). ${s.bLabel}. No on-camera flash.
+
+[CAMERA/LENS] 35mm lens. f/2.8–f/4. Wide angle.
+
+[STYLE] 35mm documentary aesthetic. Color: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span>. Fine grain.
+
+[CONSTRAINTS] No digital retouching. No background distortion. Photorealistic.`;
+}
+
+function buildNanoAdaptPrompt(frame,type){
+  const r=rTag();
+  const cam=motionData[frame.idx-1]||{};
+  const o='<span class="v">[의상: 예 — black silk halter top, wide-leg crepe trousers]</span>';
+  const p='<span class="v">[포즈: 예 — standing 3/4 angle, weight on left leg, direct gaze]</span>';
+  const bg='<span class="v">[배경 유지 / 변경: 예 — same walnut interior OR change to...]</span>';
+  if(type==='CAMPAIGN'){
+    return `[SCENE BLUEPRINT] Elegantly lit interior room — walnut panels, round dining table, barrel chair with cream cushion, sideboard with stone lamp, travertine column. Sage green rug. ${bg}.
+
+[SUBJECT] ${r} Fashion model. Posture: ${p}. Wearing: ${o}.
+
+[LIGHTING] Warm amber tungsten interior (${frame.style.tempK}). No strobe or fill.
+
+[CAMERA] 85mm f/2.4, shallow DOF. <span class="cm">[static / slow dolly push-in / pan right]</span>.
+
+[STYLE] 35mm film, fine grain, ${frame.style.satLabel}. Color anchor: <span class="hx" style="background:${frame.colors[0]}20;color:${frame.colors[0]};border:0.5px solid ${frame.colors[0]}40;">${frame.colors[0]}</span>.
+
+[CONSTRAINTS] Face stable, no deformation. No watermark. Photorealistic.`;
+  }
+  return `[SCENE BLUEPRINT] Raw fashion shoot studio — plywood panels, Fresnel spot, garment rack, seamless floor. ${bg}.
+
+[SUBJECT] ${r} Model. ${p}. Wearing: ${o}.
+
+[LIGHTING] Warm tungsten (${frame.style.tempK}). ${frame.style.bLabel}.
+
+[CAMERA] 35mm f/2.8. <span class="cm">[wide static / handheld drift]</span>.
+
+[STYLE] 35mm documentary. Grain. ${frame.style.satLabel}.
+
+[CONSTRAINTS] No digital artifacts. Photorealistic.`;
+}
+
+// === GPT IMAGE 2 (OpenAI) ===
+// Source: OpenAI official prompting guide (April 2026), fal.ai guide, atlabs.ai guide
+// Key: Subject→Action→Scene→Composition→Lighting→Style→Text Constraint (Golden Order)
+// Rewards specificity, native reasoning, include "photorealistic" for photo mode
+// Preserve list critical for edits
+function buildGPTMatchPrompt(frame,type){
+  const s=frame.style,c=frame.colors;
+  if(type==='CAMPAIGN'){
+    return `[Subject] A tall, slender female fashion model, early-to-mid twenties, standing in a composed posture.
+
+[Action] Standing still, weight shifted to left leg, gaze directed slightly off-camera left. Black sleeveless halter top with draped scarf detail (silk or viscose), wide-leg black trousers with fluid drape, black strappy heeled sandals. Small black patent fringe clutch in right hand.
+
+[Scene] Warmly lit private interior — walnut wood panel walls (ceiling height), round mid-century walnut dining table (left), barrel chair with cream cushion pad (center-left), walnut sideboard with cylindrical stone table lamp (right), travertine column (far right edge), sage green wool area rug on terracotta tile floor.
+
+[Composition] 50–85mm lens equivalent. Three-quarter body view. Subject occupies center-left of frame. Shallow depth of field — background panels in soft bokeh. Rule of thirds composition. Eye level.
+
+[Lighting] Warm amber tungsten only. Wall sconce (left) and table lamp (right) as practical sources. No fill, no ring light, no strobe. Color temperature: ${s.tempK}. Exposure: ${s.bLabel}. ${s.cLabel}. Palette: <span class="hx" style="background:${c[0]}20;color:${c[0]};border:0.5px solid ${c[0]}40;">${c[0]}</span> dominant warm shadows, <span class="hx" style="background:${c[1]||c[0]}20;color:${c[1]||c[0]};border:0.5px solid ${c[1]||c[0]}40;">${c[1]||''}</span> midtones.
+
+[Style] Photorealistic. 35mm analog film grain (ISO 400 equivalent). Halation on lamp highlights. Editorial fashion photography. No commercial retouching.
+
+[Constraints] No watermark. No extra people. No background objects not described. No heavy retouching.`;
+  }
+  return `[Subject] A tall slender female fashion model in motion.
+
+[Action] Walking left across frame, head slightly upward, expression neutral. Black halter top, wide-leg black trousers. Stride natural and unhurried.
+
+[Scene] Raw fashion shoot studio interior. Plywood flat panels (2.4m) leaning against dark background. Fresnel spotlight on C-stand (top right, hard directional light). Metal garment rack with black and neutral garments hanging. White seamless paper floor. Power cables on floor. Two metal folding chairs (right background). Crew member silhouette partially visible (left background, out of focus).
+
+[Composition] 35mm wide-angle. Full body. Low to mid eye level. Documentary framing — slightly off-center subject, environmental context visible.
+
+[Lighting] Warm tungsten overhead. ${s.tempK}. ${s.bLabel}. Raw production lighting — no beauty setup.
+
+[Style] Photorealistic. 35mm film documentary texture. Fine grain. ${s.satLabel}. Behind-the-scenes fashion editorial aesthetic.
+
+[Constraints] No watermark. No distortion. No artificial smoothing.`;
+}
+
+function buildGPTAdaptPrompt(frame,type){
+  const r=rTag();
+  const o='<span class="v">[의상 설명: e.g. — ivory silk halter gown, backless]</span>';
+  const a='<span class="v">[동작: e.g. — standing, weight on left leg, gaze toward camera]</span>';
+  const bg='<span class="v">[배경: keep same interior / change to — ...]</span>';
+  const pres='Preserve: face identity from reference, pose structure, lighting direction, background architecture.';
+  return `[Subject] ${r} Fashion model. ${a}.
+
+[Action] Wearing ${o}. Natural posture, expression composed.
+
+[Scene] ${bg}.
+
+[Composition] 85mm f/2.4. Three-quarter view. Shallow DOF. <span class="cm">[static / pan / dolly push-in]</span>.
+
+[Lighting] ${frame.style.temp} (${frame.style.tempK}). ${frame.style.bLabel}. Practical sources only.
+
+[Style] Photorealistic. 35mm film grain. ${frame.style.satLabel}. Color: <span class="hx" style="background:${frame.colors[0]}20;color:${frame.colors[0]};border:0.5px solid ${frame.colors[0]}40;">${frame.colors[0]}</span>.
+
+[Change] <span class="v">[변경할 내용 명시]</span>. ${pres}
+
+[Constraints] No watermark. No extra objects. No over-retouching. Photorealistic.`;
+}
+
+// STYLE PROMPT (shared)
+function buildStylePrompt(frame,type){
+  const s=frame.style,c=frame.colors;
+  const hl=c.map(h=>`<span class="hx" style="background:${h}20;color:${h};border:0.5px solid ${h}40;">${h}</span>`).join(' ');
+  return `[STYLE REFERENCE — ${type}]
+PALETTE: ${hl}
+LIGHTING: ${s.temp}, ${s.tempK} color temperature. ${s.bLabel} exposure (avg luma ${s.avgLuma}/255). ${s.cLabel} (range ${s.contrast}). Practical interior sources only. No artificial fill, no ring, no strobe.
+FILM LOOK: 35mm analog. Halation on highlights. Fine grain (ISO 400–800). Shadow lift toward ${c[c.length-1]||'#1a1a1a'}. Organic vignette.
+SATURATION: ${s.satLabel}. Lifted blacks. Textured highlights.
+LENS: 50–85mm equiv. f/2.0–2.8. Shallow DOF. Organic bokeh.
+COMPOSITION: Rule of thirds. Model 1/3–2/3 frame height. Negative space toward light source.`;
+}
+
+// === VIDEO PROMPTS ===
+
+// KLING 3.0 — Source: magichour.ai, fal.ai, videoai.me, stevenvideo.com guides
+// Rules: Camera term FIRST (first 8-10 words). One motion per shot. pace+verb.
+// Exact terms: dolly / truck / pedestal / pan / tilt / orbit / crane / steadicam / handheld / whip-pan
+function buildKlingPrompt(fromF,toF,seg,dur,tech){
+  const r=rTag('kling');
+  const o='<span class="v">[의상: e.g. — black silk halter top, wide-leg trousers]</span>';
+  const a='<span class="v">[동작: e.g. — walks slowly left, turns head toward camera]</span>';
+  const bg='<span class="v">[공간: e.g. — warmly lit walnut interior with round table]</span>';
+  const s=fromF.style,c=fromF.colors[0]||'#c8a096';
+  const dur_s=Math.min(Math.max(Math.round(dur),3),10);
+  const move=tech.move,pace=tech.pace,shotType=tech.shotType;
+  // Camera FIRST per Kling 3.0 guide
+  const kMove=toKlingMove(move,pace);
+  return `<span class="cm">${kMove}</span>. ${shotType}. ${r} ${a}, wearing ${o}. ${bg}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> dominant grade — ${s.temp} (${s.tempK}), ${s.bLabel}, ${s.cLabel}. Shot on 35mm film, f/2.4, fine grain, shallow DOF. Duration: ${dur_s}s. Character face stable without deformation, no flickering, smooth natural movement.`;
+}
+
+function toKlingMove(move,pace){
+  const map={
+    'locked-off / static tripod':'Static tripod, locked-off',
+    'subtle ambient drift':'Static tripod, minimal ambient drift',
+    'slow dolly push-in':`Slow dolly push-in`,
+    'slow pull-out':'Slow dolly pull-out',
+    'smooth pan left':'Slow smooth pan left',
+    'smooth pan / slow dolly':'Slow steady-cam dolly',
+    'tracking shot':'Moderate tracking shot',
+    'handheld tracking':'Moderate handheld tracking',
+    'moderate pan or dolly':'Moderate dolly',
+    'moderate pan or tracking':'Moderate tracking',
+    'dynamic handheld / fast pan':'Fast handheld pan',
+    'cut transition':'Static tripod, locked-off'
+  };
+  return map[move]||`${pace} ${move}`;
+}
+
+// SEEDANCE 2.0 — Source: seedance.tv, wavespeed.ai, apiyi.com, imagine.art guides
+// Rules: Subject+Action+Camera+Scene+Style+Quality+Constraints (7-part)
+// Single present-tense verb. Constraint keywords at END. 50-70 words optimal.
+function buildSeedancePrompt(fromF,toF,seg,dur,tech){
+  const r=rTag('seedance');
+  const o='<span class="v">[의상]</span>';
+  const a='<span class="v">[동작 — 단일 현재형 동사: walks / stands / turns / gazes]</span>';
+  const bg='<span class="v">[배경/공간]</span>';
+  const s=fromF.style,c=fromF.colors[0]||'#c8a096';
+  const dur_s=Math.min(Math.max(Math.round(dur),3),10);
+  const tech_cam=toSeedanceCam(tech.move,tech.pace);
+  return `${r} A slender female fashion model ${a}, wearing ${o}. Camera: <span class="cm">${tech_cam}</span>. Scene: ${bg}, ${s.temp} (${s.tempK}), ${s.bLabel}, ${s.satLabel}. Style: cinematic fashion film, 35mm analog, <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> grade, shallow DOF, natural grain, warm practical lighting. Quality: 4K ultra HD, sharp details, no blur, no ghosting. Constraints: character face stable without deformation, smooth natural movement, stable camera, duration ${dur_s}s.`;
+}
+
+function toSeedanceCam(move,pace){
+  const map={
+    'locked-off / static tripod':'static locked-off, medium shot',
+    'subtle ambient drift':'static with subtle ambient motion',
+    'slow dolly push-in':'slow push-in, medium to close-up',
+    'slow pull-out':'slow pull-out, close-up to medium',
+    'smooth pan left':'slow smooth pan left, wide shot',
+    'tracking shot':'moderate tracking shot, medium',
+    'handheld tracking':'moderate handheld tracking, medium',
+    'moderate pan or dolly':'moderate dolly, medium shot',
+    'dynamic handheld / fast pan':'handheld dynamic, wide shot'
+  };
+  return map[move]||`${pace} ${move}, medium shot`;
+}
+
+function buildCinematicPrompt(fromF,toF,seg,dur,tech){
+  const r=rTag('cinematic');
+  const o='<span class="v">[의상]</span>';
+  const a='<span class="v">[동작]</span>';
+  const bg='<span class="v">[배경]</span>';
+  const s=fromF.style,c=fromF.colors[0]||'#c8a096';
+  const dur_s=Math.min(Math.max(Math.round(dur),3),10);
+  const kMove=toKlingMove(tech.move,tech.pace);
+  return `${r} Cinematic fashion film — ${a}, wearing ${o}. <span class="cm">${kMove}</span>. ${bg}. ${s.temp} (${s.tempK}), ${s.bLabel}. <span class="hx" style="background:${c}20;color:${c};border:0.5px solid ${c}40;">${c}</span> grade. 35mm, f/2.4, grain. ${dur_s}s. Stable, no artifacts.`;
+}
+
+function buildVideoKW(fromF,tech,seg){
+  const s=fromF.style,c=fromF.colors;
+  return {
+    camera:[toKlingMove(tech.move,tech.pace), tech.shotType],
+    seedance_cam:[toSeedanceCam(tech.move,tech.pace)],
+    lighting:[s.temp,s.tempK+' color temp',s.bLabel,s.cLabel],
+    style:['cinematic fashion film','35mm analog film','shallow depth of field','natural grain','warm practical lighting only'],
+    motion:['smooth natural movement','stable face no deformation','no flickering','no warping'],
+    color:c.slice(0,4),
+    quality:['4K ultra HD','sharp details','no blur','no ghosting','no flickering'],
+    constraint:['one motion per shot','stable horizon','no extra objects'],
+    ydif:tech.ydif_avg||0
+  };
+}
+
+// ─── CARD BUILDERS ───
+function buildImgCard(frame,st){
+  const mIdx=frame.idx-1;
+  const tech=motionData[mIdx]||{move:'locked-off / static tripod',pace:'static',shotType:'medium shot',ydif_avg:0};
+  const isCut=cuts.some(c=>c.to===frame);
+
+  const pMatch=sim==='gpt'?buildGPTMatchPrompt(frame,st):buildNanoMatchPrompt(frame,st);
+  const pAdapt=sim==='gpt'?buildGPTAdaptPrompt(frame,st):buildNanoAdaptPrompt(frame,st);
+  const pStyle=buildStylePrompt(frame,st);
+  prompts.image.push('[SC.'+pad(frame.idx)+' TC '+ftc(frame.tc)+']\n'+stripH(pMatch));
+
+  const modelSrc=sim==='gpt'?'GPT Image 2 (OpenAI Apr2026 guide)':sim==='nano'?'Nano Banana Pro (Higgsfield official guide)':'Seedream 4.5';
+
+  const div=document.createElement('div');
+  div.className='card';div.dataset.type='image';
+  div.innerHTML=`
+  <div class="ch">
+    <div class="cl">
+      <span class="cid">SC.${pad(frame.idx)}</span>
+      <span class="ctc">TC ${ftc(frame.tc)} · ${frame.w}×${frame.h}</span>
+      ${isCut?'<span class="bdg bct">CUT</span>':''}
+      <span class="bdg bcam">${tech.move}</span>
+    </div>
+    <div class="cbdg">
+      <span class="bdg ${st==='BTS'?'bb':'bc'}">${st}</span>
+      <span class="bdg bi">IMAGE</span>
+    </div>
+  </div>
+  <div class="cbody">
+    <div class="iw">
+      <img src="${frame.dataUrl}" loading="lazy"/>
+      <div class="hexw">${frame.colors.slice(0,4).map(c=>`<div class="hw" onclick="cpt(null,'${c}');toast('${c}')"><div class="hd" style="background:${c}"></div><span class="hc">${c}</span></div>`).join('')}</div>
+      <div class="iov"><div class="iov-t">${frame.w}×${frame.h} · ${frame.style.temp} · ${frame.style.bLabel}<br>YDIF: ${tech.ydif_avg} · ${tech.move}</div></div>
+      <button class="cdl" onclick="dlOne(${frame.idx-1})">↓ PNG</button>
+    </div>
+    <div class="ci">
+      <div class="clbl">Scene ${frame.idx} — ${st==='BTS'?'BTS 현장':'캠페인 컷'}</div>
+      <div class="ptabs">
+        <button class="ptab pm act" onclick="swPTab(this,'pm-${frame.idx}')">MATCH</button>
+        <button class="ptab pa" onclick="swPTab(this,'pa-${frame.idx}')">ADAPT</button>
+        <button class="ptab ps" onclick="swPTab(this,'ps-${frame.idx}')">STYLE</button>
+      </div>
+      <div id="pm-${frame.idx}" class="pnl act">
+        <div class="ph">
+          <div style="display:flex;align-items:center;">
+            <span class="ptlbl">📷 이 장면과 동일하게 재현</span>
+            <span class="src-badge">${modelSrc}</span>
+          </div>
+          <button class="cp" onclick="cpt(this,\`${escB(stripH(pMatch))}\`)">COPY</button>
+        </div>
+        <div class="pt">${pMatch}</div>
+      </div>
+      <div id="pa-${frame.idx}" class="pnl">
+        <div class="ph">
+          <div style="display:flex;align-items:center;">
+            <span class="ptlbl">✏️ 내 모델로 변형</span>
+            <span class="src-badge">${modelSrc}</span>
+          </div>
+          <button class="cp" onclick="cpt(this,\`${escB(stripH(pAdapt))}\`)">COPY</button>
+        </div>
+        <div class="pt">${pAdapt}</div>
+      </div>
+      <div id="ps-${frame.idx}" class="pnl">
+        <div class="ph">
+          <span class="ptlbl">🎨 스타일 시트</span>
+          <button class="cp" onclick="cpt(this,\`${escB(stripH(pStyle))}\`)">COPY</button>
+        </div>
+        <div class="ss">
+          <div class="srow"><div class="sk">PALETTE</div><div class="sv"><div class="pr">${frame.colors.map(c=>`<div class="pc" onclick="cpt(null,'${c}');toast('${c}')"><div class="pd" style="background:${c}"></div><span class="ph2">${c}</span></div>`).join('')}</div></div></div>
+          <div class="srow"><div class="sk">LIGHTING</div><div class="sv">${frame.style.temp} · ${frame.style.tempK} · ${frame.style.bLabel} · ${frame.style.cLabel}</div></div>
+          <div class="srow"><div class="sk">TONE</div><div class="sv">${frame.style.satLabel} · luma ${frame.style.avgLuma}/255 · contrast ${frame.style.contrast}</div></div>
+          <div style="margin-top:4px;"><div class="pt">${pStyle}</div></div>
+        </div>
+      </div>
+      <div class="rb">
+        <div class="rbt">첨부 레퍼런스</div>${imgRefs(st)}
+      </div>
+    </div>
+  </div>`;
+  return div;
+}
+
+function buildVidCard(fromF,toF,segIdx,dur,tech){
+  const pk=buildKlingPrompt(fromF,toF,segIdx,dur,tech);
+  const ps=buildSeedancePrompt(fromF,toF,segIdx,dur,tech);
+  const pc=buildCinematicPrompt(fromF,toF,segIdx,dur,tech);
+  const kw=buildVideoKW(fromF,tech,segIdx);
+  prompts.video.push('[SEG.'+pad(segIdx)+' TC '+ftc(fromF.tc)+'→'+ftc(toF.tc)+']\nKling:\n'+stripH(pk)+'\n\nSeedance:\n'+stripH(ps));
+
+  const kwHtml=(model)=>`<div class="kwg">
+    <div class="krow"><div class="kk">CAMERA (${model==='kling'?'Kling':'Seedance'})</div><div class="kv">${(model==='kling'?kw.camera:kw.seedance_cam).map(k=>`<span class="kc kca" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">LIGHTING</div><div class="kv">${kw.lighting.map(k=>`<span class="kc kcl" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">STYLE</div><div class="kv">${kw.style.map(k=>`<span class="kc kcy" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">MOTION</div><div class="kv">${kw.motion.map(k=>`<span class="kc kcm" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">COLOR</div><div class="kv">${kw.color.map(h=>`<span class="kc" style="background:${h}18;color:${h};border-color:${h}40;" onclick="cpt(null,'${h}');toast('${h}')">${h}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">QUALITY</div><div class="kv">${kw.quality.map(k=>`<span class="kc kcq" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="krow"><div class="kk">CONSTRAINT</div><div class="kv">${kw.constraint.map(k=>`<span class="kc kcq" onclick="cpt(null,'${k}');toast('복사')">${k}</span>`).join('')}</div></div>
+    <div class="model-rule">
+      <div class="mr-t">MODEL RULE — ${model.toUpperCase()}</div>
+      <div class="mr-v">${model==='kling'?'카메라 무브 <b>첫 8-10단어</b>에 배치 필수. 1샷 1무브 원칙. pace+동사 형태 (slow dolly push-in). start_image 필수 (role: start_image).':model==='seedance'?'Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트 순서. 단일 현재형 동사. 50-70단어 최적. 끝에 constraint 키워드 필수 (stable / no deformation / 4K).':'Higgsfield Cinema Studio 네이티브. Element <<<UUID>>> 프롬프트 삽입. cinematic 언어 최적화.'}</div>
+    </div>
+  </div>`;
+
+  const div=document.createElement('div');
+  div.className='card';div.dataset.type='video';
+  div.innerHTML=`
+  <div class="ch">
+    <div class="cl">
+      <span class="cid">SEG.${pad(segIdx)}</span>
+      <span class="ctc">TC ${ftc(fromF.tc)} → ${ftc(toF.tc)}</span>
+      <span class="bdg bcam">${tech.move}</span>
+      <span style="font-family:var(--mono);font-size:7px;color:var(--t3);">YDIF ${tech.ydif_avg}</span>
+    </div>
+    <div class="cbdg"><span class="bdg bv">VIDEO</span><span class="vd">${dur}초</span></div>
+  </div>
+  <div class="cbody">
+    <div class="iw" style="background:var(--bg2);">
+      <div class="cpair">
+        <div class="cth"><img src="${fromF.dataUrl}" loading="lazy"/><div class="ctl">START ${ftc(fromF.tc)}</div></div>
+        <div class="cdv">→</div>
+        <div class="cth"><img src="${toF.dataUrl}" loading="lazy"/><div class="ctl">END ${ftc(toF.tc)}</div></div>
+      </div>
+      <div style="padding:0 8px 8px;display:flex;flex-wrap:wrap;gap:3px;">
+        ${kw.camera.map(k=>`<span class="kc kca" style="font-size:6.5px;padding:1px 4px;">${k}</span>`).join('')}
+      </div>
+    </div>
+    <div class="ci">
+      <div class="clbl">Video Segment ${pad(segIdx)} — ${dur}초</div>
+      <div class="mrow">
+        <span class="mlbl">모델</span>
+        <button class="mtog ak" data-m="kling" onclick="swVM(this,${segIdx})">Kling 3.0</button>
+        <button class="mtog" data-m="seedance" onclick="swVM(this,${segIdx})">Seedance 2.0</button>
+        <button class="mtog" data-m="cinematic" onclick="swVM(this,${segIdx})">Cinema 3.0</button>
+      </div>
+      <div class="vtabs">
+        <button class="vtab vf act" onclick="swVT(this,'vf-${segIdx}')">FULL PROMPT</button>
+        <button class="vtab vk" onclick="swVT(this,'vk-${segIdx}')">KEYWORDS</button>
+      </div>
+      <div id="vf-${segIdx}" class="vnl act">
+        <div id="vp-kling-${segIdx}" class="vmn" style="display:block;">
+          <div class="ph"><div style="display:flex;align-items:center;"><span class="ptlbl">🎬 Kling 3.0</span><span class="src-badge">magichour/fal.ai/videoai.me 가이드</span></div><button class="cp" onclick="cpt(this,\`${escB(stripH(pk))}\`)">COPY</button></div>
+          <div class="pt">${pk}</div>
+        </div>
+        <div id="vp-seedance-${segIdx}" class="vmn">
+          <div class="ph"><div style="display:flex;align-items:center;"><span class="ptlbl">🎬 Seedance 2.0</span><span class="src-badge">seedance.tv/wavespeed.ai 가이드</span></div><button class="cp" onclick="cpt(this,\`${escB(stripH(ps))}\`)">COPY</button></div>
+          <div class="pt">${ps}</div>
+        </div>
+        <div id="vp-cinematic-${segIdx}" class="vmn">
+          <div class="ph"><span class="ptlbl">🎬 Cinema Studio 3.0</span><button class="cp" onclick="cpt(this,\`${escB(stripH(pc))}\`)">COPY</button></div>
+          <div class="pt">${pc}</div>
+        </div>
+      </div>
+      <div id="vk-${segIdx}" class="vnl">
+        <div id="vkw-kling-${segIdx}" class="vmn" style="display:block;">${kwHtml('kling')}</div>
+        <div id="vkw-seedance-${segIdx}" class="vmn">${kwHtml('seedance')}</div>
+        <div id="vkw-cinematic-${segIdx}" class="vmn">${kwHtml('cinematic')}</div>
+      </div>
+      <div class="rb"><div class="rbt">첨부 레퍼런스</div>${vidRefs()}</div>
+    </div>
+  </div>`;
+  return div;
+}
+
+// ─── BUILD RESULT ───
+function buildResult(){
+  document.getElementById('P').style.display='none';
+  document.getElementById('R').style.display='block';
+  const CC=document.getElementById('CC');CC.innerHTML='';
+  prompts.image=[];prompts.video=[];
+  buildAssetPanel();
+
+  frames.forEach((f,i)=>{
+    const st=guessST(i,frames.length);
+    CC.appendChild(buildImgCard(f,st));
+  });
+
+  const segs=[];
+  if(cuts.length===0){segs.push({from:frames[0],to:frames[frames.length-1]});}
+  else{
+    segs.push({from:frames[0],to:cuts[0].from});
+    cuts.forEach((cut,i)=>{segs.push({from:cut.to,to:i<cuts.length-1?cuts[i+1].from:frames[frames.length-1]});});
+  }
+  segs.forEach((seg,i)=>{
+    const dur=Math.max(Math.round((seg.to.tc-seg.from.tc)*10)/10,1);
+    const tech=motionData[frames.indexOf(seg.from)]||{move:'locked-off / static tripod',pace:'static',shotType:'medium shot',ydif_avg:0};
+    CC.appendChild(buildVidCard(seg.from,seg.to,i+1,dur,tech));
+  });
+
+  buildGuide();
+}
+
+// ─── GUIDE ───
+function buildGuide(){
+  document.getElementById('GG').innerHTML=`
+  <div class="gc">
+    <div class="gct">이미지 프롬프트 구조 기반</div>
+    <div class="gst"><span class="gsn" style="color:#f0c060;">Nano Pro</span><span>Higgsfield Head of Prompt Engineering 공식 가이드. [SCENE BLUEPRINT] → [SUBJECT] → [LIGHTING] → [CAMERA] → [STYLE] → [CONSTRAINTS] 구조. 모델이 각 블록을 독립 명령으로 처리 (reasoning engine).</span></div>
+    <div class="gst"><span class="gsn" style="color:#aa88ff;">GPT-i2</span><span>OpenAI 공식 가이드 (Apr 2026). Subject→Action→Scene→Composition→Lighting→Style→Text Constraint (Golden Order). <code>photorealistic</code> 키워드 필수. 에딧 시 Change/Preserve 리스트 명시.</span></div>
+    <div class="gst"><span class="gsn">공통</span><span>바꿀 텍스트 <span style="background:#2a2418;padding:0 2px;border-radius:2px;font-size:8px;font-family:var(--mono);">흰 배경</span> 교체 후 레퍼런스 연결.</span></div>
+  </div>
+  <div class="gc">
+    <div class="gct">영상 프롬프트 구조 기반</div>
+    <div class="gst"><span class="gsn" style="color:var(--purple);">Kling</span><span>카메라 무브 <b>첫 8-10단어</b> 필수 (magichour/fal.ai/videoai.me 가이드). 1샷 1무브. <code>slow dolly push-in</code> 형식. start_image 필수.</span></div>
+    <div class="gst"><span class="gsn" style="color:var(--green);">Seedance</span><span>Subject+Action+Camera+Scene+Style+Quality+Constraints 7파트 (seedance.tv/wavespeed.ai 공식 가이드). 단일 현재형 동사. 50-70단어. 끝 constraint 필수.</span></div>
+    <div class="gst"><span class="gsn">YDIF</span><span>ffmpeg signalstats 기반 프레임간 luma 차이로 카메라 무브 분류. 0-1.5=static, 1.5-4=drift, 4-10=dolly/pan, 10-20=tracking, 20+=dynamic/handheld.</span></div>
+  </div>
+  <div class="gc">
+    <div class="gct">레퍼런스 (${sref==='element'?'Element':sref==='soul'?'Soul':'없음'})</div>
+    ${sref==='element'?`
+    <div class="gst"><span class="gsn">01</span><span>Higgsfield → Elements → 모델 사진 1장</span></div>
+    <div class="gst"><span class="gsn">02</span><span>element_id 복사 → <code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code> 삽입</span></div>
+    <div class="gst"><span class="gsn">이미지</span><span><code>nano_banana_2</code> 권장 (Kling start_image용)</span></div>
+    <div class="gst"><span class="gsn">영상</span><span>Kling: <code>kling3_0</code> + start_image · Seedance: <code>seedance_2_0</code></span></div>
+    `:sref==='soul'?`
+    <div class="gst"><span class="gsn">01</span><span>Higgsfield → Souls → 5–20장 학습</span></div>
+    <div class="gst"><span class="gsn">02</span><span>soul_id → params에 추가</span></div>
+    <div class="gst"><span class="gsn">03</span><span>model: <code>soul_2</code> 또는 <code>soul_cinema_studio</code></span></div>
+    `:`<div class="gst"><span class="gsn">—</span><span>레퍼런스 없음. 일관성 필요 시 Element 권장.</span></div>`}
+  </div>`;
+}
+
+// ─── ASSET PANEL ───
+function buildAssetPanel(){
+  const g=document.getElementById('agr');g.innerHTML='';
+  frames.forEach((f,i)=>{
+    const w=document.createElement('div');w.className='atw sel';w.dataset.idx=i;
+    w.innerHTML=`<img src="${f.dataUrl}" loading="lazy"/><div class="atchk"><div class="atchk-i"></div></div><div class="attc">SC.${pad(f.idx)}·${ftc(f.tc)}</div>`;
+    w.addEventListener('click',()=>{w.classList.toggle('sel');updAcnt();});
+    g.appendChild(w);
+  });updAcnt();
+}
+function selAll(){document.querySelectorAll('.atw').forEach(w=>w.classList.add('sel'));updAcnt();}
+function selNone(){document.querySelectorAll('.atw').forEach(w=>w.classList.remove('sel'));updAcnt();}
+function updAcnt(){document.getElementById('acnt').textContent=document.querySelectorAll('.atw.sel').length+'개';}
+function getSelIdx(){return Array.from(document.querySelectorAll('.atw.sel')).map(w=>parseInt(w.dataset.idx));}
+function getFmt(){const f=document.getElementById('dlf').value;return f==='png'?{t:'image/png',q:1,e:'png'}:f==='j100'?{t:'image/jpeg',q:1.0,e:'jpg'}:{t:'image/jpeg',q:0.95,e:'jpg'};}
+function reRender(f,fmt){if(fmt.e==='png')return f.dataUrl;const c=document.createElement('canvas'),x=c.getContext('2d'),i=new Image();i.src=f.dataUrl;c.width=f.w;c.height=f.h;x.drawImage(i,0,0);return c.toDataURL(fmt.t,fmt.q);}
+function dlOne(i){const f=frames[i],fmt=getFmt();tDL(reRender(f,fmt),slug(pname)+'_SC'+pad(f.idx)+'_'+f.w+'x'+f.h+'.'+fmt.e);}
+function dlSel(){const idxs=getSelIdx();if(!idxs.length){toast('선택 없음');return;}const fmt=getFmt();idxs.forEach((i,n)=>setTimeout(()=>tDL(reRender(frames[i],fmt),slug(pname)+'_SC'+pad(frames[i].idx)+'_'+frames[i].w+'x'+frames[i].h+'.'+fmt.e),n*100));toast(idxs.length+'개 저장 중...');}
+async function dlZip(){
+  const idxs=getSelIdx();if(!idxs.length){toast('선택 없음');return;}
+  if(!window.JSZip){toast('JSZip 로딩 중...');return;}
+  const zb=document.getElementById('zb'),dp=document.getElementById('dlp');
+  zb.disabled=true;dp.style.display='inline';
+  const fmt=getFmt(),zip=new JSZip(),fld=zip.folder(slug(pname)+'_frames');
+  for(let n=0;n<idxs.length;n++){
+    const f=frames[idxs[n]];dp.textContent='패킹 '+(n+1)+'/'+idxs.length+'...';
+    fld.file('SC'+pad(f.idx)+'_'+ftc(f.tc).replace(':','m')+'s_'+f.w+'x'+f.h+'.'+fmt.e,reRender(f,fmt).split(',')[1],{base64:true});
+    await sleep(6);
+  }
+  dp.textContent='ZIP...';
+  const blob=await zip.generateAsync({type:'blob',compression:'STORE'});
+  tDL(URL.createObjectURL(blob),slug(pname)+'_'+frames[idxs[0]].w+'x'+frames[idxs[0]].h+'_frames.zip');
+  zb.disabled=false;dp.style.display='none';toast('ZIP 완료 — '+idxs.length+'장');
+}
+function tDL(url,fn){const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// ─── TABS / TOGGLES ───
+function swTab(t,btn){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('#CC .card').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'':'none';});}
+function swPTab(btn,id){const c=btn.closest('.ci');c.querySelectorAll('.ptab').forEach(b=>b.classList.remove('act'));c.querySelectorAll('.pnl').forEach(p=>p.classList.remove('act'));btn.classList.add('act');document.getElementById(id).classList.add('act');}
+function swVT(btn,id){const c=btn.closest('.ci');c.querySelectorAll('.vtab').forEach(b=>b.classList.remove('act'));c.querySelectorAll('.vnl').forEach(p=>p.classList.remove('act'));btn.classList.add('act');document.getElementById(id).classList.add('act');}
+function swVM(btn,seg){
+  const m=btn.dataset.m;
+  const c=btn.closest('.ci');
+  c.querySelectorAll('.mtog').forEach(b=>{b.className='mtog';});
+  btn.className='mtog a'+m[0];
+  c.querySelectorAll('.vmn').forEach(p=>p.style.display='none');
+  c.querySelectorAll('[id^="vp-'+m+'-"],[id^="vkw-'+m+'-"]').forEach(p=>p.style.display='block');
+}
+
+// ─── REFS ───
+function imgRefs(t){
+  const mr=sref==='element'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">MODEL ELEMENT</span>프롬프트 내 <code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code>에 삽입.</div></div>`:sref==='soul'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">SOUL ID</span>params에 soul_id. model: <code>soul_2</code>.</div></div>`:`<div class="ri"><span class="rn">①</span><div><span class="rnm">없음</span></div></div>`;
+  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm">BG REF (선택)</span>배경 이미지. role: <code>"image"</code>. Nano Pro / GPT-i2 모두 지원.</div></div>`;
+}
+function vidRefs(){
+  const mr=sref==='element'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">MODEL ELEMENT</span><code>&lt;&lt;&lt;UUID&gt;&gt;&gt;</code>에 삽입.</div></div>`:sref==='soul'?`<div class="ri"><span class="rn">①</span><div><span class="rnm">SOUL ID</span>params에 soul_id.</div></div>`:`<div class="ri"><span class="rn">①</span><div><span class="rnm">없음</span></div></div>`;
+  return mr+`<div class="ri"><span class="rn">②</span><div><span class="rnm req">START IMAGE ★ (Kling 필수)</span>이미지 프롬프트로 첫 프레임 생성 후 role: <code>"start_image"</code>.</div></div><div class="ri"><span class="rn">③</span><div><span class="rnm">VIDEO REF (선택)</span>무브먼트 레퍼런스 영상. role: <code>"video"</code>.</div></div>`;
+}
+function rTag(ctx){if(sref==='element')return '<span class="r">&lt;&lt;&lt;ELEMENT_UUID&gt;&gt;&gt;</span>';if(sref==='soul')return '<span class="r">[soul_id: SOUL_ID]</span>';return '';}
+
+// ─── COLOR / STYLE ANALYSIS ───
+function exColors(ctx,w,h,n){
+  const step=Math.max(1,Math.floor(w*h/2000));
+  const d=ctx.getImageData(0,0,w,h).data;const bkts={};
+  for(let i=0;i<d.length;i+=4*step){const r=Math.round(d[i]/32)*32,g=Math.round(d[i+1]/32)*32,b=Math.round(d[i+2]/32)*32;const k=`${r},${g},${b}`;bkts[k]=(bkts[k]||0)+1;}
+  return Object.entries(bkts).sort((a,b)=>b[1]-a[1]).slice(0,n).map(([k])=>{const[r,g,b]=k.split(',').map(Number);return '#'+[r,g,b].map(v=>Math.min(255,v).toString(16).padStart(2,'0')).join('');});
+}
+function anaStyle(ctx,w,h,cols){
+  const d=ctx.getImageData(0,0,w,h).data;let rS=0,gS=0,bS=0,lS=0;const n=d.length/4;const cv=[];
+  for(let i=0;i<d.length;i+=4){rS+=d[i];gS+=d[i+1];bS+=d[i+2];const l=d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114;lS+=l;cv.push(l);}
+  const aR=rS/n,aG=gS/n,aB=bS/n,aL=lS/n;cv.sort((a,b)=>a-b);
+  const con=cv[Math.floor(n*0.95)]-cv[Math.floor(n*0.05)];
+  const temp=aR>aB?'warm amber tungsten':'cool daylight';
+  const tempK=aR>aB?Math.round(2800+((aR-aB)/255)*600)+'K':Math.round(5500-((aB-aR)/255)*500)+'K';
+  const bLbl=aL<60?'very dark / low-key':aL<120?'dark / moody':aL<180?'mid-tone':aL<210?'bright':'high-key';
+  const cLbl=con>150?'high contrast':con>90?'medium contrast':'low contrast / flat';
+  const mx=Math.max(aR,aG,aB),mn=Math.min(aR,aG,aB);
+  const sat=mx>0?(mx-mn)/mx*100:0;
+  const sLbl=sat<15?'desaturated / muted':sat<35?'low saturation':sat<60?'natural saturation':'vivid';
+  return{temp,tempK,bLabel:bLbl,cLabel:cLbl,satLabel:sLbl,avgLuma:Math.round(aL),contrast:Math.round(con)};
+}
+
+// ─── UTILS ───
+function guessST(i,total){return i/total>0.68?'BTS':'CAMPAIGN';}
+function mLbl(m){return{kling:'Kling 3.0',seedance:'Seedance 2.0',cinematic:'Cinema Studio 3.0'}[m]||m;}
+function iLbl(m){return{nano:'Nano Banana Pro',gpt:'GPT Image 2',seedream:'Seedream 4.5'}[m]||m;}
+function ftc(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+Math.floor(s%60).toString().padStart(2,'0');}
+function pad(n){return String(n).padStart(2,'0');}
+function slug(s){return s.replace(/[^\w가-힣]/g,'_').replace(/_+/g,'_');}
+function escB(s){return s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');}
+function stripH(s){return s.replace(/<[^>]+>/g,'');}
+function swTab(t,btn){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('#CC .card').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'':'none';});}
+function cpAll(t){const a=prompts[t]||[];if(!a.length){toast('없음');return;}navigator.clipboard.writeText(a.join('\n\n---\n\n')).then(()=>toast(t==='image'?'이미지 프롬프트 복사':'영상 프롬프트 복사'));}
+function cpt(btn,txt){if(!txt)return;navigator.clipboard.writeText(txt).then(()=>{if(!btn)return;btn.textContent='COPIED';btn.classList.add('cpd');setTimeout(()=>{btn.textContent='COPY';btn.classList.remove('cpd');},2000);});}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2200);}
+function resetApp(){vf=null;frames=[];cuts=[];prompts.image=[];prompts.video=[];motionData={};document.getElementById('R').style.display='none';document.getElementById('U').style.display='flex';document.getElementById('vi').value='';document.getElementById('fsel').textContent='';gb.disabled=true;gb.textContent='영상 업로드 후 시작';dz.style.borderColor='';document.getElementById('pths').innerHTML='';document.getElementById('pb').style.width='0%';document.getElementById('CC').innerHTML='';document.getElementById('agr').innerHTML='';}
+</script>
+</body>
+</html>
