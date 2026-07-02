@@ -483,6 +483,7 @@ body{padding-top:40px;}
       <button class="tbtn" onclick="swTab('video',this)">영상</button>
     </div>
     <div class="abtns">
+      <button class="bsm" id="vision-btn" onclick="runVisionAnalysis()" title="각 프레임을 Claude Vision으로 분석해 배경·인물·의상 묘사를 프롬프트에 자동 채워넣습니다. 이 기능만 Anthropic API 요금이 발생합니다." style="border-color:#4a1a7a;color:#4a1a7a;">✦ AI 장면분석</button>
       <button class="bsm" onclick="cpAll('image')">이미지 프롬프트 복사</button>
       <button class="bsm" onclick="cpAll('video')">영상 프롬프트 복사</button>
       <button class="bsm" onclick="window.print()">PDF</button>
@@ -618,13 +619,9 @@ function detectCuts(){
     if((frames[i].ydif||0)>28)cuts.push({from:frames[i-1],to:frames[i],idx:cuts.length+1});
   }
   document.getElementById('pb').style.width='100%';
-  // Claude API 있으면 Vision 분석 먼저, 없으면 바로 빌드
-  const key=getApiKey();
-  if(key){
-    analyzeFramesWithClaude(key).then(()=>setTimeout(buildResult,200));
-  } else {
-    setTimeout(buildResult,300);
-  }
+  // Vision(AI 장면분석)은 자동 실행하지 않음 — 결과 화면의 "✦ AI 장면분석" 버튼으로만
+  // 수동 실행한다. 키가 저장돼 있어도 영상 처리만으로는 API 호출이 발생하지 않음 (의도치 않은 과금 방지).
+  setTimeout(buildResult,300);
 }
 
 // ── CLAUDE VISION SCENE ANALYSIS ──
@@ -656,6 +653,8 @@ async function analyzeFramesWithClaude(key){
   for(let i=0;i<frames.length;i++){
     const f=frames[i];
     if(psEl)psEl.textContent=`Claude Vision 분석 ${i+1} / ${frames.length}프레임 (TC ${ftc(f.tc)})...`;
+    const vb=document.getElementById('vision-btn');
+    if(vb&&vb.disabled)vb.textContent=`분석 중 ${i+1}/${frames.length}`;
     try{
       const thumbB64=await resizeDataUrlAsync(f.dataUrl,640);
       let res;
@@ -1267,11 +1266,8 @@ function buildVidCard(fromF,toF,segIdx,dur,tech){
   return div;
 }
 
-function buildResult(){
-  document.getElementById('P').style.display='none';
-  const R=document.getElementById('R');
-  R.style.display='block';
-  R.dataset.built='1';
+// 결과 카드(에셋 패널 + 이미지/영상 카드 + 가이드) 렌더링. sceneDesc가 바뀌면 다시 호출해 프롬프트를 갱신한다.
+function renderShotCards(){
   const CC=document.getElementById('CC');CC.innerHTML='';
   prompts.image=[];prompts.video=[];
   buildAssetPanel();
@@ -1288,8 +1284,17 @@ function buildResult(){
     CC.appendChild(buildVidCard(seg.from,seg.to,i+1,dur,tech));
   });
   buildGuide();
+}
+
+function buildResult(){
+  document.getElementById('P').style.display='none';
+  const R=document.getElementById('R');
+  R.style.display='block';
+  R.dataset.built='1';
+  renderShotCards();
   updateSaveBtn();
   updateStorCount();
+  updateVisionBtn();
   // 자동 저장 — 카드 빌드 완료 후 (prompts 배열 채워진 다음)
   requestAnimationFrame(()=>{
     requestAnimationFrame(()=>{
@@ -1298,6 +1303,58 @@ function buildResult(){
       setTimeout(()=>dlZip(true), 300);
     });
   });
+}
+
+// ── AI 장면분석(수동 실행 · 유일한 유료 자동호출 지점) ──
+// Haiku 4.5 + 640px 썸네일 기준 프레임당 대략 $0.003~0.005. 상한치로 안내한다.
+const VISION_COST_PER_FRAME=0.005;
+
+function updateVisionBtn(){
+  const btn=document.getElementById('vision-btn');
+  if(!btn)return;
+  btn.disabled=false;
+  const done=frames.filter(f=>f&&f.sceneDesc).length;
+  if(done>0){btn.textContent=`✦ AI 장면분석 ✓ ${done}/${frames.length}`;btn.style.background='#ece0f4';}
+  else{btn.textContent='✦ AI 장면분석';btn.style.background='transparent';}
+}
+
+async function runVisionAnalysis(){
+  const R=document.getElementById('R');
+  if(!R||R.dataset.built!=='1'||!frames.length){toast('먼저 영상을 분석해주세요');return;}
+  const proxyUrl=getProxyUrl();
+  const key=getApiKey();
+  // 프록시(Vercel)가 없으면 브라우저가 직접 호출하므로 본인 키 필수
+  if(!proxyUrl&&!key){toast('⚙ Claude API KEY를 먼저 입력해주세요');openModal();return;}
+
+  const n=frames.length;
+  const est=n*VISION_COST_PER_FRAME;
+  const payer=proxyUrl?'배포 서버에 설정된 API 키 계정(사이트 소유자)':'브라우저에 저장한 본인 API 키 계정';
+  const msg=`✦ AI 장면분석 — Claude Vision\n`
+    +`──────────────────────\n`
+    +`· 분석 프레임: ${n}개\n`
+    +`· 모델: claude-haiku-4-5 (최저가)\n`
+    +`· 예상 비용: 최대 약 $${est.toFixed(3)}  (프레임당 ~$${VISION_COST_PER_FRAME}, 대략치)\n`
+    +`· 청구 대상: ${payer}\n`
+    +`──────────────────────\n`
+    +`※ 이 기능만 Anthropic API 요금이 발생합니다.\n`
+    +`※ 프레임 추출·프롬프트 생성 등 나머지 기능은 무료입니다.\n\n`
+    +`진행할까요?`;
+  if(!confirm(msg))return;
+
+  const btn=document.getElementById('vision-btn');
+  if(btn){btn.disabled=true;btn.textContent='분석 준비 중...';}
+  try{
+    await analyzeFramesWithClaude(key);
+    renderShotCards();        // sceneDesc가 반영된 프롬프트로 카드 재생성
+    saveCurrentProject(true); // 갱신된 결과를 Library에 반영
+    const done=frames.filter(f=>f&&f.sceneDesc).length;
+    toast(done>0?`✓ AI 장면분석 완료 — ${done}개 프레임 프롬프트에 반영됨`:'분석 결과가 없습니다 (네트워크/키 확인)');
+  }catch(e){
+    console.error(e);
+    toast('장면분석 중 오류가 발생했습니다');
+  }finally{
+    updateVisionBtn();
+  }
 }
 
 function buildGuide(){
