@@ -1035,46 +1035,17 @@ function buildImgCard(frame,st){
       </div>
 
       <div id="pe-${frame.idx}" class="pnl">
-        <!-- 모델 선택 -->
-        <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;">
-          <span style="font-family:var(--mono);font-size:7.5px;color:#7a7570;letter-spacing:0.1em;">베이스 프롬프트</span>
-          <button class="enhance-btn" id="pe-base-nm-${frame.idx}" style="font-size:7.5px;padding:3px 9px;background:#f5edd8;color:#7a4a10;border-color:#d0a870;" onclick="setPeBase(${frame.idx},'nano','match',this)">Nano MATCH</button>
-          <button class="enhance-btn" id="pe-base-na-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'nano','adapt',this)">Nano ADAPT</button>
-          <button class="enhance-btn" id="pe-base-gm-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'gpt','match',this)">GPT MATCH</button>
-          <button class="enhance-btn" id="pe-base-ga-${frame.idx}" style="font-size:7.5px;padding:3px 9px;" onclick="setPeBase(${frame.idx},'gpt','adapt',this)">GPT ADAPT</button>
-        </div>
-        <!-- 변경사항 입력 -->
-        <div style="margin-bottom:8px;">
-          <div style="font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">원하는 변경사항</div>
-          <textarea id="pe-request-${frame.idx}" placeholder="예: 인물을 금발 여성으로 바꿔줘 / 배경을 야외 정원으로 교체 / 의상을 흰색 드레스로 변경..." style="width:100%;background:var(--bg);border:0.5px solid var(--b2);border-radius:2px;color:var(--t);font-family:var(--sans);font-size:10.5px;padding:8px 10px;outline:none;resize:vertical;min-height:56px;line-height:1.6;"></textarea>
-        </div>
-        <!-- 레퍼런스 이미지 첨부 -->
-        <div style="margin-bottom:10px;">
-          <div style="font-family:var(--mono);font-size:7px;color:#7a7570;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">레퍼런스 이미지 첨부 <span style="color:#aaa;">(선택 — 인물·배경·의상 등)</span></div>
-          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-            <label style="display:inline-flex;align-items:center;gap:5px;background:var(--bg1);border:0.5px solid var(--b2);border-radius:2px;padding:5px 10px;cursor:pointer;font-family:var(--mono);font-size:7.5px;color:var(--t2);">
-              📎 이미지 선택
-              <input type="file" id="pe-img-${frame.idx}" accept="image/*" style="display:none;" onchange="peImgPreview(this,${frame.idx})">
-            </label>
-            <span id="pe-img-name-${frame.idx}" style="font-family:var(--mono);font-size:8px;color:#7a7570;"></span>
+        <!-- Claude Code로 정교화 (무과금) — 유료 인앱 커스터마이징 대체 -->
+        <div style="background:#f3eef9;border:0.5px solid #d8c8ec;border-radius:3px;padding:12px 14px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:#4a1a7a;letter-spacing:0.08em;margin-bottom:6px;">✦ CLAUDE CODE로 정교화 — 무과금</div>
+          <div style="font-size:10.5px;color:var(--t2);line-height:1.65;margin-bottom:10px;">장면묘사·인물교체·프롬프트 커스터마이징은 <b>Claude Code</b>에서 처리하세요. 앱 내부 API(종량제) 대신 <b>구독</b>으로 커버됩니다.</div>
+          <div style="font-size:10px;color:var(--t2);line-height:1.75;margin-bottom:12px;">
+            <div><b>1.</b> 아래 버튼으로 <b>전체 프레임 + 프롬프트</b>를 ZIP으로 내보내기</div>
+            <div><b>2.</b> ZIP을 풀고 Claude Code에 폴더 경로 + 작업 요청<br><span style="color:#7a7570;">예: "이 export 폴더 인물을 ref.png로 교체, GPT ADAPT 기준으로"</span></div>
+            <div><b>3.</b> <code>output/all_prompts.md</code>에 완성 프롬프트 생성 → 복사해서 사용</div>
           </div>
-          <div id="pe-img-preview-${frame.idx}" style="margin-top:6px;display:none;">
-            <img style="max-height:80px;max-width:140px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);background:#0a0a0a;"/>
-            <button onclick="peClearImg(${frame.idx})" style="margin-left:6px;background:transparent;border:0.5px solid #d09090;border-radius:2px;color:#8a2020;font-family:var(--mono);font-size:7px;padding:2px 6px;cursor:pointer;">제거</button>
-          </div>
-        </div>
-        <!-- 실행 버튼 -->
-        <button class="enhance-btn" id="pe-run-${frame.idx}" style="font-size:9px;padding:7px 18px;width:100%;"
-          data-nano-match="${escB(stripH(pNanoMatch))}"
-          data-nano-adapt="${escB(stripH(pNanoAdapt))}"
-          data-gpt-match="${escB(stripH(pGPTMatch))}"
-          data-gpt-adapt="${escB(stripH(pGPTAdapt))}"
-          data-frame="${frame.idx}"
-          onclick="runCustomEnhance(${frame.idx})">✦ Claude로 프롬프트 커스터마이징</button>
-        <!-- 결과 -->
-        <div class="enhanced-box" id="enh-custom-${frame.idx}" style="margin-top:8px;display:none;">
-          <div class="enhanced-label">✦ 커스터마이징 결과 <button class="cp enhanced-copy">COPY</button></div>
-          <div class="enhanced-text" style="white-space:pre-wrap;"></div>
+          <button class="dlb" style="width:100%;background:var(--green);font-size:9px;padding:9px;" onclick="exportForClaudeCode()">⬇ Claude Code Export (전체 프레임)</button>
+          <div style="font-family:var(--mono);font-size:7.5px;color:#9a7040;margin-top:8px;line-height:1.6;">※ 얼굴 완전 고정은 텍스트 묘사만으론 안 됩니다 — 아래 MODEL ELEMENT(&lt;&lt;&lt;UUID&gt;&gt;&gt;) 필요.</div>
         </div>
       </div>
 
@@ -2132,147 +2103,6 @@ function handleEnhanceTab(btn){
   // 모든 결과박스 숨기고 해당것만 보이게
   ci.querySelectorAll('.enhanced-box').forEach(b=>b.classList.remove('show'));
   enhancePrompt(btn,rawPrompt,frameData,outputId);
-}
-
-// ── CLAUDE CUSTOMIZE ENHANCE ──
-const peBaseState={}; // {frameIdx: {model:'nano'|'gpt', type:'match'|'adapt'}}
-
-function setPeBase(idx,model,type,btn){
-  peBaseState[idx]={model,type};
-  // 버튼 하이라이트
-  ['nm','na','gm','ga'].forEach(k=>{
-    const b=document.getElementById('pe-base-'+k+'-'+idx);
-    if(b){b.style.background='';b.style.color='';b.style.borderColor='';}
-  });
-  const key=(model==='nano'?'n':'g')+(type==='match'?'m':'a');
-  const active=document.getElementById('pe-base-'+key+'-'+idx);
-  if(active){active.style.background='#ece0f4';active.style.color='#4a1a7a';active.style.borderColor='#b090d0';}
-}
-
-function peImgPreview(input,idx){
-  const file=input.files[0];
-  if(!file)return;
-  const nameEl=document.getElementById('pe-img-name-'+idx);
-  const previewEl=document.getElementById('pe-img-preview-'+idx);
-  const previewImg=previewEl.querySelector('img');
-  const reader=new FileReader();
-  reader.onload=e=>{
-    previewImg.src=e.target.result;
-    previewEl.style.display='block';
-    if(nameEl)nameEl.textContent=file.name;
-  };
-  reader.readAsDataURL(file);
-}
-
-function peClearImg(idx){
-  const input=document.getElementById('pe-img-'+idx);
-  const nameEl=document.getElementById('pe-img-name-'+idx);
-  const previewEl=document.getElementById('pe-img-preview-'+idx);
-  if(input)input.value='';
-  if(nameEl)nameEl.textContent='';
-  if(previewEl){previewEl.style.display='none';previewEl.querySelector('img').src='';}
-}
-
-async function runCustomEnhance(idx){
-  const key=getApiKey();
-  if(!key){toast('⚙ Claude API KEY를 먼저 설정해주세요');openModal();return;}
-
-  const runBtn=document.getElementById('pe-run-'+idx);
-  const requestTxt=document.getElementById('pe-request-'+idx)?.value?.trim()||'';
-  const imgInput=document.getElementById('pe-img-'+idx);
-  const imgFile=imgInput?.files?.[0]||null;
-
-  // 베이스 프롬프트 결정
-  const base=peBaseState[idx]||{model:'nano',type:'match'};
-  const baseBtn=document.getElementById('pe-run-'+idx);
-  const allData={
-    nanoMatch:baseBtn.dataset.nanoMatch||'',
-    nanoAdapt:baseBtn.dataset.nanoAdapt||'',
-    gptMatch:baseBtn.dataset.gptMatch||'',
-    gptAdapt:baseBtn.dataset.gptAdapt||''
-  };
-  const promptKey=(base.model==='nano'?'nano':'gpt')+(base.type==='match'?'Match':'Adapt');
-  const basePrompt=allData[promptKey]||'';
-
-  if(!basePrompt){toast('베이스 프롬프트를 선택해주세요');return;}
-  if(!requestTxt&&!imgFile){toast('변경사항을 입력하거나 이미지를 첨부해주세요');return;}
-
-  runBtn.disabled=true;runBtn.textContent='Claude 분석 중...';
-
-  // 이미지 있으면 base64 변환
-  let imgBase64='',imgMime='';
-  if(imgFile){
-    imgBase64=await new Promise(res=>{
-      const r=new FileReader();
-      r.onload=e=>res(e.target.result.split(',')[1]);
-      r.readAsDataURL(imgFile);
-    });
-    imgMime=imgFile.type||'image/jpeg';
-  }
-
-  const modelName=base.model==='nano'?'Nano Banana Pro (Higgsfield)':'GPT Image 2 (OpenAI)';
-  const systemPrompt=`You are an expert AI image prompt engineer for fashion photography.
-You receive a base prompt written for ${modelName} and customize it based on the user's change request and optional reference image.
-
-Rules:
-- Keep the overall structure and format of the base prompt intact
-- Apply ONLY the changes the user requests — preserve everything else
-- If a reference image is provided, describe its visual characteristics (colors, style, features) and weave them into the prompt naturally
-- Keep all [bracket] placeholder sections, <<<UUID>>> tags exactly as-is
-- Output ONLY the final customized prompt, no explanation, no preamble`;
-
-  const userContent=[];
-
-  if(imgBase64){
-    userContent.push({type:'image',source:{type:'base64',media_type:imgMime,data:imgBase64}});
-    userContent.push({type:'text',text:`Reference image attached above.\n\nChange request: ${requestTxt||'Apply the reference image style/subject to the prompt'}\n\nBase prompt to customize:\n${basePrompt}`});
-  } else {
-    userContent.push({type:'text',text:`Change request: ${requestTxt}\n\nBase prompt to customize:\n${basePrompt}`});
-  }
-
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':key,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:1200,
-        system:systemPrompt,
-        messages:[{role:'user',content:userContent}]
-      })
-    });
-
-    if(!res.ok){
-      const err=await res.json().catch(()=>({}));
-      if(res.status===401){toast('API 키가 올바르지 않습니다');openModal();}
-      else toast('오류: '+(err?.error?.message||res.status));
-      return;
-    }
-
-    const data=await res.json();
-    const result=data.content?.[0]?.text||'';
-    if(!result){toast('응답이 비어있습니다');return;}
-
-    const box=document.getElementById('enh-custom-'+idx);
-    if(box){
-      box.querySelector('.enhanced-text').textContent=result;
-      box.style.display='block';
-      const copyBtn=box.querySelector('.enhanced-copy');
-      if(copyBtn)copyBtn.onclick=()=>navigator.clipboard.writeText(result).then(()=>toast('복사됨'));
-    }
-    toast('✓ 커스터마이징 완료');
-
-  }catch(e){
-    console.error(e);
-    toast('네트워크 오류. 다시 시도해주세요.');
-  }finally{
-    runBtn.disabled=false;runBtn.textContent='✦ Claude로 프롬프트 커스터마이징';
-  }
 }
 
 function handleEnhance(btn){
