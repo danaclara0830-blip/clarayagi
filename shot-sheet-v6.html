@@ -486,6 +486,7 @@ body{padding-top:40px;}
       <button class="bsm" id="vision-btn" onclick="runVisionAnalysis()" title="각 프레임을 Claude Vision으로 분석해 배경·인물·의상 묘사를 프롬프트에 자동 채워넣습니다. 이 기능만 Anthropic API 요금이 발생합니다." style="border-color:#4a1a7a;color:#4a1a7a;">✦ AI 장면분석</button>
       <button class="bsm" onclick="cpAll('image')">이미지 프롬프트 복사</button>
       <button class="bsm" onclick="cpAll('video')">영상 프롬프트 복사</button>
+      <button class="bsm" id="cc-export-btn" onclick="exportForClaudeCode()" title="프레임 이미지 + 모든 프롬프트를 ZIP으로 내보냅니다. Claude Code 스킬(shotsheet-finisher)에 넣으면 구독 클로드로 장면묘사·인물교체를 일괄 처리 — API 종량제 과금 없이." style="border-color:#1a5a3a;color:#1a5a3a;">⬇ Claude Code Export</button>
       <button class="bsm" onclick="window.print()">PDF</button>
       <button class="bsm" onclick="resetApp()">새 영상</button>
     </div>
@@ -1426,6 +1427,84 @@ async function dlZip(auto=false){
 }
 function tDL(url,fn){const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// ── Claude Code용 내보내기 ──
+// 프레임 이미지 + 4모델 프롬프트 + 분석 데이터를 ZIP으로 묶어, shotsheet-finisher 스킬이
+// 구독 클로드(=API 종량제 아님)로 장면묘사·인물교체를 일괄 처리할 수 있게 한다.
+function ccExportReadme(proj){
+  return `# ${proj} — Claude Code Export\n\n`
+    +`이 폴더는 YAGI Shot Sheet 앱에서 내보낸 것입니다.\n\n`
+    +`## 구성\n`
+    +`- \`frames/\` — 프레임 이미지 (PNG/JPG)\n`
+    +`- \`shotsheet.json\` — 프레임별 메타데이터 + 4모델 베이스 프롬프트\n\n`
+    +`## 사용법 (Claude Code)\n`
+    +`1. 이 ZIP을 풀어 폴더로 둡니다.\n`
+    +`2. Claude Code 세션에서 \`shotsheet-finisher\` 스킬을 부르고 이 폴더 경로를 알려주세요.\n`
+    +`3. 원하는 작업을 말합니다. 예:\n`
+    +`   - "각 프레임 장면묘사 채워서 프롬프트 완성해줘"\n`
+    +`   - "인물을 ref.png 인물로 교체해줘 (GPT ADAPT 기준)"\n`
+    +`4. 결과가 \`output/\` 폴더에 프레임별 최종 프롬프트로 저장됩니다.\n\n`
+    +`※ 이 방식은 앱 내부 API(종량제) 대신 Claude Code 구독으로 처리됩니다.\n`
+    +`※ 얼굴 완전 고정은 텍스트 묘사만으로는 안 되며 Higgsfield Element(<<<UUID>>>)가 필요합니다.\n`;
+}
+
+async function exportForClaudeCode(){
+  if(!frames.length){toast('먼저 영상을 분석해주세요');return;}
+  if(!window.JSZip){toast('JSZip 로딩 중... 잠시 후 다시');return;}
+  const btn=document.getElementById('cc-export-btn');
+  if(btn){btn.disabled=true;btn.textContent='내보내는 중...';}
+  try{
+    const proj=slug(pname)||'shotsheet';
+    const zip=new JSZip();
+    const root=zip.folder(proj+'_claude_export');
+    const framesFld=root.folder('frames');
+    const manifest={
+      project:pname||proj,
+      exportedAt:new Date().toISOString(),
+      frameCount:frames.length,
+      reference:sref==='element'?'Higgsfield Element (<<<UUID>>>)':sref==='soul'?'Higgsfield Soul (soul_id)':'none',
+      note:'shotsheet-finisher 스킬용. frames/ 이미지와 각 prompts를 참고해 장면묘사·인물교체 등을 일괄 수행하세요. [대괄호]와 <<<UUID>>> 태그는 그대로 유지합니다.',
+      frames:[]
+    };
+    for(let i=0;i<frames.length;i++){
+      const f=frames[i];
+      const st=guessST(i,frames.length);
+      const sc='SC'+pad(f.idx);
+      const mime=(f.dataUrl.match(/^data:(image\/\w+);/)||[])[1]||'image/jpeg';
+      const ext=mime==='image/png'?'png':'jpg';
+      const imgRel='frames/'+sc+'_'+f.w+'x'+f.h+'.'+ext;
+      framesFld.file(sc+'_'+f.w+'x'+f.h+'.'+ext, f.dataUrl.split(',')[1], {base64:true});
+      const tech=motionData[i]||{move:'static',shotType:'medium shot'};
+      manifest.frames.push({
+        sc, tc:ftc(f.tc), image:imgRel, resolution:f.w+'x'+f.h, shotType:st,
+        cameraMove:tech.move,
+        colors:f.colors,
+        analysis:{
+          temp:f.style?.temp, tempK:f.style?.tempK, exposure:f.style?.bLabel,
+          contrast:f.style?.cLabel, saturation:f.style?.satLabel, avgLuma:f.style?.avgLuma
+        },
+        hasVisionDesc:!!f.sceneDesc,
+        visionDesc:f.sceneDesc||null,
+        prompts:{
+          nanoMatch:stripH(buildNanoMatch(f,st)),
+          nanoAdapt:stripH(buildNanoAdapt(f,st)),
+          gptMatch:stripH(buildGPTMatch(f,st)),
+          gptAdapt:stripH(buildGPTAdapt(f,st)),
+          style:stripH(buildStylePrompt(f,st))
+        }
+      });
+    }
+    root.file('shotsheet.json', JSON.stringify(manifest,null,2));
+    root.file('README.md', ccExportReadme(proj));
+    const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+    tDL(URL.createObjectURL(blob), proj+'_claude_export.zip');
+    toast('✓ Claude Code용 export 완료 — ZIP 다운로드');
+  }catch(e){
+    console.error(e); toast('export 오류: '+e.message);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='⬇ Claude Code Export';}
+  }
+}
 
 function swTab(t,btn){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('#CC .card').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'':'none';});}
 function swPTab(btn,id){const c=btn.closest('.ci');c.querySelectorAll('.ptab').forEach(b=>b.classList.remove('act'));c.querySelectorAll('.pnl').forEach(p=>p.classList.remove('act'));btn.classList.add('act');document.getElementById(id).classList.add('act');}
