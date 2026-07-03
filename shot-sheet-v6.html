@@ -509,6 +509,7 @@ body{padding-top:40px;}
 <script>
 let vf=null,frames=[],cuts=[],pname='';
 let svm='kling',sref='element',nclr=8;
+let currentProjectId=null; // 현재 세션 프로젝트 id — 새 영상 생성 때마다 새 항목으로 저장
 const prompts={image:[],video:[]};
 let motionData={};
 
@@ -528,6 +529,7 @@ gb.addEventListener('click',()=>{
 });
 
 function startProc(){
+  currentProjectId=null; // 새 영상 → 새 프로젝트 항목 (이전 프로젝트를 덮어쓰지 않음)
   document.getElementById('U').style.display='none';
   document.getElementById('P').style.display='flex';
   const iv=parseInt(document.getElementById('iv').value);
@@ -1696,19 +1698,35 @@ function getProjects(){
   catch{return [];}
 }
 function setProjects(arr){
-  try{localStorage.setItem(STOR_KEY,JSON.stringify(arr));}
-  catch(e){toast('저장 실패 — 브라우저 용량 초과');}
+  try{localStorage.setItem(STOR_KEY,JSON.stringify(arr));return true;}
+  catch(e){
+    // 저장공간 초과 — 가장 오래된 프로젝트부터 덜어내고 재시도해 새 프로젝트는 반드시 저장
+    const copy=arr.slice(); // newest-first (unshift로 추가됨)
+    while(copy.length>1){
+      copy.pop(); // 맨 뒤 = 가장 오래된 항목 제거
+      try{
+        localStorage.setItem(STOR_KEY,JSON.stringify(copy));
+        toast('저장공간이 가득 차 오래된 프로젝트 일부를 정리했습니다');
+        return true;
+      }catch(_){/* 계속 줄인다 */}
+    }
+    toast('저장 실패 — 브라우저 저장공간이 가득 찼습니다');
+    return false;
+  }
 }
 
 async function saveCurrentProject(silent=false){
   if(!frames.length){if(!silent)toast('저장할 프로젝트가 없습니다');return;}
-  const id='proj_'+Date.now();
+  // 현재 세션 id 재사용 — 같은 프로젝트를 다시 저장(장면분석 후 등)하면 그 항목만 갱신,
+  // 새 영상(startProc에서 null 초기화)이면 새 항목으로 저장된다.
+  const id=currentProjectId||('proj_'+Date.now());
+  currentProjectId=id;
   const now=new Date();
   const dateStr=now.getFullYear()+'.'+(now.getMonth()+1).toString().padStart(2,'0')+'.'+now.getDate().toString().padStart(2,'0');
   const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
 
-  // Build thumbnails — dataUrl은 이미 로드된 상태라 직접 canvas에 그림
-  const thumbs=await Promise.all(frames.slice(0,8).map(f=>new Promise(res=>{
+  // Build thumbnails — 전체 프레임 저장 (이전엔 앞 8개만 저장돼 썸네일이 1~8번까지만 보였음)
+  const thumbs=await Promise.all(frames.map(f=>new Promise(res=>{
     const img=new Image();
     img.onload=()=>{
       const cv=document.createElement('canvas');
@@ -1744,8 +1762,8 @@ async function saveCurrentProject(silent=false){
   };
 
   const projects=getProjects();
-  // Replace if same name exists today
-  const existIdx=projects.findIndex(p=>p.name===project.name&&p.date===dateStr);
+  // 같은 세션 프로젝트면 그 항목만 갱신, 아니면 새 항목으로 추가 (이름/날짜가 같아도 덮어쓰지 않음)
+  const existIdx=projects.findIndex(p=>p.id===project.id);
   if(existIdx>=0){projects[existIdx]=project;}
   else{projects.unshift(project);}
 
