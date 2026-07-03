@@ -454,6 +454,7 @@ body{padding-top:40px;}
     </div>
     <div class="rm" id="rmeta"></div>
     <button class="save-now-btn" onclick="saveCurrentProject()" id="save-result-btn" style="font-size:8px;padding:6px 14px;">이 프로젝트 저장</button>
+    <button class="save-now-btn" onclick="dlCubeLUT()" id="lut-btn" style="font-size:8px;padding:6px 14px;" title="이 프로젝트의 룩을 프리미어/포토샵용 3D LUT로 내보내기">🎛 .cube LUT</button>
   </div>
 
   <div class="ap">
@@ -1401,6 +1402,131 @@ async function dlZip(auto=false){
 function tDL(url,fn){const a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
+// ── STYLE PRESET + .cube LUT ──
+// 이미지 생성 때마다 이 프로젝트의 "룩"(팔레트·조명·필름·픽셀 통계)을 프리셋으로 저장하고,
+// 프리미어/포토샵에서 실제 사진·영상에 쓸 수 있는 .cube 3D LUT로도 내보낸다.
+const PRESET_KEY='yagi_style_presets';
+function getStylePresets(){try{return JSON.parse(localStorage.getItem(PRESET_KEY)||'[]');}catch{return [];}}
+function setStylePresets(arr){
+  try{localStorage.setItem(PRESET_KEY,JSON.stringify(arr));return true;}
+  catch(e){ // 용량 초과 — 오래된 프리셋부터 정리 (Library와 동일 정책)
+    const copy=arr.slice();
+    while(copy.length>1){copy.pop();try{localStorage.setItem(PRESET_KEY,JSON.stringify(copy));return true;}catch(_){}}
+    return false;
+  }
+}
+
+// 전체 프레임 픽셀을 실측 샘플링 — 채널 평균/휘도 분포(p5·p95·표준편차)/채도를 계산한다.
+// 이 통계가 LUT의 근거: "중립 이미지를 이 룩으로 옮기는" 변환을 수치로 만든다.
+async function computeLookStats(){
+  if(!frames.length)return null;
+  const cv=document.createElement('canvas'),ctx=cv.getContext('2d',{willReadFrequently:true});
+  const S=48;cv.width=S;cv.height=S;
+  let sr=0,sg=0,sb=0,n=0,lumas=[],sats=0;
+  for(const f of frames){
+    await new Promise(res=>{
+      const img=new Image();
+      img.onload=()=>{
+        ctx.drawImage(img,0,0,S,S);
+        const d=ctx.getImageData(0,0,S,S).data;
+        for(let i=0;i<d.length;i+=4){
+          const r=d[i]/255,g=d[i+1]/255,b=d[i+2]/255;
+          sr+=r;sg+=g;sb+=b;n++;
+          lumas.push(0.2126*r+0.7152*g+0.0722*b);
+          sats+=Math.max(r,g,b)-Math.min(r,g,b);
+        }
+        res();
+      };
+      img.onerror=()=>res();
+      img.src=f.dataUrl;
+    });
+  }
+  if(!n)return null;
+  lumas.sort((a,b)=>a-b);
+  const mean=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
+  const mLuma=mean(lumas);
+  const std=Math.sqrt(mean(lumas.map(v=>(v-mLuma)*(v-mLuma))));
+  return {
+    meanR:sr/n,meanG:sg/n,meanB:sb/n,
+    meanLuma:mLuma,stdLuma:std,
+    p05:lumas[Math.floor(lumas.length*0.05)],
+    p95:lumas[Math.floor(lumas.length*0.95)],
+    meanSat:sats/n
+  };
+}
+
+// 통계 → 33×33×33 .cube 텍스트. 변환 순서: 색조(채널 게인) → 노출(감마) → 대비(S커브)
+// → 블랙/화이트 포인트(리프티드 블랙) → 채도. 모두 실측치 기준, 과보정 방지 클램프.
+function buildCubeText(st,title){
+  const N=33,clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+  const L=0.2126*st.meanR+0.7152*st.meanG+0.0722*st.meanB;
+  const cast=0.85; // 색조 강도 (1=원본 그대로)
+  let gR=1+(st.meanR/L-1)*cast,gG=1+(st.meanG/L-1)*cast,gB=1+(st.meanB/L-1)*cast;
+  const gamma=clamp(Math.log(clamp(st.meanLuma,0.05,0.95))/Math.log(0.45),0.55,1.8);
+  const k=clamp(st.stdLuma/0.16,0.7,1.5);            // 대비 계수 (기준 std 0.16)
+  const bp=clamp(st.p05,0,0.12)*0.8;                  // 블랙 리프트
+  const wp=clamp(st.p95+(1-st.p95)*0.35,0.75,1);      // 화이트 포인트
+  const sF=clamp(st.meanSat/0.14,0.35,1.4);           // 채도 계수 (기준 0.14)
+  const pivot=0.45;
+  let out=`TITLE "${title}"\nLUT_3D_SIZE ${N}\nDOMAIN_MIN 0 0 0\nDOMAIN_MAX 1 1 1\n`;
+  const rows=[];
+  for(let bi=0;bi<N;bi++)for(let gi=0;gi<N;gi++)for(let ri=0;ri<N;ri++){
+    let r=ri/(N-1),g=gi/(N-1),b=bi/(N-1);
+    r*=gR;g*=gG;b*=gB;                                             // 색조
+    r=Math.pow(clamp(r,0,1),gamma);g=Math.pow(clamp(g,0,1),gamma);b=Math.pow(clamp(b,0,1),gamma); // 노출
+    r=pivot+(r-pivot)*k;g=pivot+(g-pivot)*k;b=pivot+(b-pivot)*k;   // 대비
+    r=bp+clamp(r,0,1)*(wp-bp);g=bp+clamp(g,0,1)*(wp-bp);b=bp+clamp(b,0,1)*(wp-bp); // 블랙/화이트
+    const y=0.2126*r+0.7152*g+0.0722*b;                            // 채도 (휘도 보존)
+    r=y+(r-y)*sF;g=y+(g-y)*sF;b=y+(b-y)*sF;
+    rows.push(clamp(r,0,1).toFixed(6)+' '+clamp(g,0,1).toFixed(6)+' '+clamp(b,0,1).toFixed(6));
+  }
+  return out+rows.join('\n')+'\n';
+}
+
+function dlCubeText(cubeText,fn){
+  tDL(URL.createObjectURL(new Blob([cubeText],{type:'text/plain'})),fn);
+}
+
+// 결과 화면 버튼 — 현재 프레임에서 실측 분석 후 .cube 다운로드
+async function dlCubeLUT(){
+  if(!frames.length){toast('먼저 영상을 분석해주세요');return;}
+  toast('픽셀 분석 중...');
+  const st=await computeLookStats();
+  if(!st){toast('분석 실패');return;}
+  const name=(pname||'look');
+  dlCubeText(buildCubeText(st,name),slug(name)+'_look.cube');
+  toast('✓ .cube LUT 저장됨 — 프리미어/포토샵에서 불러오세요');
+}
+
+// Library 카드 버튼 — 저장 시 계산해둔 통계로 즉시 .cube 생성
+function dlCubeFromLibrary(id){
+  const p=getProjects().find(x=>x.id===id);
+  if(!p||!p.lookStats){toast('이 프로젝트엔 룩 통계가 없습니다 — 새로 생성한 프로젝트부터 지원돼요');return;}
+  dlCubeText(buildCubeText(p.lookStats,p.name),slug(p.name)+'_look.cube');
+  toast('✓ .cube LUT 저장됨');
+}
+
+// 프리셋 객체 구성 + 저장 (프로젝트 id로 중복 갱신)
+function saveStylePreset(id,lookStats){
+  if(!frames.length)return;
+  const f=frames[0],st=guessST(0,frames.length);
+  const preset={
+    id,name:pname||'Untitled',
+    savedAt:new Date().toISOString(),
+    palette:f.colors?.slice(0,8)||[],
+    analysis:{temp:f.style?.temp,tempK:f.style?.tempK,exposure:f.style?.bLabel,
+      contrast:f.style?.cLabel,saturation:f.style?.satLabel,avgLuma:f.style?.avgLuma},
+    styleText:stripH(buildStylePrompt(f,st)),
+    lookStats:lookStats||null,
+    usage:'styleText는 AI 이미지 생성 프롬프트에 붙여 룩 재현. lookStats는 .cube LUT 생성용 실측 통계.'
+  };
+  const arr=getStylePresets();
+  const i=arr.findIndex(x=>x.id===id);
+  if(i>=0)arr[i]=preset;else arr.unshift(preset);
+  setStylePresets(arr);
+  return preset;
+}
+
 // ── Claude Code용 내보내기 ──
 // 프레임 이미지 + 4모델 프롬프트 + 분석 데이터를 ZIP으로 묶어, shotsheet-finisher 스킬이
 // 구독 클로드(=API 종량제 아님)로 장면묘사·인물교체를 일괄 처리할 수 있게 한다.
@@ -1409,7 +1535,9 @@ function ccExportReadme(proj){
     +`이 폴더는 YAGI Shot Sheet 앱에서 내보낸 것입니다.\n\n`
     +`## 구성\n`
     +`- \`frames/\` — 프레임 이미지 (PNG/JPG)\n`
-    +`- \`shotsheet.json\` — 프레임별 메타데이터 + 4모델 베이스 프롬프트\n\n`
+    +`- \`shotsheet.json\` — 프레임별 메타데이터 + 4모델 베이스 프롬프트\n`
+    +`- \`style_preset.json\` — 이 프로젝트의 룩 프리셋 (팔레트·조명·필름 + 픽셀 실측 통계). styleText를 AI 프롬프트에 붙여 룩 재현\n`
+    +`- \`*_look.cube\` — 3D LUT. 프리미어(Lumetri Creative)·포토샵(Color Lookup)·다빈치에서 불러와 실제 사진/영상에 적용\n\n`
     +`## 사용법 (Claude Code)\n`
     +`1. 이 ZIP을 풀어 폴더로 둡니다.\n`
     +`2. Claude Code 세션에서 \`shotsheet-finisher\` 스킬을 부르고 이 폴더 경로를 알려주세요.\n`
@@ -1468,6 +1596,11 @@ async function exportForClaudeCode(){
       });
     }
     root.file('shotsheet.json', JSON.stringify(manifest,null,2));
+    // 스타일 프리셋 + .cube LUT 동봉 — 이 프로젝트의 룩을 다른 이미지/영상에 재사용
+    const lookStats=await computeLookStats();
+    const preset=saveStylePreset(currentProjectId||('proj_'+Date.now()),lookStats);
+    if(preset) root.file('style_preset.json', JSON.stringify(preset,null,2));
+    if(lookStats) root.file(proj+'_look.cube', buildCubeText(lookStats,pname||proj));
     root.file('README.md', ccExportReadme(proj));
     const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
     tDL(URL.createObjectURL(blob), proj+'_claude_export.zip');
@@ -1742,6 +1875,10 @@ async function saveCurrentProject(silent=false){
   // Collect palette (first frame dominant colors)
   const palette=frames[0]?.colors?.slice(0,6)||[];
 
+  // 룩 실측 통계 — 스타일 프리셋 + .cube LUT 생성 근거 (Library에서 나중에도 내보내기 가능)
+  const lookStats=await computeLookStats();
+  saveStylePreset(id,lookStats);
+
   // Collect all prompts
   const imgPrompts=prompts.image.slice();
   const vidPrompts=prompts.video.slice();
@@ -1758,7 +1895,7 @@ async function saveCurrentProject(silent=false){
     id,name:pname||'Untitled',date:dateStr,time:timeStr,
     frameCount:frames.length,resolution:frames[0]?.w+'×'+frames[0]?.h,
     videoModel:svm,refType:sref,
-    thumbs,palette,imgPrompts,vidPrompts,frameMeta
+    thumbs,palette,imgPrompts,vidPrompts,frameMeta,lookStats
   };
 
   const projects=getProjects();
@@ -1827,6 +1964,7 @@ function storCardHTML(p){
     <div class="stor-card-footer">
       <button class="stor-btn stor-btn-del" onclick="deleteProject('${p.id}')">삭제</button>
       <button class="stor-btn" onclick="exportProjectJSON('${p.id}')">JSON 내보내기</button>
+      ${p.lookStats?`<button class="stor-btn" onclick="dlCubeFromLibrary('${p.id}')" title="프리미어/포토샵용 3D LUT">.cube LUT</button>`:''}
       <button class="stor-btn" onclick="openSPM('${p.id}')">프롬프트 보기</button>
     </div>
   </div>`;
