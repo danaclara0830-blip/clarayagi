@@ -2350,6 +2350,53 @@ ${rawPrompt}`;
     btn.disabled=false;btn.classList.remove('loading');btn.textContent='✦ Claude 강화';
   }
 }
+
+/* ═══ YAGI 브릿지 — 로컬 yagi 서버(localhost:8765)가 있으면 음성 명령을 받아 실행 ═══
+   yagi가 없는 방문자에겐 조용히 무시됨 (연결 실패 시 최대 30초 간격 재시도만). */
+(function(){
+  const Y='http://localhost:8765';
+  let alive=false,fails=0;
+  const rep=(id,ok,speech)=>fetch(Y+'/api/shotsheet/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,ok,speech})}).catch(()=>{});
+  function exec(c){
+    let ok=true,speech='';
+    try{
+      switch(c.cmd){
+        case 'status':
+          speech=frames.length?`"${pname||'무제'}" 프로젝트에 장면 ${frames.length}개가 있어요.`:'아직 분석된 영상이 없어요. 영상을 올려주세요.';
+          break;
+        case 'scene':{
+          const n=parseInt(c.arg,10),el=document.getElementById('pm-'+n);
+          if(el){switchScreen('main');el.scrollIntoView({behavior:'smooth',block:'center'});toast('SC.'+pad(n));speech=n+'번 장면으로 이동했어요.';}
+          else{ok=false;speech=n+'번 장면을 찾지 못했어요.';}
+          break;}
+        case 'export':
+          if(!frames.length){ok=false;speech='분석된 영상이 없어 export할 수 없어요.';}
+          else{exportForClaudeCode();speech='Claude Code export를 시작했어요. ZIP이 다운로드돼요.';}
+          break;
+        case 'analyze':
+          if(!frames.length){ok=false;speech='분석된 영상이 없어요.';}
+          else{runVisionAnalysis();speech='AI 장면분석을 시작했어요. 비용 확인 창을 화면에서 확인해주세요.';}
+          break;
+        case 'save':saveCurrentProject();speech='프로젝트를 저장했어요.';break;
+        case 'zip':dlZip();speech='ZIP 저장을 시작했어요.';break;
+        case 'lut':dlCubeLUT();speech='LUT 파일을 내보냈어요.';break;
+        case 'library':switchScreen('storage');speech='라이브러리를 열었어요.';break;
+        case 'main':switchScreen('main');speech='샷시트 화면으로 돌아왔어요.';break;
+        default:ok=false;speech='모르는 명령이에요.';
+      }
+    }catch(e){ok=false;speech='실행 중 오류: '+e.message;}
+    rep(c.id,ok,speech);
+  }
+  async function loop(){
+    try{
+      const d=await(await fetch(Y+'/api/shotsheet/poll')).json();
+      if(!alive){alive=true;console.log('🤖 YAGI bridge connected');}
+      fails=0;(d.cmds||[]).forEach(exec);
+    }catch(e){alive=false;fails++;}
+    setTimeout(loop,alive?1200:Math.min(30000,2000*Math.pow(2,Math.min(fails,4))));
+  }
+  loop();
+})();
 </script>
 </body>
 </html>
