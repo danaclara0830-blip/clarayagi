@@ -2270,15 +2270,9 @@ function handleEnhance(btn){
 }
 
 async function enhancePrompt(btn,rawPrompt,frameData,outputId){
-  const key=getApiKey();
-  if(!key){
-    toast('⚙ API KEY 버튼에서 키를 먼저 입력해주세요');
-    openModal();
-    return;
-  }
   btn.disabled=true;btn.classList.add('loading');btn.textContent='강화 중...';
 
-  const systemPrompt=`You are an expert AI image prompt engineer specializing in fashion photography. 
+  const systemPrompt=`You are an expert AI image prompt engineer specializing in fashion photography.
 You receive a base prompt generated from video frame analysis (color palette, lighting, camera data) and enhance it into a precise, production-ready prompt.
 
 Rules:
@@ -2303,6 +2297,41 @@ FRAME DATA:
 
 BASE PROMPT:
 ${rawPrompt}`;
+
+  /* 결과 렌더 공용 */
+  const show=enhanced=>{
+    const box=document.getElementById(outputId);
+    if(box){
+      box.querySelector('.enhanced-text').textContent=enhanced;
+      box.classList.add('show');
+      const copyBtn=box.querySelector('.enhanced-copy');
+      if(copyBtn)copyBtn.onclick=()=>{navigator.clipboard.writeText(enhanced).then(()=>toast('강화된 프롬프트 복사됨'));};
+    }
+  };
+  const resetBtn=()=>{btn.disabled=false;btn.classList.remove('loading');btn.textContent='✦ Claude 강화';};
+
+  /* 1) 로컬 YAGI 서버(Claude 구독)가 있으면 무과금 강화 — 키 불필요 */
+  try{
+    const y=await fetch('http://localhost:8765/api/shotsheet/enhance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,user:userMsg})});
+    if(y.ok){
+      const d=await y.json();
+      if(d.ok&&d.text){
+        show(d.text);
+        toast('✓ 프롬프트 강화 완료 — 로컬 Claude, 무과금');
+        resetBtn();
+        return;
+      }
+    }
+  }catch(e){/* YAGI 없음 → API 키 경로로 폴백 */}
+
+  /* 2) 폴백: 본인 API 키 (유료, 1회 ≈ $0.0001) */
+  const key=getApiKey();
+  if(!key){
+    resetBtn();
+    toast('⚙ API KEY를 입력해주세요 (YAGI가 켜진 컴퓨터에서는 키 없이 무과금)');
+    openModal();
+    return;
+  }
 
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
@@ -2332,22 +2361,14 @@ ${rawPrompt}`;
     const data=await res.json();
     const enhanced=data.content?.[0]?.text||'';
     if(!enhanced){toast('응답이 비어있습니다. 다시 시도해주세요.');return;}
-
-    const box=document.getElementById(outputId);
-    if(box){
-      box.querySelector('.enhanced-text').textContent=enhanced;
-      box.classList.add('show');
-      // Update copy button
-      const copyBtn=box.querySelector('.enhanced-copy');
-      if(copyBtn)copyBtn.onclick=()=>{navigator.clipboard.writeText(enhanced).then(()=>toast('강화된 프롬프트 복사됨'));};
-    }
+    show(enhanced);
     toast('✓ 프롬프트 강화 완료');
 
   }catch(e){
     console.error(e);
     toast('네트워크 오류. 다시 시도해주세요.');
   }finally{
-    btn.disabled=false;btn.classList.remove('loading');btn.textContent='✦ Claude 강화';
+    resetBtn();
   }
 }
 
