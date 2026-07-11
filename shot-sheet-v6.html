@@ -260,7 +260,7 @@ body{padding-top:40px;}
 .stor-card-date{font-family:var(--mono);font-size:8px;color:#7a7570;}
 .stor-card-body{padding:10px 14px;}
 .stor-thumbs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;align-items:flex-start;}
-.stor-thumb{height:52px;width:auto;max-width:120px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);opacity:0.85;background:#0a0a0a;display:block;}
+.stor-thumb{height:52px;width:auto;max-width:120px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);opacity:1;background:#0a0a0a;display:block;}
 .stor-meta-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
 .stor-meta-item{font-family:var(--mono);font-size:7.5px;color:#7a7570;}
 .stor-meta-item span{color:var(--t2);}
@@ -1824,28 +1824,80 @@ function switchScreen(screen){
 }
 
 // ── STORAGE: SAVE / LOAD / DELETE ──
-const STOR_KEY='yagi_projects';
+const STOR_KEY='yagi_projects'; // 레거시 localStorage 키 — IndexedDB로 1회 이관 후 백업용으로만 남김
 
-function getProjects(){
-  try{return JSON.parse(localStorage.getItem(STOR_KEY)||'[]');}
-  catch{return [];}
+// ── 프로젝트 저장소: IndexedDB ──
+// 예전엔 localStorage(약 5MB)에 전-프레임 썸네일을 담다 용량이 차면 가장 오래된 프로젝트를
+// 자동 삭제(pop)해서 조용한 데이터 손실이 발생했다(예: 트레비스 스캇 뮤비). IndexedDB(수백MB~)로
+// 옮겨 손실을 없앤다. 기존 sync 호출부(getProjects/setProjects)는 in-memory 캐시로 그대로 유지하고,
+// 실제 영속화는 IndexedDB에 비동기로 쓴다.
+const IDB_NAME='yagi_shotsheet', IDB_STORE='projects';
+let _idb=null, _projCache=[];
+
+function _openIDB(){
+  return new Promise((resolve,reject)=>{
+    let req;try{req=indexedDB.open(IDB_NAME,1);}catch(e){return reject(e);}
+    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE,{keyPath:'id'});};
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  });
 }
-function setProjects(arr){
-  try{localStorage.setItem(STOR_KEY,JSON.stringify(arr));return true;}
-  catch(e){
-    // 저장공간 초과 — 가장 오래된 프로젝트부터 덜어내고 재시도해 새 프로젝트는 반드시 저장
-    const copy=arr.slice(); // newest-first (unshift로 추가됨)
-    while(copy.length>1){
-      copy.pop(); // 맨 뒤 = 가장 오래된 항목 제거
-      try{
-        localStorage.setItem(STOR_KEY,JSON.stringify(copy));
-        toast('저장공간이 가득 차 오래된 프로젝트 일부를 정리했습니다');
-        return true;
-      }catch(_){/* 계속 줄인다 */}
-    }
-    toast('저장 실패 — 브라우저 저장공간이 가득 찼습니다');
-    return false;
+function _idbGetAll(){
+  return new Promise(resolve=>{
+    if(!_idb)return resolve([]);
+    try{
+      const req=_idb.transaction(IDB_STORE,'readonly').objectStore(IDB_STORE).getAll();
+      req.onsuccess=()=>resolve(req.result||[]);
+      req.onerror=()=>resolve([]);
+    }catch(_){resolve([]);}
+  });
+}
+function _idbReplaceAll(arr){
+  return new Promise(resolve=>{
+    if(!_idb)return resolve(false);
+    try{
+      const tx=_idb.transaction(IDB_STORE,'readwrite'),store=tx.objectStore(IDB_STORE);
+      store.clear();
+      arr.forEach(p=>store.put(p));
+      tx.oncomplete=()=>resolve(true);
+      tx.onerror=()=>resolve(false);
+      tx.onabort=()=>resolve(false);
+    }catch(_){resolve(false);}
+  });
+}
+// id(proj_<timestamp>)의 숫자부분 내림차순 = 최신 우선
+function _sortNewest(arr){
+  return arr.slice().sort((a,b)=>(parseInt((b.id||'').replace(/\D/g,''))||0)-(parseInt((a.id||'').replace(/\D/g,''))||0));
+}
+
+// 부팅: IndexedDB 열기 → (비었으면) 레거시 localStorage에서 1회 이관 → 캐시 채우고 화면 갱신
+async function initProjectStore(){
+  try{_idb=await _openIDB();}catch(e){_idb=null;console.warn('IndexedDB 사용 불가, localStorage 폴백',e);}
+  let rows=await _idbGetAll();
+  if((!rows||!rows.length) && _idb){
+    // 최초 1회 이관: 기존 localStorage 프로젝트를 IndexedDB로 복사 (localStorage 원본은 백업으로 보존)
+    let legacy=[];try{legacy=JSON.parse(localStorage.getItem(STOR_KEY)||'[]');}catch(_){}
+    if(legacy.length){await _idbReplaceAll(legacy);rows=legacy;}
   }
+  if(!_idb){ // IndexedDB가 아예 안 되면 localStorage로라도 읽는다
+    try{rows=JSON.parse(localStorage.getItem(STOR_KEY)||'[]');}catch(_){rows=[];}
+  }
+  _projCache=_sortNewest(rows||[]);
+  updateStorCount();
+  renderStorageList();
+}
+
+function getProjects(){return _projCache;}
+function setProjects(arr){
+  _projCache=arr.slice();           // 화면은 즉시 반영 (동기)
+  if(_idb){ _idbReplaceAll(_projCache); }   // 영속화는 비동기 — 용량 여유가 커 오래된 항목을 지우지 않는다
+  else{ // 폴백: IndexedDB 불가 환경에서만 localStorage 사용 (기존 정책 유지)
+    try{localStorage.setItem(STOR_KEY,JSON.stringify(_projCache));}
+    catch(e){const copy=_projCache.slice();
+      while(copy.length>1){copy.pop();try{localStorage.setItem(STOR_KEY,JSON.stringify(copy));toast('저장공간이 가득 차 오래된 프로젝트 일부를 정리했습니다');_projCache=copy;return true;}catch(_){}}
+      toast('저장 실패 — 브라우저 저장공간이 가득 찼습니다');return false;}
+  }
+  return true;
 }
 
 async function saveCurrentProject(silent=false){
@@ -1864,9 +1916,9 @@ async function saveCurrentProject(silent=false){
     img.onload=()=>{
       const cv=document.createElement('canvas');
       const ctx=cv.getContext('2d');
-      cv.width=120;cv.height=Math.round(120*(f.h/f.w));
+      cv.width=200;cv.height=Math.round(200*(f.h/f.w));
       ctx.drawImage(img,0,0,cv.width,cv.height);
-      res(cv.toDataURL('image/jpeg',0.7));
+      res(cv.toDataURL('image/jpeg',0.82));
     };
     img.onerror=()=>res('');
     img.src=f.dataUrl;
@@ -2101,8 +2153,9 @@ function exportProjectJSON(id){
   toast('JSON 내보내기 완료');
 }
 
-// Init storage count on load
+// Init storage count on load — IndexedDB 열고 레거시 이관 후 캐시/화면 채움
 updateStorCount();
+initProjectStore();
 
 // ── FAVORITES ──
 const FAV_KEY='yagi_favorites';
