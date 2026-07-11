@@ -261,6 +261,8 @@ body{padding-top:40px;}
 .stor-card-body{padding:10px 14px;}
 .stor-thumbs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;align-items:flex-start;}
 .stor-thumb{height:52px;width:auto;max-width:120px;object-fit:contain;border-radius:2px;border:0.5px solid var(--b);opacity:1;background:#0a0a0a;display:block;}
+.stor-more{height:52px;min-width:52px;padding:0 10px;border:0.5px dashed var(--b);border-radius:2px;background:transparent;color:#7a7570;font-family:var(--mono);font-size:8.5px;line-height:1.35;font-weight:700;letter-spacing:0.04em;cursor:pointer;white-space:pre;text-align:center;transition:color 0.12s,border-color 0.12s;}
+.stor-more:hover{color:var(--gold);border-color:var(--gold);}
 .stor-meta-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
 .stor-meta-item{font-family:var(--mono);font-size:7.5px;color:#7a7570;}
 .stor-meta-item span{color:var(--t2);}
@@ -1992,8 +1994,13 @@ function renderStorageList(){
   el.innerHTML='<div class="stor-grid">'+projects.map(p=>storCardHTML(p)).join('')+'</div>';
 }
 
+const THUMB_CAP=12; // Library 개요 화면에서 카드당 기본 노출 썸네일 수 (클릭 시 전체 펼침)
+function thumbImgs(list){return list.map(t=>`<img class="stor-thumb" src="${t}" loading="lazy"/>`).join('');}
 function storCardHTML(p){
-  const thumbsHTML=p.thumbs.map(t=>`<img class="stor-thumb" src="${t}" loading="lazy"/>`).join('');
+  const all=p.thumbs||[];
+  const hidden=all.length-THUMB_CAP;
+  const thumbsHTML=thumbImgs(all.slice(0,THUMB_CAP))
+    +(hidden>0?`<button class="stor-more" onclick="expandThumbs(this,'${p.id}')">+${hidden}\n더보기</button>`:'');
   const palHTML=(p.palette||[]).map(c=>`<div class="stor-pal-dot" style="background:${c};" title="${c}"></div>`).join('');
   return `<div class="stor-card">
     <div class="stor-card-header">
@@ -2004,7 +2011,7 @@ function storCardHTML(p){
       <div style="font-family:var(--mono);font-size:8px;color:#7a7570;text-align:right;">${p.frameCount}프레임<br>${p.resolution||''}</div>
     </div>
     <div class="stor-card-body">
-      <div class="stor-thumbs">${thumbsHTML}</div>
+      <div class="stor-thumbs" data-pid="${p.id}">${thumbsHTML}</div>
       <div class="stor-meta-row">
         <div class="stor-meta-item">영상모델 <span>${p.videoModel||'-'}</span></div>
         <div class="stor-meta-item">레퍼런스 <span>${p.refType||'-'}</span></div>
@@ -2020,6 +2027,20 @@ function storCardHTML(p){
       <button class="stor-btn" onclick="openSPM('${p.id}')">프롬프트 보기</button>
     </div>
   </div>`;
+}
+
+// 개요 화면: 카드의 12개 제한을 풀어 전체 썸네일 표시 (클릭 토글)
+function expandThumbs(btn,id){
+  const p=getProjects().find(x=>x.id===id);if(!p)return;
+  const wrap=btn.parentElement;
+  wrap.innerHTML=thumbImgs(p.thumbs||[])
+    +`<button class="stor-more" onclick="collapseThumbs(this,'${id}')">접기</button>`;
+}
+function collapseThumbs(btn,id){
+  const p=getProjects().find(x=>x.id===id);if(!p)return;
+  const wrap=btn.parentElement,all=p.thumbs||[],hidden=all.length-THUMB_CAP;
+  wrap.innerHTML=thumbImgs(all.slice(0,THUMB_CAP))
+    +(hidden>0?`<button class="stor-more" onclick="expandThumbs(this,'${id}')">+${hidden}\n더보기</button>`:'');
 }
 
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
